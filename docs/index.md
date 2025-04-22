@@ -1,11 +1,14 @@
-# Hello Nextflow workshop 
+# Hello Nextflow 2025
 
 This workshop will provide you with the foundational knowledge required to build Nextflow workflows. The content is broken up into 2 parts. In the first part we will cover the basic principles for developing Nextflow pipelines. In the second part we will step through building our own Nextflow workflow. See the lesson plan for details.
 
 ## Trainers
+
 * Fred Jaya, Sydney Informatics Hub, University of Sydney
-* Georgie Samaha, Sydney Informatics Hub, University of Sydney
-* Chris Hakkaart, Seqera
+* Michael Geaghan, Sydney Informatics Hub, University of Sydney
+
+## Contributors
+
 
 ## Prerequisites
 
@@ -34,30 +37,30 @@ In order to foster a positive and professional learning environment we encourage
 
 |Time (AEST)|Activity                            |Presenter(s)  |
 |-----------|------------------------------------|--------------|
-|14:00      |Welcome                             |Melissa       |
-|14:10      |Introduction to the workshop        |Georgie       |
-|14:15      |Workspace set up                    |Georgie       |
-|14:20      |Introduction to Nextflow and nf-core|Chris         |
-|14:30      |Workshop: Part 1.0 - 1.4            |Chris         |
-|15:30      |BREAK                               |Melissa       |
-|15:45      |Workshop: Part 1.5 - 1.8            |Chris         |
-|16:45      |Q&A and Day 1 recap                 |Chris, Melissa|
+|14:00      |Welcome                             |              |
+|14:10      |Introduction to the workshop        |              |
+|14:15      |Workspace set up                    |              |
+|14:20      |Introduction to Nextflow and nf-core|              |
+|14:30      |Workshop: Part 1.0 - 1.4            |              |
+|15:30      |BREAK                               |              |
+|15:45      |Workshop: Part 1.5 - 1.8            |              |
+|16:45      |Q&A and Day 1 recap                 |              |
 
 ### Day 2
 
 |Time (AEST)|Activity                            |Presenter(s)  |
 |-----------|------------------------------------|--------------|
-|14:00      |Day 2 Welcome                       |Melissa       |
-|14:05      |Setup and Introduction to Part 2    |Fred          |
-|14:15      |Workshop: Part 2.1 - 2.3            |Fred          |
-|15:30      |BREAK                               |Melissa       |
-|15:45      |Workshop: Part 2.4 - 2.5            |Fred          |
-|16:40      |Day 2 Summary                       |Georgie       |
-|16:50      |Wrap up and survey                  |Melissa       |
+|14:00      |Day 2 Welcome                       |              |
+|14:05      |Setup and Introduction to Part 2    |              |
+|14:15      |Workshop: Part 2.1 - 2.3            |              |
+|15:30      |BREAK                               |              |
+|15:45      |Workshop: Part 2.4 - 2.5            |              |
+|16:40      |Day 2 Summary                       |              |
+|16:50      |Wrap up and survey                  |              |
 
 ## Course survey
 
-Please fill out our [course survey](https://www.surveymonkey.com/r/nextflow-2024)
+Please fill out our [course survey]()
 at the end of the workshop. Help us help you! 😁
 
 ## Credits and acknowledgements

@@ -1,13 +1,13 @@
-# hello-nextflow
+# hello-nextflow-2025
 
-Training materials for SIH's implementation of Seqera's Hello Nextflow workshop 2024.
+Training materials for SIH's implementation of Seqera's Hello Nextflow workshop 2025.
 
-Event description [here](https://www.biocommons.org.au/events/hello-nextflow).
+This repo is a [mirror](https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository#mirroring-a-repository)
+of the [Hello Nextflow workshop delivered in 2024](https://github.com/Sydney-Informatics-Hub/hello-nextflow) for archiving and minting separating DOIs.
 
-Content published at: [https://sydney-informatics-hub.github.io/hello-nextflow/](https://sydney-informatics-hub.github.io/hello-nextflow/)
+Event description pending.
 
-## Run thorugh our self-directed materials
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/new/#https://github.com/Sydney-Informatics-Hub/hello-nextflow)
+Content published at: [https://sydney-informatics-hub.github.io/hello-nextflow-2025/](https://sydney-informatics-hub.github.io/hello-nextflow-2025/)
 
 ## Developers 
 

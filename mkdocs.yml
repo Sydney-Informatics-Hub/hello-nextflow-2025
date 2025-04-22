@@ -1,6 +1,6 @@
-site_name: Hello Nextflow
-repo_url: https://github.com/Sydney-Informatics-Hub/hello-nextflow
-repo_name: Sydney-Informatics-Hub/hello-nextflow
+site_name: Hello Nextflow 2025
+repo_url: https://github.com/Sydney-Informatics-Hub/hello-nextflow-2025
+repo_name: Sydney-Informatics-Hub/hello-nextflow-2025
 
 nav:
   - Home: index.md
