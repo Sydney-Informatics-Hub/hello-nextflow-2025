@@ -7,15 +7,15 @@
 
 Workflow languages are better than Bash scripts because they handle errors and run tasks in parallel more easily, which is important for complex jobs. They also have clearer structure, making it easier to maintain and work on with others.
 
-Here, you're going learn more about the Nextflow language and take your first steps making a **your first pipeline** with Nextflow.
+Here, you're going learn more about the Nextflow language and take your first steps making **your first pipeline** with Nextflow.
 
-## `hello-world.nf`
+## Writing you first pipeline: `hello-world.nf`
 
-Nextflow pipelines need to be saved as `.nf` files.
+Nextflow pipelines are written inside `.nf` files. They consist of a combination of two main components: **processes** and the **workflow** itself. Each process describes a single step of the pipeline, including its inputs and expected outputs, as well as the code to run it. The workflow then defines the logic that puts all of the processes together.
 
-The process definition starts with the keyword `process`, followed by process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
+A process definition starts with the keyword `process`, followed by process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
 
-A process may contain any of the following definition blocks: `directives`, `inputs`, `outputs`, `when` clauses, and of course, `script`.
+A process may contain any of the following definition blocks: `directives`, `input`, `output`, `when` clauses, and of course, `script`.
 
 ```groovy
 process < name > {
@@ -41,7 +41,7 @@ A workflow is a composition of processes and dataflow logic.
 
 The workflow definition starts with the keyword `workflow`, followed by an optional name, and finally the workflow body delimited by curly braces.
 
-Let's review the structure of `hello-world.nf`, a toy example you will be executing and developing:
+Let's review the structure of `hello-world.nf`, a toy example you will be developing and executing:
 
 ```groovy title="hello-world.nf" linenums="1"
 process SAYHELLO {
@@ -165,7 +165,7 @@ Hello World!
 4. The first process is executed once, which means there is one task. The line starts with a unique hexadecimal value, and ends with the task completion information
 5. The result string from stdout is printed
 
-## Task directories
+## Understanding the task directories
 
 When a Nextflow pipeline is executed, a `work` directory is created. Processes are executed in isolated **task** directories. Each task uses a unique directory based on its [hash](https://www.nextflow.io/docs/latest/cache-and-resume.html#task-hash) (e.g., `4e/6ba912`) within the work directory.
 
