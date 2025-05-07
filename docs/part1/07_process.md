@@ -1,4 +1,4 @@
-# Adding processes
+# Adding new processes
 
 !!! info "Learning objectives"
 

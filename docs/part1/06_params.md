@@ -5,7 +5,7 @@
     1. Implement pipeline parameters
     2. Understand the importance of parameters for flexible pipelines
 
-Parameters are constructs that can hold command line arguments.
+Parameters are special values that can be set from command line arguments and therefore allow you to write flexible and dynamic pipelines.
 
 Here you're going to update the script with parameters to make it more flexible.
 
@@ -13,15 +13,15 @@ Here you're going to update the script with parameters to make it more flexible.
 
 Nextflow has multiple levels of configuration and, as different levels may have conflicting settings, they are ranked in order of priority and some configuration can be overridden.
 
-Parameters are useful because they can be set with a default value in a script but can then be overwritten at runtime using a flag. Simply, parameters allow us to configure some aspect of a pipeline without editing the script itself.
+Parameters are useful because they can be set with a convenient default value in a script but can then be overwritten at runtime using a flag. Simply, parameters allow us to configure some aspect of a pipeline without editing the script itself.
 
-Parameters can be created by prefixing a parameter name with the parameters scope (e.g., `params.greeting`) and are accessible by processes and workflows. They can be modified when you run your pipeline by adding a double hyphen (`--`) to the start of the parameter name (`--greeting`) and adding it to an execution command:
+Parameters can be created within the top level of your Nextflow script (i.e. outside of the `workflow` and `process` definitions) by prefixing a parameter name with the `params` scope (e.g. `params.greeting`). They are globally accessible by both processes and workflows anywhere in your workflow. They can be modified when you run your pipeline by adding a double hyphen (`--`) to the start of the parameter name (e.g. `--greeting`) and adding it to an execution command:
 
 ```bash
 nextflow run hello-world.nf --greeting 'Hey'
 ```
 
-## `--greeting`
+## Updating your workflow with the `--greeting` parameter
 
 Instead of hard coding 'Hello World!' as an input, a parameter, with a default value, can be created:
 
@@ -40,6 +40,10 @@ The parameter can then be flexibly changed using a `--greeting` flag in the run 
 ```bash
 nextflow run hello-world.nf --greeting 'Bonjour le monde!'
 ```
+
+!!! warning
+
+    When setting parameters from the command line, it is vital that you wrap multi-word strings (or anything else containing spaces or special characters) within single or double quotes as shown above. If you don't, only the first word will be captured in the parameter. Anything after a space will be considered to be a new argument to Nextflow, and will likely cause Nextflow to error or crash.
 
 !!!question "Exercise"
 
@@ -84,7 +88,7 @@ The `hello-world.nf` pipeline can now be executed with the `--greeting` flag and
 nextflow run hello-world.nf --greeting 'Bonjour le monde!'
 ```
 
-## `--outdir`
+## Setting a dynamic publishing directory with `--outdir`
 
 It isn't very convenient to have the same output directory created every time you run your pipeline as the results are being overwritten.
 

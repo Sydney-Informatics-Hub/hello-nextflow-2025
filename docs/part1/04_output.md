@@ -104,7 +104,7 @@ Now that we are redirecting our 'Hello World!' message to a file, we want to tel
 
     This example is brittle because the output filename is hardcoded in two separate places (the `script` and the `output` definition blocks). If you change one but not the other, the script will break.
 
-## Moving important outputs to a publishing directory
+## Publish outputs
 
 By default, all files created by processes exist only inside the `work` directory. To make our outputs more accessible and neatly organised, we define a **publishing strategy**, which determines which outputs should be copied to a final **publishing directory**.
 
