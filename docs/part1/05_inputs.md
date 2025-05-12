@@ -4,6 +4,8 @@
 
     1. Describe Nextflow channel types
     2. Utlizie Nextflow process input blocks
+    3. Use channels to run multiple inputs through a process
+    4. Use operators to manipulate data within a channel
 
 So far, you've been emitting a greeting ('Hello World!') that has been hardcoded into the script block. In a more realistic situation, you might want to pass a variable input to your script, much like you pass files to command line tools for analysis.
 
@@ -197,6 +199,210 @@ The `'` quotes around `$greeting` are required by the `echo` command to treat th
 
 **Yes! Your pipeline now uses an input channel!**
 
+## Running processes on multiple inputs
+
+Now that we have a channel set up and our process has been reworked to use it, we can very easily start feeding more inputs into the channel and watch `SAYHELLO` run on each one.
+
+The `Channel.of()` factory can take any number of values, separated by commas. Each one will become a separate element in the queue channel. Any process consuming that channel will run once for every element; each run will be separate and in parallel to the rest.
+
+!!!question "Exercise"
+
+    Add additional greetings to `greeting_ch`.
+
+    ???Solution
+
+        ```groovy title="hello-world.nf" hl_lines="7"
+        workflow {
+
+            // Create a channel for inputs
+            greeting_ch = Channel.of('Hello world!', 'Bonjour le monde!', 'Holà mundo')
+
+            // Emit a greeting
+            SAYHELLO(greeting_ch)
+        }
+        ```
+
+If you now run the workflow again, you should see that `SAYHELLO` runs three times:
+
+```
+Launching `main.nf` [curious_hugle] DSL2 - revision: 243f7816c2
+
+executor >  local (3)
+[27/ed09aa] SAYHELLO (1) [100%] 3 of 3 ✔
+```
+
+Notice that by default Nextflow only prints out one line per process rather than one line *per run* of each process. Sometimes it may be useful to you to have it print out each run on a separate line. To do this, you can add the `-ansi-log false` flag to the command line:
+
+```bash
+nextflow run hello-world.nf -ansi-log false
+```
+
+The output now looks like:
+
+```
+Launching `main.nf` [deadly_wilson] DSL2 - revision: 243f7816c2
+[f2/84d334] Submitted process > SAYHELLO (2)
+[f4/9f72e1] Submitted process > SAYHELLO (1)
+[dc/52fa3d] Submitted process > SAYHELLO (3)
+```
+
+## Manipulating data within channels using operators
+
+Currently, our channel simply holds an arbitrary number of values and passes them to separate runs of `SAYHELLO`. How boring! To allow for more flexible and dynamic pipelines, Nextflow defines several **channel operators** - methods that operate on and manipulate the data within a channel. There are a number of operators that Nextflow supports, [which are documented here](https://www.nextflow.io/docs/latest/reference/operator.html). Their functions range from counting the number of items in a channel, to processing text files, to merging multiple channels together.
+
+In this section, we will explore a few basic operators for manipulating list of values, as well as the versatile `map` operator that can run an arbitrary function on each element of a channel.
+
+### Passing an array of values to our channel
+
+Defining our `greeting_ch` channel using the `Channel.of` factory and hard-coded values is quite contrived and inflexible. In real-world situations you will more likely have an array of values to work with, defined at run time. In this step, we will move our list of greetings to an array called `greetings_array`, which will then be passed to our channel.
+
+!!!question "Exercise"
+
+    Define an array called `greetings_array` containing our greetings and pass it to `Channel.of` when constructing the `greeting_ch` channel.
+
+    ???Solution
+
+        Before:
+
+        ```groovy title="hello-world.nf" hl_lines="7"
+        workflow {
+
+            // Create a channel for inputs
+            greeting_ch = Channel.of('Hello world!', 'Bonjour le monde!', 'Holà mundo')
+
+            // Emit a greeting
+            SAYHELLO(greeting_ch)
+        }
+        ```
+
+        After:
+
+        ```groovy title="hello-world.nf" hl_lines="7"
+        workflow {
+
+            // Create a channel for inputs
+            greetings_array = [ 'Hello world!', 'Bonjour le monde!', 'Holà mundo' ]
+            greeting_ch = Channel.of(greetings_array)
+
+            // Emit a greeting
+            SAYHELLO(greeting_ch)
+        }
+        ```
+
+### `flatten`ing our input array
+
+The change we just made actually breaks our workflow! When you pass an array to the channel factory `Channel.of`, the entire array is treated as *a single element*! Instead, we want to split up the array and emit each element as a separate value in the queue channel. Nextflow has an operator for just this very thing: `flatten()`.
+
+```groovy
+arr = [ 1, 2, 3 ]
+ch = Channel.of(arr)
+ch.view()
+```
+
+```
+[1, 2, 3]
+```
+
+```groovy
+ch.flatten().view()
+```
+
+```
+1
+2
+3
+```
+
+Note that we also snuck in a second operator in the above examples: `view()`. This, like its name suggests, lets you view the contents of a channel by printing it out to the terminal. It can be very useful when prototyping new workflows to understand how your data is structured within your channels.
+
+!!!question "Exercise"
+
+    Flatten `greeting_ch` to emit each element of the array separately. 
+
+    ???Solution
+
+        Before:
+
+        ```groovy title="hello-world.nf" hl_lines="7"
+        workflow {
+
+            // Create a channel for inputs
+            greetings_array = [ 'Hello world!', 'Bonjour le monde!', 'Holà mundo' ]
+            greeting_ch = Channel.of(greetings_array)
+
+            // Emit a greeting
+            SAYHELLO(greeting_ch)
+        }
+        ```
+
+        After:
+
+        ```groovy title="hello-world.nf" hl_lines="7"
+        workflow {
+
+            // Create a channel for inputs
+            greetings_array = [ 'Hello world!', 'Bonjour le monde!', 'Holà mundo' ]
+            greeting_ch = Channel.of(greetings_array).flatten()
+
+            // Emit a greeting
+            SAYHELLO(greeting_ch)
+        }
+        ```
+
+Now our pipeline works again, with `SAYHELLO` running three times, once for each value in `greetings_array`.
+
+### Transforming each value with the `map` operator
+
+Sometimes, you will need to modify the values within a channel in a predictable way. For example, you might need to get part of a file name, or perhaps you need to take a numeric value and apply a mathematical operation to it. In these situations, you will likely want to use the `map()` operator. This takes a channel and applies a **closure** to every element in the channel.
+
+An in-depth discussion of closures is outside of the scope of this workshop, but briefly, they are blocks of code, similar to functions, that can be passed to some Nextflow operators and control how they function. With the `map()` operator, the closure defines the exact operation that should be performed on each element of the channel. A closlure is defined within curly braces like so:
+
+```groovy
+{ x ->
+    // Do something with x
+}
+```
+
+At the start of the closure definition, we declare the name of a variable that will represent each element of our channel. Here we have simply called it `x`, but it could be named anything. Next, we write an arrow operator `->`; this signifies that the value on the left (`x`) will be processed by the code on the right. Finally, we write some code to do something with our varialbe. For example, we can square integer values:
+
+```groovy
+{ x -> x ** 2 }
+```
+
+Or, if we have strings as inputs, we could reverse the strings:
+
+```groovy
+{ x -> x.reverse() }
+```
+
+To use the `map()` operator with a channel, we simply do:
+
+```groovy
+ch.map { x -> ... }
+```
+
+!!!question "Exercise"
+
+    Use the `map()` operator to reverse the greeting strings. 
+
+    ???Solution
+
+        ```groovy title="hello-world.nf" hl_lines="7"
+        workflow {
+
+            // Create a channel for inputs
+            greetings_array = [ 'Hello world!', 'Bonjour le monde!', 'Holà mundo' ]
+            greeting_ch = Channel.of(greetings_array)
+                .flatten()
+                .map { x -> x.reverse() }
+
+            // Emit a greeting
+            SAYHELLO(greeting_ch)
+        }
+        ```
+
+## FAQ: Can I use the `publishDir` as an input to a process?
+
 ## A note about multiple inputs
 
 The input block can be used to define multiple inputs to the process. Importantly, the number of inputs passed to the process call within the workflow must match the number of inputs defined in the process. For example:
@@ -278,3 +484,4 @@ Because the queues are non-deterministic, the exact combination we would get is 
 
     1. How to use Channel factories
     2. How to how to add process inputs
+    3. How to use operators to manipulate the data within channels
