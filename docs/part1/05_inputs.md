@@ -254,7 +254,7 @@ In this section, we will explore a few basic operators for manipulating list of 
 
 ### Passing an array of values to our channel
 
-Defining our `greeting_ch` channel using the `Channel.of` factory and hard-coded values is quite contrived and inflexible. In real-world situations you will more likely have an array of values to work with, defined at run time. In this step, we will move our list of greetings to an array called `greetings_array`, which will then be passed to our channel.
+Defining our `greeting_ch` channel using the `Channel.of` factory and hard-coded values is quite contrived and inflexible. In real-world situations you will more likely have an array of values to work with, defined at run time. In this step, we will move our list of greetings to an array called `greetings_array`, which will then be passed to our channel. Note that we will still be working with hard-coded values for simplicity, but by learning to maninpulate arrays of data within a channel, you will get a better feel for how real-word Nextflow pipelines are written.
 
 !!!question "Exercise"
 
@@ -291,7 +291,7 @@ Defining our `greeting_ch` channel using the `Channel.of` factory and hard-coded
 
 ### `flatten`ing our input array
 
-The change we just made actually breaks our workflow! When you pass an array to the channel factory `Channel.of`, the entire array is treated as *a single element*! Instead, we want to split up the array and emit each element as a separate value in the queue channel. Nextflow has an operator for just this very thing: `flatten()`.
+The change we just made actually breaks our workflow! When you pass an array to the channel factory `Channel.of`, the entire array is treated as *a single element*. Instead, we want to split up the array and emit each element as a separate value in the queue channel. Nextflow has an operator for just this very thing: `flatten()`.
 
 ```groovy
 arr = [ 1, 2, 3 ]
@@ -363,7 +363,7 @@ An in-depth discussion of closures is outside of the scope of this workshop, but
 }
 ```
 
-At the start of the closure definition, we declare the name of a variable that will represent each element of our channel. Here we have simply called it `x`, but it could be named anything. Next, we write an arrow operator `->`; this signifies that the value on the left (`x`) will be processed by the code on the right. Finally, we write some code to do something with our varialbe. For example, we can square integer values:
+At the start of the closure definition, we declare the name of a variable that will represent each element of our channel. Here we have simply called it `x`, but it could be named anything. Next, we write an arrow operator `->`; this signifies that the value on the left (`x`) will be processed by the code on the right. Finally, we write some code to do something with our variable. For example, we can square integer values:
 
 ```groovy
 { x -> x ** 2 }
@@ -402,6 +402,14 @@ ch.map { x -> ... }
         ```
 
 ## FAQ: Can I use the `publishDir` as an input to a process?
+
+A common question about Nextflow is whether the `publishDir` can be used as an input to processes. This can sometimes seem like an attractive and useful pattern. For example, you may have several processes generating outputs that need to get collated or summarised in some way at the end of your workflow. If each process puts its final output in the `publishDir` directory, then the final summary process can simply look there for all its inputs.
+
+Unfortunately, this is not good practice, and will very likely either lead to inconsistent results or not work at all. `publishDir` is not really part of the workflow itself; it's just a convenient place to put important outputs of the workflow. There are no guarantees about when output files will get copied into `publishDir`, and Nextflow won't know to wait for files to be generated inside before running processes that rely on them.
+
+In the above scenario of a summary process gathering up the outputs of several previous jobs, you should instead be using some combination of the `mix()` and `collect()` operators; `mix()` will combine multiple channels into a single channel, while `collect()` will bring all of the elements in a channel into a single array that can be passed to a single instance of a process.
+
+Ultiately, all processes should be working with channels as their inputs, and `publishDir` should only be used as a final output directory.
 
 ## A note about multiple inputs
 
