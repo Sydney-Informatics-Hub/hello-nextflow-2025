@@ -75,7 +75,11 @@ newgrp docker
 docker run hello-world
 ```
 
-### Pull containers  
+## Developer Usage
+
+### VM testing on BioImage
+
+#### Pull containers  
 
 ```bash
 docker pull quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0
@@ -83,13 +87,14 @@ docker pull quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0
 docker pull quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0
 ```
 
-## Developer Usage
-
-### VM testing  
-
 #### Part 1
+
 ```
 nextflow run nextflow-io/hello
+```
+
+```
+tree
 ```
 
 #### Part 2
