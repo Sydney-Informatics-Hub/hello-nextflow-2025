@@ -405,7 +405,9 @@ ch.map { x -> ... }
 
 A common question about Nextflow is whether the `publishDir` can be used as an input to processes. This can sometimes seem like an attractive and useful pattern. For example, you may have several processes generating outputs that need to get collated or summarised in some way at the end of your workflow. If each process puts its final output in the `publishDir` directory, then the final summary process can simply look there for all its inputs.
 
-Unfortunately, this is not good practice, and will very likely either lead to inconsistent results or not work at all. `publishDir` is not really part of the workflow itself; it's just a convenient place to put important outputs of the workflow. There are no guarantees about when output files will get copied into `publishDir`, and Nextflow won't know to wait for files to be generated inside before running processes that rely on them.
+Unfortunately, this is not good practice, and will very likely either lead to inconsistent results or not work at all. `publishDir` is not really part of the workflow itself; it's more like a "side branch" to the pipeline that acts as a convenient place to put important outputs of the workflow. There are no guarantees about when output files will get copied into `publishDir`, and Nextflow won't know to wait for files to be generated inside before running processes that rely on them.
+
+![Don't use publishDir as an input!](img/publishdir.png)
 
 In the above scenario of a summary process gathering up the outputs of several previous jobs, you should instead be using some combination of the `mix()` and `collect()` operators; `mix()` will combine multiple channels into a single channel, while `collect()` will bring all of the elements in a channel into a single array that can be passed to a single instance of a process.
 
