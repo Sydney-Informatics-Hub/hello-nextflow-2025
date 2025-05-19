@@ -1,4 +1,4 @@
-# 2.3 Multiple inputs into a single process
+# Multiple inputs into a single process
 
 !!! note "Learning objectives"
 
@@ -38,9 +38,9 @@ Same as the previous lesson, this script contains the `${SAMPLE_ID}` variable de
 - `-1` and `-2` are flags for the respective paired reads (`.fq`). 
 - `-o` outputs files into a directory called `results/gut`
 
-## 2.3.1 Building the process  
+## Building the `QUANTIFICATION` process  
 
-### 1. Process directives  
+### Defining the process directives  
 
 Here is the empty `process` template with the `container` and `publishDir`
 directives we'll be using to get you started. Add this to your `main.nf` after where you defined the `FASTQC` process.  
@@ -72,9 +72,9 @@ It contains:
 * The empty `script:` block for us to define the script for the process.
 
 
-### 2. Define the process `script`  
+### Define the process `script`  
 
-Update the `script` definition with the Salmon command from the bash script:
+Update the `script` definition with the Salmon command from the bash script. Again, we want to remove the definition of the Bash variables and just keep the `salmon` command:
 
 ```groovy title="main.nf" hl_lines="13"
 process QUANTIFICATION {
@@ -94,16 +94,16 @@ process QUANTIFICATION {
 }
 ```
 
-The `--libType=U` is a required argument and can be left as is for the script definition. It can stay the same as in the bash script. The following need to be adjusted for the `QUANT` process: 
+The `--libType=U` is a required argument and can be left as is for the script definition. It can stay the same as in the bash script. The following need to be adjusted for the `QUANTIFICATION` process: 
 
 - `-i results/salmon_index` is the directory output by the `INDEX` process. 
 - `-1 $reads_1` and `-2 $reads_2` are fastq files from the previously defined `reads_ch` channel. 
 - `-o` outputs files into a directory named after the `$sample_id`.
 
-### 3. Define the process `output`
+### Define the process `output`
 
-The `output` is a directory of `$sample_id`. In this case, it will be a
-directory called `gut/`. Replace `< process outputs >` with the following:  
+Salmon creates an output directory with whatever name is passed to the `-o` flag. In our case, we supplied `-o $sample_id` to Salmon, so our `output` will be a directory named after whatever is in the variable `sample_id`. For our test sample, the
+directory will be called `gut/`. Replace `< process outputs >` with the following:  
 
 ```groovy title="main.nf" hl_lines="9"
 process QUANTIFICATION {
@@ -123,7 +123,9 @@ process QUANTIFICATION {
 }
 ```
 
-### 4. Define the process `input`  
+Now our process will expect to find an output path called `"$sample_id"`.
+
+### Define the process `input`  
 
 In this step we will define the process inputs. Based on the bash script, we
 have four inputs:  
@@ -193,7 +195,7 @@ You have just defined a process with multiple inputs!
 
     Once you have defined the `process` block, select the  **"Yes"** react on Zoom.
 
-### 5. Call the process in the `workflow` scope  
+### Call the process in the `workflow` scope  
 
 Recall that the inputs for the `QUANTIFICATION` process are emitted by the
 `reads_in` channel and the output of the `INDEX` process. The `reads_in` channel 
@@ -225,7 +227,9 @@ workflow {
 
 !!! info "Accessing process outputs"
     
-    Nextflow allows us to explicitly define the output of a channel using the `.out` attribute. If a process has 2 or more output channels, you can access them by indexing the `.out` attribute. For example: `.out[0]` for the first output, `.out[1]` for the second output.
+    Nextflow allows us to access the output of a process using the `.out` attribute. If a process has a single output, you can simply use `<PROCESS_NAME>.out`. If a process has 2 or more output channels, you need to use an integer index to access the corresponding outputs. For example: `.out[0]` will access the first output, `.out[1]` will access the second output, and so forth.
+
+    For the sake of consistency, we have used the indexed method here (i.e. `INDEX.out[0]`), although we could have omitted the index and simply used `INDEX.out` since our `INDEX` process only has the single output.
 
     Alternatively, the process output definition allows the use of the [`emit`](https://www.nextflow.io/docs/latest/workflow.html#workflow-outputs-emit) statement to define a named identifier that can be used to reference the channel in the external scope.
 
