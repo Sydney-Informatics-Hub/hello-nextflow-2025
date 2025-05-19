@@ -1,4 +1,4 @@
-# 2.1 Implementing a simple process with a container  
+# Implementing a simple process with a container  
 
 !!! info "Learning objectives"
 
@@ -32,9 +32,9 @@ file is `data/ggal/transcriptome.fa`.
 
     The paths to the transcriptome file (`data/ggal/transcriptome.fa`) and the output directory (`results/salmon_index`) are hardcoded in this bash script. If you wanted to change the input transcriptome file or the output location, you must manually edit the script. This makes our scripts less flexible and easy to use. 
 
-    Nextflow addresses the issue of hardcoded paths by allowing parameters to be passed dynamically at runtime as [parameters](https://www.nextflow.io/docs/latest/config.html#scope-params) (`params`). 
+    Nextflow addresses the issue of hardcoded paths by allowing values to be passed dynamically at runtime as [parameters](https://www.nextflow.io/docs/latest/config.html#scope-params) (`params`). 
 
-## 2.1.1 Building the process
+## Building the `INDEX` process
 
 In the empty `main.nf` script, add the following `process` scaffold with the
 script definition:  
@@ -68,13 +68,18 @@ It contains:
     block is executed as a Bash script by default. In Part 2 of the workshop, we will
     only be using Nextflow variables within the `script` block.
 
-Next, we will edit the `input` and `output` definitions to match the specific
-data and results for this process. In the `00_index.sh` script, the relevant
-information is:  
+Note how we have modified the original bash script in two ways.
 
-* The fasta (`.fa`) file defined by the variable `$transcriptome` and provided
+First, we have replaced the hard-coded path to the transcriptome file with a Nextflow variable: `$transcriptome`. This will allow us to use this process to index any transcriptome FASTA file we want without having to modify the command itself.
+
+Second, we removed the creation of a `results` directory and simply told Salmon to create the new index `salmon_index` within the current directory. The original script created a `results` directory as a way to organise its outputs neatly, but we don't need to worry about being so neat here; instead, as you will see below, we will use the `publishDir` to neatly organise our outputs.
+
+Next, we will edit the `input` and `output` blocks to match the expected
+data and results for this process. Looking back at our original bash script `00_index.sh`, we can see that:  
+
+* Our input is a FASTA (`.fa`) file, now represented by the variable `$transcriptome` and provided
 to the `--transcripts` flag  
-* The index output directory `salmon_index/` provided to the `--index` flag  
+* The name of the index output directory, defined by using the `--index` flag, is called `salmon_index/`  
 
 !!! info "Defining inputs and outputs"
 
@@ -109,23 +114,22 @@ process INDEX {
 Note that the input `path transcriptome` refers to a variable, meaning the
 actual file or directory provided as input can be changed depending on the data
 you provide it. The output `path 'salmon_index'` is fixed, meaning it will
-always create an output folder called `salmon_index`, no matter what the input
+always expect an output folder called `salmon_index`, no matter what the input
 is.  
 
 This is how Nextflow can handle different inputs while always producing the
 same output name.  
 
-More information on using input and output blocks can be found in the process
+More information on using input and output blocks can be found in the Nextflow documentation for process
 [inputs](https://www.nextflow.io/docs/latest/process.html#inputs) and
-[outputs](https://www.nextflow.io/docs/latest/process.html#outputs) Nextflow
-documentation.  
+[outputs](https://www.nextflow.io/docs/latest/process.html#outputs).  
 
-## 2.1.2 Save files to an output directory with `publishDir`  
+## Saving our output files to an output directory with `publishDir`  
 
 Next we will implement the Nextflow equivalent of saving the output files into a
 `results/` directory.  
 
-Replace `[ directives ]` in your `main.nf` script with the `publishDir` 
+Replace the `[ directives ]` placeholder in your `main.nf` script with the `publishDir` 
 directive, specifying the directory name as `"results"` and the mode as
 `'copy'`. Your `main.nf` should look like this: 
 
@@ -146,7 +150,7 @@ process INDEX {
 }
 ```
 
-This process is now directed to copy all output files into a `results/`
+This process is now directed to copy all output files (i.e. the `salmon_index` directory) into a `results/`
 directory. This saves having to specify the output directory in the script
 definition each process, or a tedious `mv salmon_index/ results/` step. 
 
@@ -157,7 +161,7 @@ results directory with `mkdir -p "results`.
 More information and other modes can be found on
 [publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir).
 
-## 2.1.3 Using containers  
+## Using containers  
 
 Nextflow recommends using containers to ensure reproducibility and portability
 of your workflow. Containers package all the software and dependencies needed
@@ -192,12 +196,10 @@ workflow by using Docker.
     * [DockerHub](https://hub.docker.com/r/biocontainers/biocontainers)
     * [Seqera containers](https://seqera.io/containers/)
 
-Add the following container directive to the `INDEX` process, above
-`publishDir`:  
-
 In Nextflow, we can specify that a process should be run within a specified container using the [container](https://www.nextflow.io/docs/latest/process.html#container) directive.  
 
 Add the following container directive to the `INDEX` process, above `publishDir`:  
+
 ```groovy title="main.nf" hl_lines="2"
 process INDEX {
     container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
@@ -236,7 +238,7 @@ using Docker. Nextflow requires [Docker](https://www.nextflow.io/docs/latest/con
 to be installed on your system in order for this to work. Docker has been 
 pre-installed on your Virtual Machine.  
 
-We can tell Nextflow configuration to run containers with Docker by using the 
+We can configure Nextflow to run containers with Docker by using the 
 `nextflow.config` file.
 
 Create a `nextflow.config` file in the same directory as `main.nf`.  
@@ -261,7 +263,7 @@ You have now configured Nextflow to use Docker.
 
     Remember to save your files after editing them!
 
-## 2.1.4 Adding `params` and the workflow scope  
+## Adding `params` and the workflow scope  
 
 Now that you have written your first Nextflow process, we need to prepare it
 for execution.  
@@ -281,7 +283,6 @@ We will pass in this file path with the `params` scope. Add the following to
 the top of your `main.nf` script:  
 
 ```groovy title="main.nf"
-
 // pipeline input parameters
 params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
 ```
@@ -289,7 +290,7 @@ params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
 !!! info "Implicit variables in Nextflow"
     Nextflow provides a set of implicit variables that can be used in your workflows. These variables are predefined and can be used to access information about the workflow environment, configuration, and tasks. 
 
-    We will use [`$projectDir`](https://www.nextflow.io/docs/latest/script.html#configuration-implicit-variables) to indicates the directory of the `main.nf` script. This is defined by Nextflow as the directory where the `main.nf` script is located.
+    We will use [`$projectDir`](https://www.nextflow.io/docs/latest/script.html#configuration-implicit-variables) to indicate the directory of the `main.nf` script. This is defined by Nextflow as the directory where the `main.nf` script is located.
 
 !!! info "The `params` and `process` names do not need to match!"  
 
@@ -330,7 +331,7 @@ This will tell Nextflow to run the `INDEX` process with
 
 We are now ready to run our workflow!  
 
-## 2.1.5 Running the workflow  
+## Running the workflow  
 
 In the terminal, run the command:  
 
@@ -357,7 +358,7 @@ In this example, the output files for the `INDEX` process is output in
 
 You have successfully run your first workflow!  
 
-## 2.1.6 Inspecting the outputs
+## Inspecting the outputs
 
 To observe exactly what command is being run for a process, we can attempt 
 to infer this information from the process definition in our `main.nf` 
@@ -370,10 +371,10 @@ arguments inside a process.
 
 !!! warning "Hidden files in the work directory"
 
-    Remember that the pipeline’s results are cached in the work directory. In addition to the cached files, each task execution directories inside the work directory contains a number of hidden files:
+    Remember that the pipeline’s results are cached in the work directory. In addition to the cached files, each task's execution directory inside the work directory contains a number of hidden files:
 
       * `.command.sh`: The command script run for the task.
-      * `.command.run`: The command wrapped used to run the task.
+      * `.command.run`: The command wrapper used to run the task.
       * `.command.out`: The task’s standard output log.
       * `.command.err`: The task’s standard error log.
       * `.command.log`: The wrapper execution output.

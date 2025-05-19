@@ -1,4 +1,4 @@
-# 2.2 Samplesheets, operators, and groovy  
+# Samplesheets, operators, and groovy  
 
 !!! note "Learning objectives"
 
@@ -9,20 +9,23 @@
 In this lesson we will transform the next bash script, `01_fastqc.sh` into a process called `FASTQC`. This step focuses on the next phase of RNAseq data processing: assessing the quality of some our raw sequencing reads. 
 
 To do this, we will need to run [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) 
-over pairs of fastq files. 
+over pairs of FASTQ files. 
 
 ![](./img/2.2_workflow.png)
 
-Our goal in porting these bash scripts to Nextflow is to build a workflow that can scale to run on multiple samples with minimal intervention. To do this, we will use a samplesheet, allowing us to provide multiple samples and their corresponding fastq files to our Nextflow workflow. 
+Our goal in porting these bash scripts to Nextflow is to build a workflow that can scale to run on multiple samples with minimal intervention. To do this, we will use a samplesheet, allowing us to provide multiple samples and their corresponding FASTQ files to our Nextflow workflow. 
 
 Building channels in Nextflow can be tricky. Depending on what data you need 
 to capture and how you want to organise it you will likely need to use 
 [operators](https://www.nextflow.io/docs/latest/operator.html#operators) to
-manipulate your channel. Sometimes operators alone won't be enough, and you'll
+manipulate your channel. We saw some simple operators back in Part 1.
+However, sometimes operators alone won't be enough, and you'll
 need to also use [Groovy](https://groovy-lang.org/documentation.html)
 (Nextflow's underlying programming language) to capture pertinent information.  
 
-Since this is an advanced task, we will provide you with all the code you need. Although Nextflow does not yet offer a built-in operator for reading samplesheets, their use is widespread in bioinformatics workflows. 
+Since this is an advanced task, we will provide you with all the code you need. Although Nextflow does not yet offer a built-in operator for reading samplesheets, their use is widespread in bioinformatics workflows. So, we will be building a simple samplesheet reader from a couple of operators and some simple Groovy code.
+
+## Inspecting our FastQC script
 
 Open the bash script `01_fastqc.sh`:  
 
@@ -42,10 +45,10 @@ There's a lot going on in this script, let's break it down.
 `SAMPLE_ID=gut` assigns "gut" to the bash variable`SAMPLE_ID`. This is used to:  
 
 - Avoid hardcoding the sample name multiple times in the script  
-- Ensure that file pairs of the same sample are processed together  
+- Ensure that file pairs of the same sample are processed together (e.g. `gut_1.fq` and `gut_2.fq`)  
 - Ensure that this script can be run on different sample pairs  
 
-`READS_1` and `READS_2` specify the paths to the gut `.fq` files.  
+`READS_1` and `READS_2` specify the paths to the paired gut `.fq` files.  
 
 Similar to the bash script in the previous step (`00_index.sh`), `mkdir -p`
 creates an output folder so that the `fastqc` outputs can be saved here.  
@@ -56,9 +59,9 @@ In the `fastqc` command,
 - `--format` is a required flag to indicate what format the the reads are in
 - `${READS_1}` and `${READS_2}` propagate the paths of the `.fq` files  
 
-## 2.2.1 Building the process  
+## Building the `FASTQC` process  
 
-### 1. Process directives
+### Defining the process directives
 
 Start by adding the following `process` scaffold and script definition to your
 `main.nf` under the INDEX process code but before the `workflow{}` block:  
@@ -89,15 +92,43 @@ It contains:
 * The empty `output:` block for us to define the output data for the process.
 * The `script:` block prefilled with the command that will be executed.
 
+Note that for the script block we have removed the initial three lines that contained the bash variable definitions. Instead, we will be using Nextflow variables that are defined within the process' `input` block.
+
+However, note that the `mkdir` and `fastqc` commands that remain look very similar to their original forms, but are now using those Nextflow variables instead of the original bash variables.
+
 !!! info "Dynamic naming"
 
     Recall that curly brackets are used to pass variables as part of a file name.
+
+!!! info Nextflow vs Bash variables
+
+    If you are familiar with Bash programming, you may notice that the way we use Nextflow variables looks exactly like how we use Bash variables - by using the `$` symbol followed by the variable name, possibly within curly brackets:
+
+    ```groovy
+    script:
+    """
+    mkdir -p "fastqc_${sample_id}_logs"
+    """
+    ```
+
+    This actually means that Bash variables can't be used in the same way as they normally are. Instead, if you ever need to use a Bash variable within a Nextflow process, you will first need to **escape** the `$` symbol with a backslash (`\`). This tells Nextflow to ignore the `$` and not interpret it as a Nextflow variable:
+
+    ```groovy
+    script:
+    """
+    SOMEBASHVAR="hello"
+    echo \${SOMEBASHVAR}
+    """
+    ```
+
+    For the purposes of this workshop, we won't be using Bash variables, so you don't need to worry about this quirk for now.
     
-### 2. Define the process `output`
+### Define the process `output`
 
 Unlike `salmon` from the previous process, `fastqc` requires that the output
 directory be created before running the command, hence the requirement to run
-`mkdir -p "fastqc_${sample_id}_logs"` within the `script` block.  
+`mkdir -p "fastqc_${sample_id}_logs"` within the `script` block. This is a common 
+inconsistency between different bioinformatics tools, so it is good to be aware of it.
 
 Looking at the FastQC command we can see this directory will be our output.  
 
@@ -113,10 +144,10 @@ Looking at the FastQC command we can see this directory will be our output.
         path "fastqc_${sample_id}_logs"
         ```
 
-        We've used the `path` qualifier as our output is a directory. Output 
+        We've used the `path` qualifier because our output is a directory. Output 
         from the bash script is defined by the fastqc `--outdir` flag. 
 
-### 3. Define the process `input`
+### Define the process `input`
 
 Now we need to define the `input` block for this process. In this process, 
 we're going to use a combination of Nextflow operators and Groovy to do this. 
