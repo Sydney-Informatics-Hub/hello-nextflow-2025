@@ -64,7 +64,7 @@ Channels need to be created within the `workflow` definition.
 
     ???Solution
 
-        ```groovy title="hello-world.nf" hl_lines="2 3 4"
+        ```groovy title="hello-world.nf" hl_lines="3-4"
         workflow {
 
             // Create a channel for inputs
@@ -104,7 +104,7 @@ Similar to the output qualifiers discussed in the previous chapter, there are se
 
     ???Solution
 
-        ```groovy title="hello-world.nf" hl_lines="1 4 5 6"
+        ```groovy title="hello-world.nf" hl_lines="1 5-6"
         // Use echo to print a string and redirect to output.txt
         process SAYHELLO {
             publishDir 'results'
@@ -211,7 +211,7 @@ The `Channel.of()` factory can take any number of values, separated by commas. E
 
     ???Solution
 
-        ```groovy title="hello-world.nf" hl_lines="7"
+        ```groovy title="hello-world.nf" hl_lines="4"
         workflow {
 
             // Create a channel for inputs
@@ -264,7 +264,7 @@ Defining our `greeting_ch` channel using the `Channel.of` factory and hard-coded
 
         Before:
 
-        ```groovy title="hello-world.nf" hl_lines="7"
+        ```groovy title="hello-world.nf" hl_lines="4"
         workflow {
 
             // Create a channel for inputs
@@ -277,7 +277,7 @@ Defining our `greeting_ch` channel using the `Channel.of` factory and hard-coded
 
         After:
 
-        ```groovy title="hello-world.nf" hl_lines="7"
+        ```groovy title="hello-world.nf" hl_lines="4-5"
         workflow {
 
             // Create a channel for inputs
@@ -321,23 +321,7 @@ Note that we also snuck in a second operator in the above examples: `view()`. Th
 
     ???Solution
 
-        Before:
-
-        ```groovy title="hello-world.nf" hl_lines="7"
-        workflow {
-
-            // Create a channel for inputs
-            greetings_array = [ 'Hello world!', 'Bonjour le monde!', 'Holà mundo' ]
-            greeting_ch = Channel.of(greetings_array)
-
-            // Emit a greeting
-            SAYHELLO(greeting_ch)
-        }
-        ```
-
-        After:
-
-        ```groovy title="hello-world.nf" hl_lines="7"
+        ```groovy title="hello-world.nf" hl_lines="5"
         workflow {
 
             // Create a channel for inputs

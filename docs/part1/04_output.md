@@ -85,7 +85,7 @@ Now that we are redirecting our 'Hello World!' message to a file, we want to tel
 
     ???Solution
 
-        ```groovy title="hello-world.nf" hl_lines="4-6"
+        ```groovy title="hello-world.nf" hl_lines="6"
         // Use echo to print 'Hello World!' and redirect to output.txt
         process SAYHELLO {
             debug true

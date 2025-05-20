@@ -186,7 +186,7 @@ The process output behaves like any other channel and can be used as inputs for 
 
 !!!warning
 
-    Adding `.out` to the end of a process name only works for single outputs. If there are multiple outputs the `emit` option must be used when defining the `output` block of the process. See [additional options](https://www.nextflow.io/docs/latest/process.html#additional-options) for more information.
+    Adding `.out` to the end of a process name only works for single outputs. If there are multiple outputs, you will need to use an integer index to select the appropriate output (e.g. `.out[0]` or `.out[1]` for the first and second inputs, respectively), or (more conveniently) use the `emit` option when defining the `output` block of the process, which allows you to select the output by name (e.g. `.out.some_output`). See the [additional options](https://www.nextflow.io/docs/latest/process.html#additional-options) section of the Nextflow documentation for more information.
 
 !!!question "Exercise"
 
@@ -194,7 +194,7 @@ The process output behaves like any other channel and can be used as inputs for 
 
     ???solution
 
-        ```groovy title="hello-world.nf" hl_lines="45 46 47"
+        ```groovy title="hello-world.nf" hl_lines="46-47"
         // Set default greeting
         params.greeting = 'Hello World!'
 

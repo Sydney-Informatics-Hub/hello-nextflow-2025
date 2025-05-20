@@ -101,7 +101,7 @@ As a developer you can to choose how and where to comment your code.
 
         The solution may look something like this:
 
-        ```groovy title="hello-world.nf"
+        ```groovy title="hello-world.nf" hl_lines="1-3"
         /*
          * Use echo to print 'Hello World!' to standard out
          */
@@ -111,7 +111,7 @@ As a developer you can to choose how and where to comment your code.
 
         Or this:
 
-        ```groovy title="hello-world.nf"
+        ```groovy title="hello-world.nf" hl_lines="1"
         // Use echo to print 'Hello World!' to standard out
         process SAYHELLO {
         <truncated>
