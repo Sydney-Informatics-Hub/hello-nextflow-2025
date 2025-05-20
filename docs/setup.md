@@ -47,6 +47,20 @@ Specific VSCode extensions are required to connect to the VM and make working wi
 ![](img/vscode_3.png)
 5. Close the Extensions tab and sidebar
 
+## Setting up the `code` command
+
+VSCode comes with a handy way of opening up folders and files from the command line - the `code` command. If you are working on a Mac, you may need to enable it first by:
+
+1. Opening the command palette (`Cmd + Shift + P`)
+
+2. Typing `shell command`
+
+3. Select the option `Shell Command: Install 'code' command in PATH`
+
+4. Restart your terminal application for the updated `$PATH` variable to take effect.
+
+Now you should be able to open any file in VSCode by typing `code <filename>` in your terminal. Additionally, you can open an entire folder as a workspace in a new VSCode window by typing `code <directory path>`
+
 ## Setting up your remote SSH config
 
 1. In VSCode, press `Ctrl+Shift+P` (`Command+Shift+P` on mac) to open the Command Palette.
