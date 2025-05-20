@@ -1,4 +1,4 @@
-# Adding processes
+# Adding new processes
 
 !!! info "Learning objectives"
 
@@ -12,11 +12,15 @@ Here you're going to step things up again and add another process to the pipelin
 
 ## Translating text
 
-The `tr` command is a UNIX command-line utility for **translating** or deleting characters. It supports a range of transformations including uppercase to lowercase, squeezing repeating characters, deleting specific characters, and basic find and replace. It can be used with UNIX pipes to support more complex translation. `tr` stands for translate.
+The `tr` command is a UNIX command-line utility for **translating** or deleting characters. It supports a range of transformations including uppercase to lowercase, squeezing repeating characters, deleting specific characters, and basic find and replace. It can be used with UNIX pipes to support more complex translation. `tr` stands for translate. The following example will translate all lower case letters (represented by the pattern `[a-z]`) to upper case (represented by `[A-Z]`):
 
 ```bash
 tr '[a-z]' '[A-Z]'`
 ```
+
+!!! note
+
+    For the curious, the patterns we are using here - e.g. `[a-z]` - are called *regular expressions*. They are a way of describing patterns in text and can be immensely useful in manipulating text as they provide a way to search and replace text in more complex ways than simple exact matches. Be warned, they can get very complicated and confusing very quickly!
 
 ## Piping commands
 
@@ -38,11 +42,11 @@ Like before, the output can be redirected to an output file:
 cat output.txt | tr '[a-z]' '[A-Z]' > upper.txt
 ```
 
-## `CONVERTTOUPPER`
+## Adding the `CONVERTTOUPPER` process
 
 The output of the `SAYHELLO` process is a text file called `output.txt`.
 
-In the next step of the pipeline, you will add a new process named convert `CONVERTTOUPPER` that will convert all of the lower case letters in this file to a uppercase letters and save them as a new file.
+In the next step of the pipeline, you will add a new process named `CONVERTTOUPPER` that will convert all of the lower case letters in this file to a uppercase letters and save them as a new file.
 
 The `CONVERTTOUPPER` process will follow the same structure as the `SAYHELLO` process:
 
@@ -154,11 +158,11 @@ Using what you have learned in the previous sections you will now write a new pr
         }
         ```
 
-## Connecting processes
+## Connecting the processes
 
-Outputs from one process can be used as inputs for another.
+As we learned in the [inputs module](05_inputs.md), Nextflow uses channels to connect processes. Each output defined in a process' `output` block defines a new channel that can be used as inputs for another process.
 
-Outputs from a process can be accessed by adding `.out` to the end of a process name in the workflow definition:
+The output channel from a process can be accessed by adding `.out` to the end of a process name in the workflow definition:
 
 ```groovy
 SAYHELLO.out
@@ -170,11 +174,19 @@ Outputs can then be used as an input for another process:
 CONVERTTOUPPER(SAYHELLO.out)
 ```
 
-The same output could be used as inputs for multiple processes.
+Alternatively, you can assign the output channel to a new variable name for convenience:
+
+```groovy
+hello_msg = SAYHELLO.out
+
+CONVERTTOUPPER(hello_msg)
+```
+
+The process output behaves like any other channel and can be used as inputs for multiple downstream processes.
 
 !!!warning
 
-    Adding `.out` to the end of a process name only works for single outputs. If there are multiple outputs the `emit` option must be used. See [additional options](https://www.nextflow.io/docs/latest/process.html#additional-options) for more information.
+    Adding `.out` to the end of a process name only works for single outputs. If there are multiple outputs, you will need to use an integer index to select the appropriate output (e.g. `.out[0]` or `.out[1]` for the first and second inputs, respectively), or (more conveniently) use the `emit` option when defining the `output` block of the process, which allows you to select the output by name (e.g. `.out.some_output`). See the [additional options](https://www.nextflow.io/docs/latest/process.html#additional-options) section of the Nextflow documentation for more information.
 
 !!!question "Exercise"
 
@@ -182,7 +194,7 @@ The same output could be used as inputs for multiple processes.
 
     ???solution
 
-        ```groovy title="hello-world.nf" hl_lines="45 46 47"
+        ```groovy title="hello-world.nf" hl_lines="46-47"
         // Set default greeting
         params.greeting = 'Hello World!'
 

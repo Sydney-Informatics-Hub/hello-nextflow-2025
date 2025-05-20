@@ -12,10 +12,12 @@ This workshop will provide you with the foundational knowledge required to build
 
 ## Prerequisites
 
-This is an intermediate-advanced workshop for people developing reproducible bioinformatics workflows.
+This is an intermediate-advanced workshop for people developing reproducible bioinformatics workflows. It assumes some experience with the following:
 
 * Experience working on the command line/Linux environment.
-* Experience developing reproducible workflows (e.g., bash, CWL, WDL, or Snakemake). 
+* Experience with basic scripting (e.g. Bash).
+
+In addition, experience with other reproducible workflow tools (e.g. CWL, WDL, or Snakemake) will be very useful, although not at all required for this workshop.
 
 ## Set up requirements
 
@@ -31,7 +33,7 @@ In order to foster a positive and professional learning environment we encourage
 * Show courtesy and respect towards other community members
 * Our full code of conduct, with incident reporting guidelines, is available here.
 
-## Workshop schedule  
+## Workshop schedule
 
 ### Day 1
 
@@ -65,6 +67,6 @@ at the end of the workshop. Help us help you! 😁
 
 ## Credits and acknowledgements
 
-This workshop event and accompanying materials were developed by the Sydney Informatics Hub, University of Sydney in partnership with Seqera. The workshop was enabled through the Australian BioCommons - [BioCLI Platforms Project](https://www.biocommons.org.au/biocli) (NCRIS via Bioplatforms Australia). 
+This workshop event and accompanying materials were developed by the Sydney Informatics Hub, University of Sydney in partnership with Seqera. The workshop was enabled through the Australian BioCommons - [BioCLI Platforms Project](https://www.biocommons.org.au/biocli) (NCRIS via Bioplatforms Australia).
 
 ![](./img/logos.png)

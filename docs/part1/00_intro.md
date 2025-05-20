@@ -11,7 +11,7 @@ During **Part 2**, the skills and concepts you have learned in Part 1 will be ap
 It is good practice to organize projects into their own folders to make it easier to track and replicate experiments over time.
 We have created separate directories for each part (`~/part1/` and `~/part2/`).
 
-!!!question "Exercise"
+!!! question "Exercise"
 
     In the VSCode terminal, move into the directory for all Part 1 activities:
 

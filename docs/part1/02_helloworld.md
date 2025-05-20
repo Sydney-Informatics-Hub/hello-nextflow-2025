@@ -12,7 +12,7 @@ Let's demonstrate this with simple commands that you can run directly in the ter
 
 The **`echo`** command in Linux is a built-in command that allows users to display lines of text or strings that are passed as arguments. It is commonly used in shell scripts and batch files to output status text to the screen or a file.
 
-The most straightforward usage of the `echo` command is to display a text or string on the terminal. To do this, you simply provide the desired text or string as an argument to the `echo` command:
+The most straightforward usage of the `echo` command is to display text or a string on the terminal. To do this, you simply provide the desired text or string as an argument to the `echo` command:
 
 ```bash
 echo <string>
@@ -28,6 +28,10 @@ echo <string>
         echo 'Hello World!'
         ```
 
+        ``` title="Output"
+        Hello World!
+        ```
+
 ## Redirect outputs
 
 The output of the `echo` can be redirected to a file instead of displaying it on the terminal. You can achieve this by using the **`>`** operator for output redirection. For example:
@@ -36,7 +40,13 @@ The output of the `echo` can be redirected to a file instead of displaying it on
 echo 'Welcome!' > output.txt
 ```
 
-This will write the output of the echo command to the file name `output.txt`.
+Notice that nothing is printed in the terminal.
+
+``` title="Output"
+
+```
+
+Instead, this will write the output of the echo command to the file name `output.txt`.
 
 !!!question "Exercise"
 
@@ -46,6 +56,10 @@ This will write the output of the echo command to the file name `output.txt`.
 
         ```bash
         echo 'Hello World!' > output.txt
+        ```
+
+        ``` title="Output"
+
         ```
 
 ## List files
@@ -70,6 +84,10 @@ ls
 
         A file named `output.txt` should now be listed in your current directory.
 
+        ``` title="Output"
+        output.txt
+        ```
+
 ## View file contents
 
 The **`cat`** command in Linux is a versatile companion for various file-related operations, allowing users to view, concatenate, create, copy, merge, and manipulate file contents.
@@ -91,6 +109,10 @@ cat <file name>
         ```
 
         You should see `Hello World!` printed to your terminal.
+
+        ``` title="Output"
+        Hello World!
+        ```
 
 !!! abstract "Summary"
 
