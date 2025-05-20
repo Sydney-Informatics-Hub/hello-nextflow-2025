@@ -1,4 +1,4 @@
-# 2.5 Productionising our workflow
+# Productionising our workflow
 
 !!! note "Learning objectives"  
 
@@ -19,7 +19,7 @@ We will focus on making the workflow scalable, robust, and efficient for real-wo
 
 These steps ensure that the pipeline can be reliably used in more complex scenarios, like when processing multiple samples in parallel. 
 
-## 2.5.1 Labeling tasks with the `tag` directive
+## Labeling tasks with the `tag` directive
 
 The [tag](https://www.nextflow.io/docs/latest/process.html#tag) process
 directive allows you to add a custom label, or tag, to each task that gets
@@ -74,7 +74,7 @@ executor >  local (5)
 No new tasks were run, but `FASTQC` and `QUANTIFICATION` processes now have
 labels appended in the execution output.  
 
-## 2.5.2 Using a samplesheet with multiple samples  
+## Using a samplesheet with multiple samples  
 
 Recall that the samplesheet is used to control which files/data are analysed by
 the workflow. Inspect `data/samplesheet_full.csv`.  
@@ -114,12 +114,6 @@ executor >  local (5)
 
 There are two new tasks run for `FASTQC` and `QUANTIFICATION`. Our newly added
 tags indicate which samples they were run on - either `lung` or `liver` reads!
-
-!!! note 
-
-    Updating the `params.reads` definition in your `main.nf` script can save
-    having to add the `--reads` flag every time you want to run it with a
-    different samplesheet.
 
 !!! example "Advanced Exercise"
 
@@ -170,7 +164,7 @@ tags indicate which samples they were run on - either `lung` or `liver` reads!
 
         Remove `reads_in.view()` before proceeding.
 
-## 2.5.3 An introduction to configuration  
+## An introduction to configuration  
 
 In this section, we will explore how Nextflow workflows can be configured
 to utilise the computational resources available. Whilst there are many ways
@@ -221,7 +215,7 @@ docker.enabled = true
 The `-t $task.cpus` argument will populate as `-t 2` when we run the workflow next.
 Before we do, we will explore Nextflow's built-in reporting system to assess resource usage.
 
-## 2.5.4 Inspecting workflow performance  
+## Inspecting workflow performance  
 
 When running workflows, it is helpful to understand how each part of your
 workflow is using resources like CPUs, memory, and the time taken to complete.
