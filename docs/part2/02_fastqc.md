@@ -139,7 +139,7 @@ Looking at the FastQC command we can see this directory will be our output.
 
     ??? note "Solution"
 
-        ```groovy title="main.nf"
+        ```groovy title="main.nf" hl_lines="2"
         output:
         path "fastqc_${sample_id}_logs"
         ```
@@ -260,7 +260,7 @@ Before that, we need to add an input parameter that points to the samplesheet, c
 
     ??? note "Solution"
 
-        ```groovy title="main.nf"
+        ```groovy title="main.nf" hl_lines="3"
         // pipeline input parameters
         params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
         params.reads = "$projectDir/data/samplesheet.csv"
@@ -340,7 +340,7 @@ Next, we need to assign the channel we create to a variable so it can be passed 
 process. Assign to a variable called `reads_in`, and remove the `.view()`
 operator as we now know what the output looks like.
 
-```groovy title="main.nf" hl_lines="8-11"
+```groovy title="main.nf" hl_lines="8 11"
 // Define the workflow  
 workflow {
 
@@ -365,7 +365,7 @@ we can call the `FASTQC` process.
 
     ??? note "Solution"
     
-        ```groovy title="main.nf" hl_lines="12-14"
+        ```groovy title="main.nf" hl_lines="12-13"
         // Define the workflow  
         workflow {
         

@@ -296,6 +296,7 @@ touches to the workflow scope.
                 .mix(QUANTIFICATION.out[0])
                 .collect()
 
+        }
         ```
 
 !!! question "Exercise: call the `MULTIQC` process"
@@ -318,8 +319,9 @@ touches to the workflow scope.
                 .collect()
 
             // Run the multiqc step with the multiqc_in channel
-             MULTIQC(multiqc_in)
-       
+            MULTIQC(multiqc_in)
+
+        }
         ```
 
 Run the workflow:  
