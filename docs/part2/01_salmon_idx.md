@@ -175,13 +175,14 @@ where it's executed.
 Nextflow supports
 [multiple container runtimes](https://www.nextflow.io/docs/latest/container.html#).
 In this workshop, we'll be demonstrating the value containers can bring to your
-workflow by using Docker.
+workflow by using Singularity.
 
 ??? tip "Tip: different tools for different purposes"  
 
-    In this workshop, we're using Docker to run containers. However, for some
-    systems like HPC where you won't have administrative access to your environment,
-    other options like Singularity/Apptainer will be more suitable.
+    In this workshop, we're using Singularity to run containers. You may have heard of another container technology before: Docker.
+    Both Singularity and Docker work in similar ways to encapuslate tools within an environment to ensure reproducibility.
+    However, Docker has certain administrative access requirements that make it unsuitable for some
+    systems like HPCs. For this reason, we will be working with Singularity.
     
     You don't have to write your own containers to run in your workflow. There are
     many container repositories out there. We highly recommend using 
@@ -195,6 +196,9 @@ workflow by using Docker.
     * [Quay.io](https://quay.io/organization/biocontainers)
     * [DockerHub](https://hub.docker.com/r/biocontainers/biocontainers)
     * [Seqera containers](https://seqera.io/containers/)
+
+    Another helpful fact is that Docker containers are often able to be converted to Singularity's format, meaning if a tool
+    is only available as a Docker image, it is highly likely that it can still be used with Singularity.
 
 In Nextflow, we can specify that a process should be run within a specified container using the [container](https://www.nextflow.io/docs/latest/process.html#container) directive.  
 
@@ -221,7 +225,7 @@ process INDEX {
 You now have a complete process! 
 
 Usually, containers need to be downloaded using a command such as
-`docker pull [image]`. All containers have been previously downloaded for the
+`singularity pull [image]`. All containers have been previously downloaded for the
 workshop beforehand.  
 
 ??? tip "Tip: use one container per process"
@@ -234,11 +238,11 @@ workshop beforehand.
     - **Reproducibility**: reduces the risk of issues caused by software conflicts.
 
 Before we can run the workflow, we need to tell Nextflow to run containers
-using Docker. Nextflow requires [Docker](https://www.nextflow.io/docs/latest/container.html#docker)
-to be installed on your system in order for this to work. Docker has been 
+using Singularity. Nextflow requires [Singularity](https://www.nextflow.io/docs/latest/container.html#singularity)
+to be installed on your system in order for this to work. Singularity has been 
 pre-installed on your Virtual Machine.  
 
-We can configure Nextflow to run containers with Docker by using the 
+We can configure Nextflow to run containers with Singularity by using the 
 `nextflow.config` file.
 
 Create a `nextflow.config` file in the same directory as `main.nf`.  
@@ -254,10 +258,10 @@ Create a `nextflow.config` file in the same directory as `main.nf`.
 Add the following line to your config file:
 
 ```groovy linenums="1" title="nextflow.config"
-docker.enabled = true
+singularity.enabled = true
 ```
 
-You have now configured Nextflow to use Docker.  
+You have now configured Nextflow to use Singularity.  
 
 !!! tip
 

@@ -277,7 +277,7 @@ config file as follows:
 
 ```groovy title="nextflow.config" hl_lines="1"
 process.cpus = 2
-docker.enabled = true
+singularity.enabled = true
 ```
 
 The `-t $task.cpus` argument will populate as `-t 2` when we run the workflow next.
@@ -297,7 +297,7 @@ To enable these reports, add the following to your `nextflow.config` file:
 
 ```groovy title="nextflow.config" hl_lines="4-8"
 process.cpus = 2
-docker.enabled = true
+singularity.enabled = true
 
 // enable reporting
 dag.enabled = true

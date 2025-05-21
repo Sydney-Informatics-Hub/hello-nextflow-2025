@@ -98,7 +98,7 @@ We will be implementing and integrating three commonly used bioinformatics tools
 2. [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a tool for quality analysis of high throughput sequence data. You can think of it as a way to assess the quality of your data.  
 3. [MultiQC](https://multiqc.info/) searches a given directory for analysis logs and compiles an HTML report for easy viewing. It's a general use tool, perfect for summarising the output from numerous bioinformatics tools.  
 
-These tools will be run using Docker containers. We will not explore how the
+These tools will be run using Singularity containers. We will not explore how the
 data and tools work further, and focus on how they should be implemented in a
 Nextflow workflow.  
 
@@ -160,6 +160,6 @@ While `main.nf` outlines the steps and processes of the workflow,
 that control _how_ your workflow should run.
 
 This script will be intermittently used in the following lessons to control
-the use of Docker containers, how much resources (e.g. CPUs) should be used, and
+the use of Singularity containers, how much resources (e.g. CPUs) should be used, and
 reporting of the workflow after it has finished running.
 
