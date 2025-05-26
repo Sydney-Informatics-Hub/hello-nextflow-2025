@@ -94,7 +94,7 @@ With this syntax, we don't get a variable to use within our script, but that's O
 MultiQC just needs to be given a directory to search (in our case, the current directory, represented by `.`)
 and it will automatically find all the relevant data.
 
-### Define the process `output`
+### Defining the process `output`
 
 The MultiQC output consists of the following:
 

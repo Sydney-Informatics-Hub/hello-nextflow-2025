@@ -72,7 +72,7 @@ It contains:
 * The empty `script:` block for us to define the script for the process.
 
 
-### Define the process `script`  
+### Defining the process `script`  
 
 Update the `script` definition with the Salmon command from the bash script. Again, we want to remove the definition of the Bash variables and just keep the `salmon` command:
 
@@ -100,7 +100,7 @@ The `--libType=U` is a required argument and can be left as is for the script de
 - `-1 $reads_1` and `-2 $reads_2` are fastq files from the previously defined `reads_ch` channel. 
 - `-o` outputs files into a directory named after the `$sample_id`.
 
-### Define the process `output`
+### Defining the process `output`
 
 Salmon creates an output directory with whatever name is passed to the `-o` flag. In our case, we supplied `-o $sample_id` to Salmon, so our `output` will be a directory named after whatever is in the variable `sample_id`. For our test sample, the
 directory will be called `gut/`. Replace `< process outputs >` with the following:  
@@ -125,7 +125,7 @@ process QUANTIFICATION {
 
 Now our process will expect to find an output path called `"$sample_id"`.
 
-### Define the process `input`  
+### Defining the process `input`  
 
 In this step we will define the process inputs. Based on the bash script, we
 have four inputs:  

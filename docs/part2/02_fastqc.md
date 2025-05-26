@@ -123,7 +123,7 @@ However, note that the `mkdir` and `fastqc` commands that remain look very simil
 
     For the purposes of this workshop, we won't be using Bash variables, so you don't need to worry about this quirk for now.
     
-### Define the process `output`
+### Defining the process `output`
 
 Unlike `salmon` from the previous process, `fastqc` requires that the output
 directory be created before running the command, hence the requirement to run
@@ -147,7 +147,7 @@ Looking at the FastQC command we can see this directory will be our output.
         We've used the `path` qualifier because our output is a directory. Output 
         from the bash script is defined by the fastqc `--outdir` flag. 
 
-### Define the process `input`
+### Defining the process `input`
 
 Now we need to define the `input` block for this process. In this process, 
 we're going to use a combination of Nextflow operators and Groovy to do this. 
