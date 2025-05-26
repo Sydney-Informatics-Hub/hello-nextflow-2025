@@ -1,4 +1,4 @@
-# Samplesheets, operators, and groovy  
+# 2.2 Samplesheets, operators, and groovy  
 
 !!! note "Learning objectives"
 
@@ -25,7 +25,7 @@ need to also use [Groovy](https://groovy-lang.org/documentation.html)
 
 Since this is an advanced task, we will provide you with all the code you need. Although Nextflow does not yet offer a built-in operator for reading samplesheets, their use is widespread in bioinformatics workflows. So, we will be building a simple samplesheet reader from a couple of operators and some simple Groovy code.
 
-## Inspecting our FastQC script
+## 2.2.1 Inspecting our FastQC script
 
 Open the bash script `01_fastqc.sh`:  
 
@@ -59,7 +59,7 @@ In the `fastqc` command,
 - `--format` is a required flag to indicate what format the the reads are in
 - `${READS_1}` and `${READS_2}` propagate the paths of the `.fq` files  
 
-## Building the `FASTQC` process  
+## 2.2.2 Building the `FASTQC` process  
 
 ### Defining the process directives
 
@@ -217,7 +217,7 @@ process FASTQC {
 }
 ```
 
-## Reading files with a samplesheet  
+## 2.2.3 Reading files with a samplesheet  
 
 Up until this point in the workshop, we have been using a lot of hard-coded values.
 

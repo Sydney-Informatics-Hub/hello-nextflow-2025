@@ -1,4 +1,4 @@
-# Productionising our workflow
+# 2.5 Productionising our workflow
 
 !!! note "Learning objectives"  
 
@@ -19,7 +19,7 @@ We will focus on making the workflow scalable, robust, and efficient for real-wo
 
 These steps ensure that the pipeline can be reliably used in more complex scenarios, like when processing multiple samples in parallel. 
 
-## Labeling tasks with the `tag` directive
+## 2.5.1 Labeling tasks with the `tag` directive
 
 The [tag](https://www.nextflow.io/docs/latest/process.html#tag) process
 directive allows you to add a custom label, or tag, to each task that gets
@@ -74,7 +74,7 @@ executor >  local (5)
 No new tasks were run, but `FASTQC` and `QUANTIFICATION` processes now have
 labels appended in the execution output.  
 
-## Using a samplesheet with multiple samples  
+## 2.5.2 Using a samplesheet with multiple samples  
 
 Recall that the samplesheet is used to control which files/data are analysed by
 the workflow. Inspect `data/samplesheet_full.csv`.  
@@ -164,7 +164,7 @@ tags indicate which samples they were run on - either `lung` or `liver` reads!
 
         Remove `reads_in.view()` before proceeding.
 
-## Cleaning up
+## 2.5.3 Cleaning up
 
 You may have noticed that Nextflow is a bit messy. As we make incremental changes to our workflow and run our tests, we generate more and more task directories under `work/`. With large pipelines, this can result in a lot of files, and can potentially take up a lot of space. Therefore, we will often want to do periodic clean-ups of the `work/` directory, but due to the random naming of task directories, it can be difficult to work out which ones are older or newer, and therefore difficult to work out how best to clean up old runs.
 
@@ -232,7 +232,7 @@ nextflow clean -before golden_cantor -f
 Removed /home/user/hello-nextflow/work/a1/acbfd8d940f6a217a741aed23279e6
 ```
 
-## An introduction to configuration  
+## 2.5.4 An introduction to configuration  
 
 In this section, we will explore how Nextflow workflows can be configured
 to utilise the computational resources available. Whilst there are many ways
@@ -283,7 +283,7 @@ singularity.enabled = true
 The `-t $task.cpus` argument will populate as `-t 2` when we run the workflow next.
 Before we do, we will explore Nextflow's built-in reporting system to assess resource usage.
 
-## Inspecting workflow performance  
+## 2.5.5 Inspecting workflow performance  
 
 When running workflows, it is helpful to understand how each part of your
 workflow is using resources like CPUs, memory, and the time taken to complete.

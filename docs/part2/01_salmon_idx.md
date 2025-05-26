@@ -1,4 +1,4 @@
-# Implementing a simple process with a container  
+# 2.1 Implementing a simple process with a container  
 
 !!! info "Learning objectives"
 
@@ -34,7 +34,7 @@ file is `data/ggal/transcriptome.fa`.
 
     Nextflow addresses the issue of hardcoded paths by allowing values to be passed dynamically at runtime as [parameters](https://www.nextflow.io/docs/latest/config.html#scope-params) (`params`). 
 
-## Building the `INDEX` process
+## 2.1.1 Building the `INDEX` process
 
 In the empty `main.nf` script, add the following `process` scaffold with the
 script definition:  
@@ -124,7 +124,7 @@ More information on using input and output blocks can be found in the Nextflow d
 [inputs](https://www.nextflow.io/docs/latest/process.html#inputs) and
 [outputs](https://www.nextflow.io/docs/latest/process.html#outputs).  
 
-## Saving our output files to an output directory with `publishDir`  
+## 2.1.2 Saving our output files to an output directory with `publishDir`  
 
 Next we will implement the Nextflow equivalent of saving the output files into a
 `results/` directory.  
@@ -161,7 +161,7 @@ results directory with `mkdir -p "results`.
 More information and other modes can be found on
 [publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir).
 
-## Using containers  
+## 2.1.3 Using containers for reproducible pipelines
 
 Nextflow recommends using containers to ensure reproducibility and portability
 of your workflow. Containers package all the software and dependencies needed
@@ -267,7 +267,7 @@ You have now configured Nextflow to use Singularity.
 
     Remember to save your files after editing them!
 
-## Adding `params` and the workflow scope  
+## 2.1.4 Adding `params` and the workflow scope  
 
 Now that you have written your first Nextflow process, we need to prepare it
 for execution.  
@@ -335,7 +335,7 @@ This will tell Nextflow to run the `INDEX` process with
 
 We are now ready to run our workflow!  
 
-## Running the workflow  
+## 2.1.5 Running the workflow  
 
 In the terminal, run the command:  
 
@@ -362,7 +362,7 @@ In this example, the output files for the `INDEX` process is output in
 
 You have successfully run your first workflow!  
 
-## Inspecting the outputs
+## 2.1.6 Inspecting the outputs
 
 To observe exactly what command is being run for a process, we can attempt 
 to infer this information from the process definition in our `main.nf` 

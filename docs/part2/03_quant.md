@@ -1,4 +1,4 @@
-# Multiple inputs into a single process
+# 2.3 Multiple inputs into a single process
 
 !!! note "Learning objectives"
 
@@ -38,7 +38,7 @@ Same as the previous lesson, this script contains the `${SAMPLE_ID}` variable de
 - `-1` and `-2` are flags for the respective paired reads (`.fq`). 
 - `-o` outputs files into a directory called `results/gut`
 
-## Building the `QUANTIFICATION` process  
+## 2.3.1 Building the `QUANTIFICATION` process  
 
 ### Defining the process directives  
 

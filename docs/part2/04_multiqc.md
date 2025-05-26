@@ -1,4 +1,4 @@
-# Combining channels and multiple process outputs  
+# 2.4 Combining channels and multiple process outputs  
 
 !!! note "Learning objectives"  
 
@@ -34,7 +34,7 @@ This script is a lot simpler than previous scripts we've worked with. It searche
 1. A directory called `multiqc_data/` 
 2. A report file called `multiqc_report.html` 
 
-## Building the `MULTIQC` process 
+## 2.4.1 Building the `MULTIQC` process 
 
 ### Process directives, `script`, and `input`
 
@@ -123,7 +123,7 @@ process MULTIQC {
 }
 ```
 
-## Combining channels with operators  
+## 2.4.2 Combining channels with operators  
 
 !!! tip
 
@@ -342,7 +342,7 @@ Launching `main.nf` [hopeful_swanson] DSL2 - revision: a4304bbe73
 
 ```
 
-## Inspecting the MultiQC report  
+## 2.4.3 Inspecting the MultiQC report  
 
 Let's inspect the generated MultiQC report. You will need to download the file
 to your local machine and open it in a web browser.  

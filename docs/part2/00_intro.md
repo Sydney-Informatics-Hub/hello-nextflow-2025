@@ -1,4 +1,4 @@
-# Part 2 Introduction  
+# 2.0 Introduction  
 
 Part 2 builds on the fundamental concepts learned in Part 1 and provides you with 
 hands-on experience in Nextflow workflow development. Throughout the session 
@@ -22,7 +22,7 @@ Part 2 of this workshop is based off the
 [Simple RNA-Seq workflow](https://training.nextflow.io/basic_training/rnaseq_pipeline/)
 training material developed by Seqera.  
 
-## Log back into your instance 
+## 2.0.1 Log back into your instance 
 
 Re-connect to your Virtual Machine by following the 
 ["Connect to the VM"](../setup.md) section from the setup page.
@@ -36,7 +36,7 @@ cd ~/part2/
 
 All Part 2 activities will be conducted in this folder. 
 
-## Introducing our scenario: from bash scripts to scalable workflows  
+## 2.0.2 Introducing our scenario: from bash scripts to scalable workflows  
 
 Imagine you are a bioinformatician in a busy research lab. Your team will be
 receiving a large batch of samples that need to be processed through a series
@@ -69,7 +69,7 @@ You decide to use Nextflow.
         What are some limitations of these scripts in terms of running them in a
         pipeline and monitoring it?  
 
-## Our workflow: RNAseq data processing 
+## 2.0.3 Our workflow: RNAseq data processing 
 
 !!! danger "Don't worry if you don't have prior knowledge of RNAseq!"
 
@@ -102,7 +102,7 @@ These tools will be run using Singularity containers. We will not explore how th
 data and tools work further, and focus on how they should be implemented in a
 Nextflow workflow.  
 
-## Pipeline structure and design 
+## 2.0.4 Pipeline structure and design 
 
 Having reviewed the bash scripts, we've decided to keep its modular structure and will build the following four processes (discrete steps):
 
@@ -113,7 +113,7 @@ Having reviewed the bash scripts, we've decided to keep its modular structure an
   
 ![](./img/2.0_workflow.png)
 
-## Nextflowing the workflow
+## 2.0.5 Nextflowing the workflow
 
 Each lesson in part 2 of our workshop focuses on implementing one process of 
 the workflow at a time. We will iteratively build the workflow and processes 
