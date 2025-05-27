@@ -206,12 +206,13 @@ Removed /home/user/hello-nextflow/work/c3/feb819a918abd91819c8143053f091
 
 !!! info
 
-    The `nextflow clean` command also allows you to clean up runs before or after a specific run. You simply need to use one of the flags `-before`, `-after`, or `-but` along with the name of the run. Remember that the run name is a randomly generated two word phrase, e.g. `golden_cantor` or `mighty_murdock`. These run names are displayed when running the workflow, and can also be found by inspecting the Nextflow logs.
+    By default, `nextflow clean` command will clean up just the latest run. However, you can also specify the name of a specific run you wish to clean up. Remember that the run name is a randomly generated two word phrase, e.g. `golden_cantor` or `mighty_murdock`. These run names are displayed when running the workflow, and can also be found by inspecting the Nextflow logs. You can also choose to clean up runs before or after a specific run. You simply need to use one of the flags `-before`, `-after`, or `-but` along with the name of the run:
 
-    - `nextflow clean -before golden_cantor -f`: Remove all runs **before** the run `golden_cantor`
+    - `nextflow clean -f`: Remove the **latest run**
+    - `nextflow clean golden_cantor -f`: Specifically remove the run `golden_cantor`
+    - `nextflow clean -before golden_cantor -f`: Remove all runs **before** `golden_cantor`
     - `nextflow clean -after golden_cantor -f`: Remove all runs **after** `golden_cantor`
     - `nextflow clean -but golden_cantor -f`: Remove all runs **except** for `golden_cantor`
-    - `nextflow clean -f`: Remove **all runs**
 
     See the [Nextflow docs](https://www.nextflow.io/docs/latest/reference/cli.html#clean) for more information.
 
