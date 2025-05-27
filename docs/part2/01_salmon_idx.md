@@ -268,7 +268,7 @@ The syntax `singularity { }` defines the configuration for using Singularity; ev
 
 The first line, `enabled = true` simply tells Nextflow to use Singularity. The second line, `cacheDir = $HOME/singularity_image` tells Nextflow to store images in a folder within your home directory called `singularity_image`. This means that Nextflow only has to pull a given image from the internet once; every other time it requires that image, it can quickly load it from this cache directory.
 
-You have now configured Nextflow to use Singularity!
+You have now configured Nextflow to run your process within a Singularity container! In this case, the `INDEX` process will use the `quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0` container. As we add more processes, wherever we define the `container` directive, Nextflow will use that container to run that process.
 
 !!! tip
 
