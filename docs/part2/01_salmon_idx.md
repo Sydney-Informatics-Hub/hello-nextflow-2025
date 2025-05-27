@@ -255,13 +255,20 @@ Create a `nextflow.config` file in the same directory as `main.nf`.
     If you are using the Explorer, right click on `part2` in the sidebar and
     select **"New file"**.
 
-Add the following line to your config file:
+Add the following lines to your config file:
 
 ```groovy linenums="1" title="nextflow.config"
-singularity.enabled = true
+singularity {
+    enabled = true
+    cacheDir = "$HOME/singularity_image"
+}
 ```
 
-You have now configured Nextflow to use Singularity.  
+The syntax `singularity { }` defines the configuration for using Singularity; everything between the curly braces here will tell Nextflow how to use Singularity to run your workflow.
+
+The first line, `enabled = true` simply tells Nextflow to use Singularity. The second line, `cacheDir = $HOME/singularity_image` tells Nextflow to store images in a folder within your home directory called `singularity_image`. This means that Nextflow only has to pull a given image from the internet once; every other time it requires that image, it can quickly load it from this cache directory.
+
+You have now configured Nextflow to use Singularity!
 
 !!! tip
 

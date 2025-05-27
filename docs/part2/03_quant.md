@@ -195,7 +195,7 @@ You have just defined a process with multiple inputs!
 
     Once you have defined the `process` block, select the  **"Yes"** react on Zoom.
 
-### Call the process in the `workflow` scope  
+### Calling the process in the `workflow` scope  
 
 Recall that the inputs for the `QUANTIFICATION` process are emitted by the
 `reads_in` channel and the output of the `INDEX` process. The `reads_in` channel 
