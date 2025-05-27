@@ -227,7 +227,7 @@ workflow {
 
 !!! info "Accessing process outputs"
     
-    Nextflow allows us to access the output of a process using the `.out` attribute. If a process has a single output, you can simply use `<PROCESS_NAME>.out`. If a process has 2 or more output channels, you need to use an integer index to access the corresponding outputs. For example: `.out[0]` will access the first output, `.out[1]` will access the second output, and so forth.
+    Nextflow allows us to access the output of a process using the `.out` attribute. If a process has a single output, you can simply use `<PROCESS_NAME>.out`. If a process has 2 or more output channels, you need to use an integer index to access the corresponding outputs. An index is simply a number - starting at `0` - that indicates the place of an item within a list or array. We use square brackets to access values using an index - e.g. `[0]`, `[1]`, etc. Process outputs are ordered within the `.out` attribute based on the order in which they were defined. For example: `.out[0]` will access the first defined output, `.out[1]` will access the second output, and so forth.
 
     For the sake of consistency, we have used the indexed method here (i.e. `INDEX.out[0]`), although we could have omitted the index and simply used `INDEX.out` since our `INDEX` process only has the single output.
 

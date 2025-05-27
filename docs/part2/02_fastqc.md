@@ -493,8 +493,8 @@ for each of the `.fastq` files.
         }
         ```
    
-        `.splitCsv` takes the path from the `.fromPath` operator and reads the header and data line as key-value pairs.
-        The result is similar to a tuple, except each element has a key from the header row and the value from the corresponding column and row in the samplesheet:
+        `.splitCsv` takes the path from the `.fromPath` operator and reads the file. It outputs a queue channel with one element for each line of the CSV file.
+        Each element of this channel is similar to a tuple, except each value is associated with its corresponding column name from the header row of the CSV file:
 
         ```console title="Output"
         Launching `main.nf` [tiny_yonath] DSL2 - revision: 22c2c9d28f
@@ -502,7 +502,7 @@ for each of the `.fastq` files.
         [sample:gut, fastq_1:data/ggal/gut_1.fq, fastq_2:data/ggal/gut_2.fq]
         ```
 
-        Each of the elements can be accessed by its key value. Our `.map` operator does exactly this (e.g. `row.sample` and `row.fastq_1`) and formats it into the final tuple that is stored as `reads_in` and passed to `FASTQC`.
+        This is called a key-value pair. Each of the values can be accessed by its key value (the column name). Our `.map` operator does exactly this (e.g. `row.sample` and `row.fastq_1`) and formats it into the final tuple that is stored as `reads_in` and passed to `FASTQC`.
 
     Before proceeding, ensure to *un*comment the `.map` and `FASTQC` lines, and remove `.view()`.
 
