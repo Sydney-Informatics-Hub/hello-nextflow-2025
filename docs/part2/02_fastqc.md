@@ -9,20 +9,23 @@
 In this lesson we will transform the next bash script, `01_fastqc.sh` into a process called `FASTQC`. This step focuses on the next phase of RNAseq data processing: assessing the quality of some our raw sequencing reads. 
 
 To do this, we will need to run [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) 
-over pairs of fastq files. 
+over pairs of FASTQ files. 
 
 ![](./img/2.2_workflow.png)
 
-Our goal in porting these bash scripts to Nextflow is to build a workflow that can scale to run on multiple samples with minimal intervention. To do this, we will use a samplesheet, allowing us to provide multiple samples and their corresponding fastq files to our Nextflow workflow. 
+Our goal in porting these bash scripts to Nextflow is to build a workflow that can scale to run on multiple samples with minimal intervention. To do this, we will use a samplesheet, allowing us to provide multiple samples and their corresponding FASTQ files to our Nextflow workflow. 
 
 Building channels in Nextflow can be tricky. Depending on what data you need 
 to capture and how you want to organise it you will likely need to use 
 [operators](https://www.nextflow.io/docs/latest/operator.html#operators) to
-manipulate your channel. Sometimes operators alone won't be enough, and you'll
+manipulate your channel. We saw some simple operators back in Part 1.
+However, sometimes operators alone won't be enough, and you'll
 need to also use [Groovy](https://groovy-lang.org/documentation.html)
 (Nextflow's underlying programming language) to capture pertinent information.  
 
-Since this is an advanced task, we will provide you with all the code you need. Although Nextflow does not yet offer a built-in operator for reading samplesheets, their use is widespread in bioinformatics workflows. 
+Since this is an advanced task, we will provide you with all the code you need. Although Nextflow does not yet offer a built-in operator for reading samplesheets, their use is widespread in bioinformatics workflows. So, we will be building a simple samplesheet reader from a couple of operators and some simple Groovy code.
+
+## 2.2.1 Inspecting our FastQC script
 
 Open the bash script `01_fastqc.sh`:  
 
@@ -42,10 +45,10 @@ There's a lot going on in this script, let's break it down.
 `SAMPLE_ID=gut` assigns "gut" to the bash variable`SAMPLE_ID`. This is used to:  
 
 - Avoid hardcoding the sample name multiple times in the script  
-- Ensure that file pairs of the same sample are processed together  
+- Ensure that file pairs of the same sample are processed together (e.g. `gut_1.fq` and `gut_2.fq`)  
 - Ensure that this script can be run on different sample pairs  
 
-`READS_1` and `READS_2` specify the paths to the gut `.fq` files.  
+`READS_1` and `READS_2` specify the paths to the paired gut `.fq` files.  
 
 Similar to the bash script in the previous step (`00_index.sh`), `mkdir -p`
 creates an output folder so that the `fastqc` outputs can be saved here.  
@@ -56,9 +59,9 @@ In the `fastqc` command,
 - `--format` is a required flag to indicate what format the the reads are in
 - `${READS_1}` and `${READS_2}` propagate the paths of the `.fq` files  
 
-## 2.2.1 Building the process  
+## 2.2.2 Building the `FASTQC` process  
 
-### 1. Process directives
+### Defining the process directives
 
 Start by adding the following `process` scaffold and script definition to your
 `main.nf` under the INDEX process code but before the `workflow{}` block:  
@@ -89,15 +92,43 @@ It contains:
 * The empty `output:` block for us to define the output data for the process.
 * The `script:` block prefilled with the command that will be executed.
 
+Note that for the script block we have removed the initial three lines that contained the bash variable definitions. Instead, we will be using Nextflow variables that are defined within the process' `input` block.
+
+However, note that the `mkdir` and `fastqc` commands that remain look very similar to their original forms, but are now using those Nextflow variables instead of the original bash variables.
+
 !!! info "Dynamic naming"
 
     Recall that curly brackets are used to pass variables as part of a file name.
+
+!!! info Nextflow vs Bash variables
+
+    If you are familiar with Bash programming, you may notice that the way we use Nextflow variables looks exactly like how we use Bash variables - by using the `$` symbol followed by the variable name, possibly within curly brackets:
+
+    ```groovy
+    script:
+    """
+    mkdir -p "fastqc_${sample_id}_logs"
+    """
+    ```
+
+    This actually means that Bash variables can't be used in the same way as they normally are. Instead, if you ever need to use a Bash variable within a Nextflow process, you will first need to **escape** the `$` symbol with a backslash (`\`). This tells Nextflow to ignore the `$` and not interpret it as a Nextflow variable:
+
+    ```groovy
+    script:
+    """
+    SOMEBASHVAR="hello"
+    echo \${SOMEBASHVAR}
+    """
+    ```
+
+    For the purposes of this workshop, we won't be using Bash variables, so you don't need to worry about this quirk for now.
     
-### 2. Define the process `output`
+### Defining the process `output`
 
 Unlike `salmon` from the previous process, `fastqc` requires that the output
 directory be created before running the command, hence the requirement to run
-`mkdir -p "fastqc_${sample_id}_logs"` within the `script` block.  
+`mkdir -p "fastqc_${sample_id}_logs"` within the `script` block. This is a common 
+inconsistency between different bioinformatics tools, so it is good to be aware of it.
 
 Looking at the FastQC command we can see this directory will be our output.  
 
@@ -108,15 +139,15 @@ Looking at the FastQC command we can see this directory will be our output.
 
     ??? note "Solution"
 
-        ```groovy title="main.nf"
+        ```groovy title="main.nf" hl_lines="2"
         output:
         path "fastqc_${sample_id}_logs"
         ```
 
-        We've used the `path` qualifier as our output is a directory. Output 
+        We've used the `path` qualifier because our output is a directory. Output 
         from the bash script is defined by the fastqc `--outdir` flag. 
 
-### 3. Define the process `input`
+### Defining the process `input`
 
 Now we need to define the `input` block for this process. In this process, 
 we're going to use a combination of Nextflow operators and Groovy to do this. 
@@ -129,32 +160,36 @@ just added:
 2. `$reads_1`
 3. `$reads_2`
 
-We will use a [tuple](https://www.nextflow.io/docs/latest/process.html#input-type-tuple) as the input qualifier as it's useful to group related
-inputs, or, inputs that need to be processed together such as in this case.  
+In order to ensure we process the sample ID along with its two related FASTQ files together, we will introduce a new input qualifier: the [`tuple`](https://www.nextflow.io/docs/latest/process.html#input-type-tuple).
 
-We need to group these inputs together so they can be processed as a single
-unit. This is a requirement when working with multiple pieces of data that are
-specific to a sample.
+A tuple is simply an ordered collection of objects. When you use a tuple as input to a Nextflow process, it ensure that the objects inside are grouped and processed together as a single unit. This is a requirement when working with multiple pieces of data that are specific to a given sample.
 
 !!! info "Importance of proper data grouping when using Nextflow"
 
     Nextflow uses channels to run processes in parallel and if you aren't
-    careful about how handle multiple pieces of data that need to be tied
-    together, you may mix datasets up.
+    careful about how you handle multiple pieces of related data that need to be tied
+    together (e.g. sample IDs and FASTQ paths), you may mix datasets up.
 
     We can use the [input qualifier](https://www.nextflow.io/docs/latest/process.html#inputs)
     `tuple` to group multiple values into a single input definition.
 
 Using a tuple as the input qualifier allows us to group related inputs together. 
-This is useful when we need to process several pieces of data at the same time, 
-like in this case where we have `$sample_id` and its two read files `$reads_1` 
+In this case, we have three related pieces of data: a `$sample_id` and its two FASTQ read files `$reads_1` 
 and `$reads_2`. 
 
 ![](./img/2.2_tuple.png)
 
 The tuple ensures that these inputs stay linked and are processed together, preventing sample-specific data and files from getting mixed up between samples.
 
-In the `FASTQC` process, replace `< process inputs >` with the input definition:  
+An input tuple is defined in Nextflow by using the following syntax:
+
+```
+tuple <item1 qualifier>(<item1 name>), <item2 qualifier>(<item2 name>), ..., <itemN qualifier>(<itemN name>)
+```
+
+Note how each item within a tuple must have its own qualifier. Also note how we must now wrap each item's name within parentheses. Each item is separated by a comma.
+
+In the `FASTQC` process, replace `< process inputs >` with the input tuple definition:  
 
 ```
 tuple val(sample_id), path(reads_1), path(reads_2)
@@ -182,7 +217,11 @@ process FASTQC {
 }
 ```
 
-## 2.2.2 Reading files with a samplesheet  
+## 2.2.3 Reading files with a samplesheet  
+
+Up until this point in the workshop, we have been using a lot of hard-coded values.
+
+In practice, hard-coded values, particularly for file names and sample IDs, should almost never be used. Instead, we need a flexible way of providing variable values to our pipeline. For that purpose, we can use a samplesheet.
 
 A samplesheet is a delimited text file where each row contains information
 or metadata that needs to be processed together. 
@@ -200,10 +239,10 @@ sample,fastq_1,fastq_2
 gut,data/ggal/gut_1.fq,data/ggal/gut_2.fq
 ```
 
-At this stage, we are developing and testing the pipeline. As such, we're only working with one sample. The samplesheet has three columns:  
+Think of this file like a table; each line is a row and within each row are multiple 'columns' delimited by comma symbols (`,`). This samplesheet two rows. The first is a header row; the values here will be used as names for each of the columns. The second row is a single sample. At this stage, we are developing and testing the pipeline, so, we're only working with one sample. The samplesheet has three columns:  
 
-- `sample`: indicates the sample name/prefix
-- `fastq_1`, `fastq_2`: contains the relative paths to the reads  
+- `sample`: indicates the sample name/prefix (in this case: `gut`)
+- `fastq_1`, `fastq_2`: contains the relative paths to the paired read FASTQ files (in this case: `data/ggal/gut_1.fq` and `data/ggal/gut_2.fq`)
 
 The goal in this step is to read the contents of the samplesheet, and transform
 it so it fits the input definition of `FASTQC` we just defined:
@@ -212,16 +251,16 @@ it so it fits the input definition of `FASTQC` we just defined:
 tuple val(sample_id), path(reads_1), path(reads_2)
 ```
 
-Before that, we need to add an input parameter that points to the samplesheet, called `input`.  
+Before that, we need to add an input parameter that points to the samplesheet, called `reads`.  
 
 !!! question "Exercise"
 
-    In your `main.nf` add an input parameter called `reads` and assign the path
+    In your `main.nf` add an input parameter called `reads` and assign it a default path
     to the samplesheet using `$projectDir`.
 
     ??? note "Solution"
 
-        ```groovy title="main.nf"
+        ```groovy title="main.nf" hl_lines="3"
         // pipeline input parameters
         params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
         params.reads = "$projectDir/data/samplesheet.csv"
@@ -252,13 +291,13 @@ workflow {
 }
 ```
 
-We won't explore the logic of constructing our samplesheet input channel in depth in this lesson. The key takeaway here is to understand that using samplesheets is best practice for reading grouped files and metadata into Nextflow, and that operators and groovy needs to be chained together to get these in the correct format. The best way to do this is using a combination of Groovy and Nextflow operators.
+We won't explore the logic of constructing our samplesheet input channel in depth in this lesson. The key takeaway here is to understand that using samplesheets is best practice for reading grouped files and metadata into Nextflow, and that both Nextflow operators and Groovy code need to be chained together to get these in the correct format.
 
-Our samplesheet input channel has used common [Nextflow operators](https://www.nextflow.io/docs/latest/operator.html):
+Our samplesheet input channel has used common [Nextflow operators](https://www.nextflow.io/docs/latest/operator.html). Briefly:
 
-* `.fromPath` creates a channel from one or more files matching a given path or pattern (to our `.csv` file, provided with the `--reads` parameter).
-* `splitCsv` splits the input file into rows, treating it as a CSV (Comma-Separated Values) file. The `header: true` option means that the first row of the CSV contains column headers, which will be used to access the values by name.
-* `map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }` uses some Groovy syntax to transform each row of the CSV file into a list, extracting the sample value, `fastq_1` and `fastq_2` file paths from the row.
+* `.fromPath` creates a channel from one or more files matching a given path or pattern (in this case, to our `.csv` file, provided with the `--reads` parameter).
+* `.splitCsv` splits the input file into rows, treating it as a CSV (Comma-Separated Values) file. The `header: true` option means that the first row of the CSV contains column headers, which will be used to access the values by name.
+* `map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }` uses some Groovy syntax to transform each row of the CSV file into a tuple, extracting the sample value, `fastq_1` and `fastq_2` file paths from the row.
 * `.view()` is a debugging step that outputs the transformed data to the console so we can see how the channel is structured. Its a great tool to use when building your channels.
 
 ??? Tip "Tip: using the `view()` operator for testing"
@@ -301,7 +340,7 @@ Next, we need to assign the channel we create to a variable so it can be passed 
 process. Assign to a variable called `reads_in`, and remove the `.view()`
 operator as we now know what the output looks like.
 
-```groovy title="main.nf" hl_lines="8-11"
+```groovy title="main.nf" hl_lines="8 11"
 // Define the workflow  
 workflow {
 
@@ -316,8 +355,8 @@ workflow {
 }
 ```
 
-Now that we have an input channel with that provides the correct format ready,
-we will now call the `FASTQC` process.  
+Now that we have an input channel ready that provides the correct format,
+we can call the `FASTQC` process.  
 
 !!! question "Exercise"
 
@@ -326,7 +365,7 @@ we will now call the `FASTQC` process.
 
     ??? note "Solution"
     
-        ```groovy title="main.nf" hl_lines="12-14"
+        ```groovy title="main.nf" hl_lines="12-13"
         // Define the workflow  
         workflow {
         
@@ -454,17 +493,16 @@ for each of the `.fastq` files.
         }
         ```
    
-        `.splitCsv` takes the path from `.fromPath` and reads the header and data line as a tuple.
-        Each element in the tuple is named by the header in the correspoding column in the samplesheet:
+        `.splitCsv` takes the path from the `.fromPath` operator and reads the file. It outputs a queue channel with one element for each line of the CSV file.
+        Each element of this channel is similar to a tuple, except each value is associated with its corresponding column name from the header row of the CSV file:
 
         ```console title="Output"
         Launching `main.nf` [tiny_yonath] DSL2 - revision: 22c2c9d28f
         [de/fef8c4] INDEX | 1 of 1, cached: 1 ✔
         [sample:gut, fastq_1:data/ggal/gut_1.fq, fastq_2:data/ggal/gut_2.fq]
-        
         ```
 
-        The `.map` step takes that tuple and formats it into the tuple that is emitted by `reads_in`.
+        This is called a key-value pair. Each of the values can be accessed by its key value (the column name). Our `.map` operator does exactly this (e.g. `row.sample` and `row.fastq_1`) and formats it into the final tuple that is stored as `reads_in` and passed to `FASTQC`.
 
     Before proceeding, ensure to *un*comment the `.map` and `FASTQC` lines, and remove `.view()`.
 

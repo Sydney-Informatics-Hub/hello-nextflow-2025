@@ -115,12 +115,6 @@ executor >  local (5)
 There are two new tasks run for `FASTQC` and `QUANTIFICATION`. Our newly added
 tags indicate which samples they were run on - either `lung` or `liver` reads!
 
-!!! note 
-
-    Updating the `params.reads` definition in your `main.nf` script can save
-    having to add the `--reads` flag every time you want to run it with a
-    different samplesheet.
-
 !!! example "Advanced Exercise"
 
     1. Update the workflow scope to inspect the output of the `reads_in` channel (i.e. with `.view()`)
@@ -170,7 +164,59 @@ tags indicate which samples they were run on - either `lung` or `liver` reads!
 
         Remove `reads_in.view()` before proceeding.
 
-## 2.5.3 An introduction to configuration  
+## 2.5.3 Cleaning up previous Nextflow runs
+
+You may have noticed that Nextflow is a bit messy. As we make incremental changes to our workflow and run our tests, we generate more and more task directories under `work/`. With large pipelines, this can result in a lot of files, and can potentially take up a lot of space. Therefore, we will often want to do periodic clean-ups of the `work/` directory, but due to the random naming of task directories, it can be difficult to work out which ones are older or newer, and therefore difficult to work out how best to clean up old runs.
+
+Thankfully, Nextflow has a convenient `clean` subcommand to help us with this task.
+
+```bash
+nextflow clean
+```
+
+If you try and run the above command, you will get the following message:
+
+```console title="output"
+Neither -f or -n specified -- refused to clean
+```
+
+Thankfully, Nextflow protects us from accidentally deleting our run data unless we force it to do so with the `-f` flag. However, before we commit to deleting data, it can often be helpful to get a list of all the runs that will be deleted. You can use the `-n` flag to perform a dry-run of the cleanup process:
+
+```bash
+nextflow clean -n
+```
+
+```console title="Output"
+Would remove /home/user/hello-nextflow/work/a1/acbfd8d940f6a217a741aed23279e6
+Would remove /home/user/hello-nextflow/work/b2/def19f238e328b283820c92e202e29
+Would remove /home/user/hello-nextflow/work/c3/feb819a918abd91819c8143053f091
+```
+
+If you are happy to proceed, you can actually perform the cleanup with:
+
+```bash
+nextflow clean -f
+```
+
+```console title="Output"
+Removed /home/user/hello-nextflow/work/a1/acbfd8d940f6a217a741aed23279e6
+Removed /home/user/hello-nextflow/work/b2/def19f238e328b283820c92e202e29
+Removed /home/user/hello-nextflow/work/c3/feb819a918abd91819c8143053f091
+```
+
+!!! info
+
+    By default, `nextflow clean` command will clean up just the latest run. However, you can also specify the name of a specific run you wish to clean up. Remember that the run name is a randomly generated two word phrase, e.g. `golden_cantor` or `mighty_murdock`. These run names are displayed when running the workflow, and can also be found by inspecting the Nextflow logs. You can also choose to clean up runs before or after a specific run. You simply need to use one of the flags `-before`, `-after`, or `-but` along with the name of the run:
+
+    - `nextflow clean -f`: Remove the **latest run**
+    - `nextflow clean golden_cantor -f`: Specifically remove the run `golden_cantor`
+    - `nextflow clean -before golden_cantor -f`: Remove all runs **before** `golden_cantor`
+    - `nextflow clean -after golden_cantor -f`: Remove all runs **after** `golden_cantor`
+    - `nextflow clean -but golden_cantor -f`: Remove all runs **except** for `golden_cantor`
+
+    See the [Nextflow docs](https://www.nextflow.io/docs/latest/reference/cli.html#clean) for more information.
+
+## 2.5.4 An introduction to configuration  
 
 In this section, we will explore how Nextflow workflows can be configured
 to utilise the computational resources available. Whilst there are many ways
@@ -215,13 +261,13 @@ config file as follows:
 
 ```groovy title="nextflow.config" hl_lines="1"
 process.cpus = 2
-docker.enabled = true
+singularity.enabled = true
 ```
 
 The `-t $task.cpus` argument will populate as `-t 2` when we run the workflow next.
 Before we do, we will explore Nextflow's built-in reporting system to assess resource usage.
 
-## 2.5.4 Inspecting workflow performance  
+## 2.5.5 Inspecting workflow performance  
 
 When running workflows, it is helpful to understand how each part of your
 workflow is using resources like CPUs, memory, and the time taken to complete.
@@ -235,7 +281,7 @@ To enable these reports, add the following to your `nextflow.config` file:
 
 ```groovy title="nextflow.config" hl_lines="4-8"
 process.cpus = 2
-docker.enabled = true
+singularity.enabled = true
 
 // enable reporting
 dag.enabled = true
