@@ -315,10 +315,10 @@ are inputs and options that can be customised when the workflow is
 executed. They allow you to control things like file paths and options for 
 tools without changing the process code itself.  
 
-We defined a default value for `params.transcriptome` in the `main.nf` script. 
+We defined a default value for `params.transcriptome_file` in the `main.nf` script. 
 If we need to run our pipeline with a different transcriptome 
 file, we can overwrite this default in our execution command with 
-`--transcriptome` double hyphen flag.
+`--transcriptome_file` double hyphen flag.
 
 Next, add the workflow scope at the bottom of your `main.nf` after the process:  
 
