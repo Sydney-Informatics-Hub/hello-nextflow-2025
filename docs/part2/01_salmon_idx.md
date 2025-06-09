@@ -374,6 +374,24 @@ You have successfully run your first workflow!
 You will notice that we have two new folders in our working directory: `results/` and `work/`.
 
 First, let's look at the `results/` directory. It should contain a single subdirectory: `salmon_index/`. Inside are all the files that make up the `salmon` reference index used for quantifying reads.
+
+```bash
+ls results
+```
+
+```console title="Output"
+salmon_index
+```
+
+```bash
+ls results/salmon_index
+```
+
+```console title="Output"
+complete_ref_lens.bin  ctg_offsets.bin        info.json              pos.bin                rank.bin               ref_indexing.log       refseq.bin             versionInfo.json
+ctable.bin             duplicate_clusters.tsv mphf.bin               pre_indexing.log       refAccumLengths.bin    reflengths.bin         seq.bin
+```
+
 This is the exact same directory structure that our original `00_index.sh` script was creating when running `mkdir "results"` and passing the `--index results/salmon_index` parameter to `salmon`.
 But now, Nextflow is handling this for us thanks to the `publishDir` directive we gave to the `INDEX` process.
 That directive told Nextflow to create the `results/` directory (if it didn't already exist) and copy the `salmon_index` output into it.
