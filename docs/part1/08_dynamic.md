@@ -122,6 +122,6 @@ You should now see some new files in your results folder:
 
     In this step you have learned:
 
-    1. How to utilize dynamic naming
+    1. How to utilise dynamic naming
     2. How to use curly brackets (`{}`)
     3. How to use single (`'`) and double (`"`) quotes

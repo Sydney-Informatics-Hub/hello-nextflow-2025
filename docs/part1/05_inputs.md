@@ -3,7 +3,7 @@
 !!! info "Learning objectives"
 
     1. Describe Nextflow channel types
-    2. Utlizie Nextflow process input blocks
+    2. Utilise Nextflow process input blocks
     3. Use channels to run multiple inputs through a process
 
 So far, you've been emitting a greeting ('Hello World!') that has been hardcoded into the script block. In a more realistic situation, you might want to pass a variable input to your script, much like you pass files to command line tools for analysis.
@@ -39,7 +39,7 @@ The important take-aways about queue channels are:
 
 Channels are created in one of two ways. The first is as outputs of processes. Each entry in the `output` block of a process creates a separate channel that can be accessed with `<process_name>.out` - or, in the case of named outputs, with `<process_name>.out.output_name`.
 
-The other way to create channels is with special functions called **channel factories**. There are numerous types of channel factories which can be utilized for creating different channel types and data types. The most common channel factories you will use are `Channel.of()`, `Channel.fromPath()`, and `Channel.fromFilePairs()`. The latter two are faily self explanatory, creating channels of file paths and pairs of file paths, respectively. The `Channel.of()` factory is a much more generic method used to create a channel of whatever values are passed to it. For example, the following creates a channel called `ch_greeting` that contains two values - "Hello World!", and "Goodbye!":
+The other way to create channels is with special functions called **channel factories**. There are numerous types of channel factories which can be utilised for creating different channel types and data types. The most common channel factories you will use are `Channel.of()`, `Channel.fromPath()`, and `Channel.fromFilePairs()`. The latter two are faily self explanatory, creating channels of file paths and pairs of file paths, respectively. The `Channel.of()` factory is a much more generic method used to create a channel of whatever values are passed to it. For example, the following creates a channel called `ch_greeting` that contains two values - "Hello World!", and "Goodbye!":
 
 ```groovy
 ch_greeting = channel.of('Hello World!', 'Goodbye!')
@@ -84,7 +84,7 @@ The inputs in the input block, much like the output block, must have a qualifier
 <input qualifier> <input name>
 ```
 
-Input names can be treated like a variable, and while the name is arbitrary, it should be recognizable.
+Input names can be treated like a variable, and while the name is arbitrary, it should be recognisable.
 
 No quote marks are needed for variable inputs. For example:
 

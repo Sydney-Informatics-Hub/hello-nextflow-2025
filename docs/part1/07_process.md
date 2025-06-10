@@ -4,7 +4,7 @@
 
     1. Transform text strings 
     2. Chain Nextflow processes together
-    3. Utilize process outputs as inputs
+    3. Utilise process outputs as inputs
 
 Up until now you've been modifying a single step. However, pipelines generally consist of multiple steps where outputs from one step are used as inputs for the next.
 

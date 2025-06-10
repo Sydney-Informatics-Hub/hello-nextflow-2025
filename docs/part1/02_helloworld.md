@@ -2,7 +2,7 @@
 
 !!! info "Learning objectives"
 
-    1. Utilize simple bash commands to manipulate strings
+    1. Utilise simple bash commands to manipulate strings
 
 A **Hello, World!** is a minimalist example that is meant to demonstrate the basic syntax and structure of a programming language or software framework. The example typically consists of printing the phrase 'Hello World!' to the output, such as the console or terminal, or writing it to a file.
 
