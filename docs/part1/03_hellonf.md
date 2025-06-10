@@ -13,9 +13,9 @@ Here, you're going learn more about the Nextflow language and take your first st
 
 Nextflow pipelines are written inside `.nf` files. They consist of a combination of two main components: **processes** and the **workflow** itself. Each process describes a single step of the pipeline, including its inputs and expected outputs, as well as the code to run it. The workflow then defines the logic that puts all of the processes together.
 
-A process definition starts with the keyword `process`, followed by process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
+A process definition starts with the keyword `process`, followed by a process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
 
-A process may contain any of the following definition blocks: `directives`, `input`, `output`, `when` clauses, and of course, `script`.
+A process may contain any of the following definition blocks. The ones we will be focusing on this workshop are presented in bold: **`directives`**, **`input`**, **`output`**, `stub`, `when` clauses, and of course, **`script`**.
 
 ```groovy
 process < name > {
@@ -26,9 +26,6 @@ process < name > {
 
   output:
     < process outputs >
-
-  when:
-    < condition >
 
   script:
   """
@@ -41,18 +38,17 @@ A workflow is a composition of processes and dataflow logic.
 
 The workflow definition starts with the keyword `workflow`, followed by an optional name, and finally the workflow body delimited by curly braces.
 
-Let's review the structure of `hello-world.nf`, a toy example you will be developing and executing:
+Let's review the structure of `hello-world.nf`, a toy example you will be developing and executing.
 
 ```groovy title="hello-world.nf" linenums="1"
 process SAYHELLO {
-    debug true
 
     output:
-    stdout
+    path 'output.txt'
 
     script:
     """
-    echo 'Hello World!'
+    echo 'Hello World!' > output.txt
     """
 }
 
@@ -61,17 +57,25 @@ workflow {
 }
 ```
 
-The first piece of code (lines 1-11) describes a **process** called `SAYHELLO` with three definition blocks:
+The first piece of code (lines 1-11) describes a **process** called `SAYHELLO` with two definition blocks:
 
-- **debug**: a [directive](https://www.nextflow.io/docs/latest/process.html#directives) that, when set to true, will print the output to the console
-- **output**: directing outputs to be printed to `stdout` (standard output)
-- **script**: the `echo 'Hello World!'` command
+- **output**: defines that the process will output a file called `output.txt`. It also contains the `path` qualifier. We will review this in the next section.
+- **script**: the `echo 'Hello World!'` command redirected to a file called `output.txt`
 
 The second block of code (13-15) lines describes the **workflow** itself, which consists of one call to the `SAYHELLO` process.
 
-!!!note
+!!! info "Tip"
 
-    Using `debug true` and `stdout` in combination will cause 'Hello World!' to be printed to the terminal.
+    We can use the `code` command in the terminal to view files in a VSCode tab. If it doesn't exist, it will create that file. The following command will create a new file called `hello-world.nf`:
+    ```bash
+    code hello-world.nf
+    ```
+
+!!!question "Exercise"
+
+    1. Create a new file called `hello-world.nf`
+    2. Copy the contents of the previous code block and paste it in your `hello-world.nf`
+    3. Save the file!
 
 ## Commenting your code
 
@@ -129,11 +133,7 @@ The **`nextflow run`** command is used to execute Nextflow pipelines:
 nextflow run <pipeline.nf>
 ```
 
-When a pipeline is stored locally you need to supply the full path to the script. However, if the pipeline has been submitted to GitHub (and you have an internet connection) you can execute it without a local copy. For example, the **hello** repository hosted on the **nextflow-io** GitHub account can be executed using:
-
-```bash
-nextflow run nextflow-io/hello
-```
+When a pipeline is stored locally you need to supply the path to the `.nf` script. Let's run the script we just created - remember to save the file first!
 
 !!!question "Exercise"
 
