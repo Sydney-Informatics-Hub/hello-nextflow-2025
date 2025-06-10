@@ -6,7 +6,7 @@
 
 Currently, the outputs of the `SAYHELLO` and `CONVERTTOUPPER` processes are being saved as `output.txt` and `upper.txt`, respectively.
 
-In some situations this would be fine. However, to help identify the outputs you want your outputs to be dynamic.
+In some situations this would be fine. However, to help identify the outputs you want your output file names to be dynamic.
 
 Let's get tricky and name your output files dynamically.
 
