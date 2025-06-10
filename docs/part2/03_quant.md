@@ -96,9 +96,9 @@ process QUANTIFICATION {
 
 The `--libType=U` is a required argument and can be left as is for the script definition. It can stay the same as in the bash script. The following need to be adjusted for the `QUANTIFICATION` process: 
 
-- `-i results/salmon_index` is the directory output by the `INDEX` process. 
-- `-1 $reads_1` and `-2 $reads_2` are fastq files from the previously defined `reads_ch` channel. 
-- `-o` outputs files into a directory named after the `$sample_id`.
+- `-i $salmon_index` uses the Nextflow variable `salmon_index` to refer to the output directory from the `INDEX` process.
+- `-1 $reads_1` and `-2 $reads_2` use two more variables to refer to the FASTQ files from the previously defined `reads_ch` channel. 
+- `-o $sample_id` outputs files into a directory named after the `$sample_id`.
 
 ### Defining the process `output`
 
@@ -123,7 +123,7 @@ process QUANTIFICATION {
 }
 ```
 
-Now our process will expect to find an output path called `"$sample_id"`.
+Now our process will expect to find an output path with the same name as the `sample_id` variable.
 
 ### Defining the process `input`  
 
@@ -140,6 +140,8 @@ These should look familiar!
 The `$salmon_index` was output by the `INDEX` process, and `$sample_id`,
 `$reads_1`, `$reads_2` are output by our `reads_in`. We will see how to
 chain these when we work on the `workflow` scope below.
+
+For this process, we will be defining **two inputs**. Nextflow allows processes to be defined with any number of inputs.
 
 First, add the input definition for `$salmon_index`. Recall that we use the
 `path` qualifier as it is a directory:  
@@ -183,12 +185,6 @@ process QUANTIFICATION {
 }
 ```
 
-!!! info "Matching process inputs"
-
-    Recall that the number of inputs in the process input block and the workflow must match!
-
-    If you have multiple inputs they need to be listed across multiple lines in the input block and listed inside the brackets in the workflow block.
-
 You have just defined a process with multiple inputs!  
 
 !!! quote "How's it going?"
@@ -225,13 +221,28 @@ workflow {
 }
 ```
 
-!!! info "Accessing process outputs"
+The syntax `INDEX.out[0]` specifies that we want to access the first output of the `INDEX` process. Numbering starts at zero, so `[0]` refers to the first output, `[1]` to the second, and so forth.
+
+??? example "Advanced content: Different ways of accessing process outputs"
     
     Nextflow allows us to access the output of a process using the `.out` attribute. If a process has a single output, you can simply use `<PROCESS_NAME>.out`. If a process has 2 or more output channels, you need to use an integer index to access the corresponding outputs. An index is simply a number - starting at `0` - that indicates the place of an item within a list or array. We use square brackets to access values using an index - e.g. `[0]`, `[1]`, etc. Process outputs are ordered within the `.out` attribute based on the order in which they were defined. For example: `.out[0]` will access the first defined output, `.out[1]` will access the second output, and so forth.
 
     For the sake of consistency, we have used the indexed method here (i.e. `INDEX.out[0]`), although we could have omitted the index and simply used `INDEX.out` since our `INDEX` process only has the single output.
 
-    Alternatively, the process output definition allows the use of the [`emit`](https://www.nextflow.io/docs/latest/workflow.html#workflow-outputs-emit) statement to define a named identifier that can be used to reference the channel in the external scope.
+    Alternatively, the process output definition allows the use of the [`emit`](https://www.nextflow.io/docs/latest/workflow.html#workflow-outputs-emit) statement to define a named identifier that can be used to reference the channel in the external scope:
+
+    ```groovy title="process"
+    ...
+    output:
+    path "salmon_index", emit: index
+    ...
+    ```
+
+    ```groovy title="workflow"
+    ...
+    transcriptome_index_in = INDEX.out.index
+    ...
+    ```
 
 Call the `QUANTIFICATION` process in the workflow scope and add the inputs by adding the following line to your `main.nf` file after your `transcriptome_index_in` channel definition:  
 
@@ -260,6 +271,12 @@ workflow {
 ```
 
 By doing this, we have passed two arguments to the `QUANTIFICATION` process as there are two inputs in the `process` definition. 
+
+!!! info "Matching process inputs"
+
+    Recall that the number of inputs in the process input block and the workflow must match!
+
+    If you have multiple inputs they need to be listed across multiple lines in the process input block and listed inside the parentheses and separated by commas in the workflow block.
 
 Run the workflow:  
 
