@@ -146,7 +146,7 @@ process. This ensures that MultiQC is run once.
 The next few additions will involve chaining together Nextflow operators to
 correctly format inputs for the `MULTIQC` process.  
 
-!!! quote "Poll"
+!!! abstract "Poll"
 
     What Nextflow input type (qualifier) ensures that inputs are grouped and
     processed together?
@@ -356,7 +356,7 @@ to your local machine and open it in a web browser.
     2. Right click on the file, and select **"Download"**
     3. Open the file in a web browser
 
-    !!! quote "Poll"  
+    !!! abstract "Poll"  
 
         Under the **"General Statistics"** section, how many samples (i.e. rows) have been
         included in the table?
