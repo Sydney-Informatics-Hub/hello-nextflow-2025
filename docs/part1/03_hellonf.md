@@ -9,7 +9,7 @@ Workflow languages are better than Bash scripts because they handle errors and r
 
 Here, you're going learn more about the Nextflow language and take your first steps making **your first pipeline** with Nextflow.
 
-## Writing you first pipeline: `hello-world.nf`
+## Writing your first pipeline: `hello-world.nf`
 
 Nextflow pipelines are written inside `.nf` files. They consist of a combination of two main components: **processes** and the **workflow** itself. Each process describes a single step of the pipeline, including its inputs and expected outputs, as well as the code to run it. The workflow then defines the logic that puts all of the processes together.
 
