@@ -5,7 +5,6 @@
     1. Describe Nextflow channel types
     2. Utlizie Nextflow process input blocks
     3. Use channels to run multiple inputs through a process
-    4. Use operators to manipulate data within a channel
 
 So far, you've been emitting a greeting ('Hello World!') that has been hardcoded into the script block. In a more realistic situation, you might want to pass a variable input to your script, much like you pass files to command line tools for analysis.
 
@@ -295,4 +294,3 @@ Ultimately, all processes should be working with channels as their inputs, and `
 
     1. How to use Channel factories
     2. How to how to add process inputs
-    3. How to use operators to manipulate the data within channels
