@@ -64,14 +64,14 @@ You decide to use Nextflow.
 
     Each script runs a single data processing step and are run in order of the prefixed number.
     
-    !!! quote "Poll"
+    !!! abstract "Poll"
 
         What are some limitations of these scripts in terms of running them in a
         pipeline and monitoring it?  
 
 ## 2.0.3 Our workflow: RNAseq data processing 
 
-!!! danger "Don't worry if you don't have prior knowledge of RNAseq!"
+!!! warning "Don't worry if you don't have prior knowledge of RNAseq!"
 
     The focus of this workshop is on learning Nextflow, the RNAseq data we 
     are using in this part are just a practical example to help you understand 

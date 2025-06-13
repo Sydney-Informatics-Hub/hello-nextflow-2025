@@ -64,23 +64,24 @@ The `script` and `input` follow the MultiQC Nextflow
 The key thing to note here is that MultiQC needs to be run once for all
 upstream outputs. 
 
-From the information above we know that the input for `multiqc` is the 
-`results/` directory, specifically, the files and directories within
-`results/`. We will need to bring the outputs of the `FASTQC`
-(`fastqc_gut_logs/`) and `QUANTIFICATION` (`gut/`) processes into a single
-channel as input to `MULTIQC`.  
+From the information above we know that for the original bash script
+the inputs for `multiqc` are the files and directories within the
+`results/` directory. Specifically, the inputs are the outputs from the
+`fastqc` and `salmon quant` commands. To replicate this for our new process,
+we will need to bring the outputs of the `FASTQC` (`fastqc_gut_logs/`) and
+`QUANTIFICATION` (`gut/`) processes into a single channel as input to `MULTIQC`.  
 
 !!! warning "Why you should NOT use the `publishDir` folder as a process input"
 
     It might make sense to have the `results/` folder (set by `publishDir`) as
-    the input to the process here, but it may not exist until the workflow
-    finishes. 
+    the input to the process here, but **it may not exist until the workflow
+    finishes**.
 
     Using the `publishDir` as a process input can cause downstream processes to run
     prematurely, even if the directory is empty or incomplete. In this case, 
     MultiQC might miss some inputs.
 
-    Use **channels** to pass data between processes. Channels enable Nextflow
+    Always use **channels** to pass data between processes. Channels enable Nextflow
     to track outputs and ensure that downstream processes only run when all
     required data is ready, maintaining proper worfklow control.
 
@@ -123,6 +124,8 @@ process MULTIQC {
 }
 ```
 
+You have now defined a process with multiple outputs!
+
 ## 2.4.2 Combining channels with operators  
 
 !!! tip
@@ -143,7 +146,7 @@ process. This ensures that MultiQC is run once.
 The next few additions will involve chaining together Nextflow operators to
 correctly format inputs for the `MULTIQC` process.  
 
-!!! quote "Poll"
+!!! abstract "Poll"
 
     What Nextflow input type (qualifier) ensures that inputs are grouped and
     processed together?
@@ -299,7 +302,7 @@ touches to the workflow scope.
         }
         ```
 
-!!! question "Exercise: call the `MULTIQC` process"
+!!! question "Exercise: Call the `MULTIQC` process"
 
     1. Add a call to the `MULTIQC` process in the workflow scope
     2. Pass the `multiqc_in` channel as input.
@@ -353,7 +356,7 @@ to your local machine and open it in a web browser.
     2. Right click on the file, and select **"Download"**
     3. Open the file in a web browser
 
-    !!! quote "Poll"  
+    !!! abstract "Poll"  
 
         Under the **"General Statistics"** section, how many samples (i.e. rows) have been
         included in the table?

@@ -32,7 +32,7 @@ file is `data/ggal/transcriptome.fa`.
 
     The paths to the transcriptome file (`data/ggal/transcriptome.fa`) and the output directory (`results/salmon_index`) are hardcoded in this bash script. If you wanted to change the input transcriptome file or the output location, you must manually edit the script. This makes our scripts less flexible and easy to use. 
 
-    Nextflow addresses the issue of hardcoded paths by allowing values to be passed dynamically at runtime as [parameters](https://www.nextflow.io/docs/latest/config.html#scope-params) (`params`). 
+    As we will see, Nextflow addresses the issue of hardcoded paths by allowing values to be passed dynamically at runtime as [parameters](https://www.nextflow.io/docs/latest/config.html#scope-params) (`params`). 
 
 ## 2.1.1 Building the `INDEX` process
 
@@ -315,10 +315,10 @@ are inputs and options that can be customised when the workflow is
 executed. They allow you to control things like file paths and options for 
 tools without changing the process code itself.  
 
-We defined a default value for `params.transcriptome` in the `main.nf` script. 
+We defined a default value for `params.transcriptome_file` in the `main.nf` script. 
 If we need to run our pipeline with a different transcriptome 
 file, we can overwrite this default in our execution command with 
-`--transcriptome` double hyphen flag.
+`--transcriptome_file` double hyphen flag.
 
 Next, add the workflow scope at the bottom of your `main.nf` after the process:  
 
@@ -371,39 +371,129 @@ You have successfully run your first workflow!
 
 ## 2.1.6 Inspecting the outputs
 
-To observe exactly what command is being run for a process, we can attempt 
-to infer this information from the process definition in our `main.nf` 
-script. Given all the different parameters that may be applied at the process 
-level, it may not be very clear exactly what inputs are being fed in.
+You will notice that we have two new folders in our working directory: `results/` and `work/`.
 
-For more complex commands, it can be very hard to see what is actually 
-happening in the code, given all the different variables and conditional 
-arguments inside a process. 
+First, let's look at the `results/` directory. It should contain a single subdirectory: `salmon_index/`. Inside are all the files that make up the `salmon` reference index used for quantifying reads.
 
-!!! warning "Hidden files in the work directory"
+```bash
+ls results
+```
 
-    Remember that the pipeline’s results are cached in the work directory. In addition to the cached files, each task's execution directory inside the work directory contains a number of hidden files:
+```console title="Output"
+salmon_index
+```
 
-      * `.command.sh`: The command script run for the task.
-      * `.command.run`: The command wrapper used to run the task.
-      * `.command.out`: The task’s standard output log.
-      * `.command.err`: The task’s standard error log.
-      * `.command.log`: The wrapper execution output.
-      * `.command.begin`: A file created as soon as the job is launched.
-      * `.exitcode`: A file containing the task exit code (0 if successful)
+```bash
+ls results/salmon_index
+```
 
-Instead of trying to infer how the variable is being defined and applied to 
-the process, let’s use the hidden command files saved for this task in the work/ directory.
+```console title="Output"
+complete_ref_lens.bin  ctg_offsets.bin        info.json              pos.bin                rank.bin               ref_indexing.log       refseq.bin             versionInfo.json
+ctable.bin             duplicate_clusters.tsv mphf.bin               pre_indexing.log       refAccumLengths.bin    reflengths.bin         seq.bin
+```
 
-!!! question "Exercise"
+This is the exact same directory structure that our original `00_index.sh` script was creating when running `mkdir "results"` and passing the `--index results/salmon_index` parameter to `salmon`.
+But now, Nextflow is handling this for us thanks to the `publishDir` directive we gave to the `INDEX` process.
+That directive told Nextflow to create the `results/` directory (if it didn't already exist) and copy the `salmon_index` output into it.
 
-    1. Navigate to the `work/` directory and open the `.command.sh` file.
-    2. Compare the `.command.sh` file with `00_index.sh`.  
+The other directory that has been created is `work/`. This is where Nextflow runs all of our processes and stores all of their associated files.
+Understanding how the `work/` directory is organised can be very useful for debugging and diagnosing problems with your processes.
 
+You may recall from [Part 1.3](../part1/03_hellonf.md), every time a process is run, it is given a randomly-generated ID, such as `ec/9ed7c7d13ca353bbd8e99835de8c47`.
+This helps Nextflow uniquely identify each instance of every process. You will see a truncated form of this ID printed to the terminal when running Nextflow:
 
-    !!! quote "Poll"  
+```console title="Nextflow output"
+    N E X T F L O W   ~  version 25.04.0
 
-        In `.command.sh`, there are no longer hardcoded file paths (e.g. `results/salmon_index` and `data/ggal.transcriptome.fa`). What Nextflow directive and scope enable this?
+Launching `main.nf` [sleepy_volhard] DSL2 - revision: c2ada21e4e
+
+executor >  local (1)
+[ec/9ed7c7] process > INDEX [100%] 1 of 1 ✔
+```
+
+Nextflow creates a directory inside `work/` with this same path for each instance of every process. Inside will be the output of that process as well as copies of its inputs:
+
+```bash
+ls work/ec/9ed7c7d13ca353bbd8e99835de8c47  # Your work directory will have a different name
+```
+
+```console title="Output"
+salmon_index  transcriptome.fa
+```
+
+There will also be several hidden files that Nextflow uses to run and monitor the process:
+
+```bash
+ls -A work/ec/9ed7c7d13ca353bbd8e99835de8c47  # Your work directory will have a different name
+```
+
+```console title="Output"
+.command.begin  .command.err  .command.log  .command.out  .command.run  .command.sh  .exitcode  salmon_index  transcriptome.fa
+```
+
+Of particular interest to us right now is the `.command.sh` file, which contains our process script.
+
+!!! question "Exercises"
+
+    <ol>
+        <li>Navigate to the <code>work/</code> directory and open the <code>.command.sh</code> file.</li>
+        <li>Compare the <code>.command.sh</code> file with our <code>INDEX</code> process. How do they differ? How are they similar?</li>
+    </ol>
+
+    ??? Solution
+
+        The command in `.command.sh` should look very similar to the script block in the `INDEX` process,
+        except now the Nextflow variable `$transcriptome` has been replaced by a relative path to the
+        `transcriptome.fa` file present in the working directory:
+        
+        ```groovy title="main.nf"
+        process INDEX {
+            ...
+
+            script:
+            """
+            salmon index -t $transcriptome -i salmon_index
+            """
+        }
+        ```
+
+        ```bash title=".command.sh"
+        #!/bin/bash -ue
+        salmon index -t transcriptome.fa -i salmon_index
+        ```
+
+    <ol start="3">
+        <li>How does <code>.command.sh</code> compare to the original <code>00_index.sh</code> script?</li>
+    </ol>
+
+    ??? Solution
+        
+        The `.command.sh` script contains a hard-coded path to the copy of the `transcriptome.fa` file within the task directory, which closely resembles our hard-coded `salmon` command in our original `00_index.sh` script:
+
+        ```bash title="00_index.sh"
+        salmon index \
+            --transcripts data/ggal/transcriptome.fa \
+            --index results/salmon_index
+        ```
+
+        ```bash title=".command.sh"
+        #!/bin/bash -ue
+        salmon index -t transcriptome.fa -i salmon_index
+        ```
+
+        In a sense, Nextflow is doing the same thing we would have had to do with our original set of bash scripts: make a copy, modify the hard-coded values, and run them.
+        Except now, it is all being automated and handled for us by Nextflow!
+
+??? example "Advanced content: the `work/` directory hidden files"
+
+    The other hidden files inside the work directory have the following roles:
+
+    * `.command.run`: A "wrapper script" that contains all the behind-the-scenes logic to run and monitor `.command.sh`.
+    * `.command.out`: The standard output log from `.command.sh`.
+    * `.command.err`: The standard error log from `.command.sh`.
+    * `.command.log`: The output log generated by the `.command.run` wrapper script.
+    * `.command.begin`: A file created as soon as the job is launched.
+    * `.exitcode`: A file created at the end of the job containing the task exit code (0 if successful)
 
 
 !!! abstract "Summary"

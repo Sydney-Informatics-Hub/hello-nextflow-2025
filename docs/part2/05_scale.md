@@ -86,7 +86,7 @@ liver,data/ggal/liver_1.fq,data/ggal/liver_2.fq
 lung,data/ggal/lung_1.fq,data/ggal/lung_2.fq
 ```
 
-Compared to the samplesheet we have been using `data/samplesheet.csv`, this one
+Compared to the samplesheet we have been using (`data/samplesheet.csv`), this one
 contains two additional lines for the `liver` and `lung` paired reads.
 
 Next we will run the workflow with all three samples by overwriting the default 
@@ -115,7 +115,7 @@ executor >  local (5)
 There are two new tasks run for `FASTQC` and `QUANTIFICATION`. Our newly added
 tags indicate which samples they were run on - either `lung` or `liver` reads!
 
-!!! example "Advanced Exercise"
+??? example "Advanced Exercise: Inspecting the `reads_in` channel with multiple samples"
 
     1. Update the workflow scope to inspect the output of the `reads_in` channel (i.e. with `.view()`)
     2. Run the workflow with `samplesheet_full.csv`
@@ -204,7 +204,7 @@ Removed /home/user/hello-nextflow/work/b2/def19f238e328b283820c92e202e29
 Removed /home/user/hello-nextflow/work/c3/feb819a918abd91819c8143053f091
 ```
 
-!!! info
+!!! info "Using `nextflow clean`"
 
     By default, `nextflow clean` command will clean up just the latest run. However, you can also specify the name of a specific run you wish to clean up. Remember that the run name is a randomly generated two word phrase, e.g. `golden_cantor` or `mighty_murdock`. These run names are displayed when running the workflow, and can also be found by inspecting the Nextflow logs. You can also choose to clean up runs before or after a specific run. You simply need to use one of the flags `-before`, `-after`, or `-but` along with the name of the run:
 
@@ -261,7 +261,11 @@ config file as follows:
 
 ```groovy title="nextflow.config" hl_lines="1"
 process.cpus = 2
-singularity.enabled = true
+
+singularity {
+    enabled = true
+    cacheDir = "$HOME/singularity_image"
+}
 ```
 
 The `-t $task.cpus` argument will populate as `-t 2` when we run the workflow next.
@@ -279,9 +283,13 @@ important details of how tasks ran.
 
 To enable these reports, add the following to your `nextflow.config` file:
 
-```groovy title="nextflow.config" hl_lines="4-8"
+```groovy title="nextflow.config" hl_lines="8-12"
 process.cpus = 2
-singularity.enabled = true
+
+singularity {
+    enabled = true
+    cacheDir = "$HOME/singularity_image"
+}
 
 // enable reporting
 dag.enabled = true
@@ -320,7 +328,7 @@ Complete the following steps in the exercise to view the report file `report-*.h
     4. Navigate to **"Resource Usage" -> "CPU"**.
     5. Hover over the `FASTQC` bar chart and note the `mean` CPU usage.
 
-    !!! quote "Poll"
+    !!! abstract "Poll"
 
         What was the `mean` CPU usage for your `FASTQC` process?
 
