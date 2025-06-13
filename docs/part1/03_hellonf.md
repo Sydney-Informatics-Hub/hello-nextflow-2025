@@ -1,22 +1,18 @@
-# Your first pipeline
+# Writing your first pipeline
 
 !!! info "Learning objectives"
 
     1. Write your first Nextflow pipeline
     2. Understand the main components of a Nextflow script
-    3. Execute your first Nextflow pipeline and understand the outputs
+    3. Understand the components of a Nextflow process
 
 Workflow languages are better than Bash scripts because they handle errors and run tasks in parallel more easily, which is important for complex jobs. They also have clearer structure, making it easier to maintain and work on with others.
 
 Here, you're going learn more about the Nextflow language and take your first steps making **your first pipeline** with Nextflow.
 
-## Writing your first pipeline: `hello-world.nf`
+## Understanding the `process` and `workflow` scopes
 
 Nextflow pipelines are written inside `.nf` files. They consist of a combination of two main components: **processes** and the **workflow** itself. Each process describes a single step of the pipeline, including its inputs and expected outputs, as well as the code to run it. The workflow then defines the logic that puts all of the processes together.
-
-A process definition starts with the keyword `process`, followed by a process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
-
-A process may contain any of the following definition blocks. The ones we will be focusing on this workshop are presented in bold: **`directives`**, **`input`**, **`output`**, `stub`, `when` clauses, and of course, **`script`**.
 
 ```groovy
 process < name > {
@@ -33,13 +29,28 @@ process < name > {
   <script to be executed>
   """
 }
+
+workflow {
+    < processes to be executed >
+}
 ```
+
+A process definition starts with the keyword `process`, followed by a process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
+
+A process may contain any of the following definition blocks. The ones we will be focusing on this workshop are presented in bold: **`directives`**, **`input`**, **`output`**, `stub`, `when` clauses, and of course, **`script`**.
 
 A workflow is a composition of processes and dataflow logic.
 
 The workflow definition starts with the keyword `workflow`, followed by an optional name, and finally the workflow body delimited by curly braces.
 
-Let's review the structure of `hello-world.nf`, a toy example you will be developing and executing.
+!!! info "Tip"
+
+    The `process` and `workflow` definitions are analogous to functions in R or
+    Python languages. You first have to define a function (the `process`) that
+    contains the instructions of what to do. In order to do the action, the
+    function needs to be called (in the `workflow`).
+
+Let's review the structure of `hello-world.nf`, a toy example you will be developing and executing in Part 1.
 
 ```groovy title="hello-world.nf" linenums="1"
 process SAYHELLO {
@@ -61,9 +72,13 @@ workflow {
 The first piece of code (lines 1-11) describes a **process** called `SAYHELLO` with two definition blocks:
 
 - **output**: defines that the process will output a file called `output.txt`. It also contains the `path` qualifier. We will review this in the next section.
-- **script**: the `echo 'Hello World!'` command redirected to a file called `output.txt`
+- **script**: the `echo 'Hello World!'` command redirects to a file called `output.txt`
 
-The second block of code (13-15) lines describes the **workflow** itself, which consists of one call to the `SAYHELLO` process.
+The second block of code (12-14) lines describes the **workflow** itself, which consists of one call to the `SAYHELLO` process.
+
+We will start building the `hello-world.nf` script, piece-by-piece, so you can get a feel
+for the high-level steps to approach building a workflow and why certain things
+are required.
 
 !!! info "Tip"
 
@@ -72,11 +87,85 @@ The second block of code (13-15) lines describes the **workflow** itself, which 
     code hello-world.nf
     ```
 
+!!! question "Exercises"
+
+    1. Create a new file `hello-world.nf`.
+
+    2. In the new file, define an empty `process` and call it `SAYHELLO`.
+    
+    ??? "Solution"
+        ```groovy title="hello-world.nf"
+        process SAYHELLO {
+        
+        }
+        ```
+
+    <ol start="3">
+        <li>Add the `script` definition that writes 'Hello World!' to a file called `output.txt`.</li>
+    </ol>
+
+    ??? "Solution"
+        ```groovy title="hello-world.nf" hl_lines="3-6"
+        process SAYHELLO {
+        
+            script:
+            """
+            echo 'Hello World!' > output.txt
+            """
+        }
+        ```
+
+To complete this process, we need to add an `output` definition.
+
+## Capturing process outputs 
+
+In the previous section, you have defined the `script` - what the `SAYHELLO` process should do.
+We also need to tell Nextflow to expect this output file - otherwise, it will ignore it!
+
+We declare outputs using the `output` definition block. Typically this will require
+both an **output qualifier** and an **output name**:
+
+```groovy
+output:
+<output qualifier> <output name>
+```
+
+Common output qualifiers include `val` and `path`:
+
+- `val`: Emit the variable with the specified name
+    - For example, `val 'Hello World!'`
+- `path`: Emit a file produced by the process with the specified name
+    - For example, `path 'output.txt'`
+
+See the [Nextflow documentation](https://www.nextflow.io/docs/latest/process.html#outputs)
+for a full list of output qualifiers.
+
+!!! warning
+
+    If you set the wrong qualifier, the pipeline will likely throw errors.
+
+The **output name** is a name given to the output variable. If a specific file
+is being produced it can be named in single quotes.
+
 !!!question "Exercise"
 
-    1. Create a new file called `hello-world.nf`
-    2. Copy the contents of the previous code block and paste it in your `hello-world.nf`
-    3. Save the file!
+    In your `SAYHELLO` process, add an `output` block that captures 'output.txt'.
+    Since it is a file being emitted by the process, the `path` qualifier must be
+    used.
+
+    ??? "Solution"
+        ```groovy title="hello-world.nf" hl_lines="3-5"
+        process SAYHELLO {
+
+            output:
+            path 'output.txt'
+        
+            script:
+            """
+            echo 'Hello World!' > output.txt
+            """
+        }
+        ```
 
 ## Commenting your code
 
@@ -108,7 +197,7 @@ As a developer you can to choose how and where to comment your code.
 
         ```groovy title="hello-world.nf" hl_lines="1-3"
         /*
-         * Use echo to print 'Hello World!' to standard out
+         * Use echo to print 'Hello World!' to a text file
          */
         process SAYHELLO {
         <truncated>
@@ -117,14 +206,26 @@ As a developer you can to choose how and where to comment your code.
         Or this:
 
         ```groovy title="hello-world.nf" hl_lines="1"
-        // Use echo to print 'Hello World!' to standard out
+        // Use echo to print 'Hello World!' to a text file
         process SAYHELLO {
         <truncated>
         ```
 
         As a developer, you get to choose!
 
----
+**Yay! You have just written your first pipeline!**
+
+In the next step, we will run the pipeline and inspect the outputs of
+our workflow.
+
+!!! abstract "Summary"
+
+    In this step you have learned:
+
+    1. How to create a simple Nextflow pipeline
+    2. The key components that form a Nextflow script `process` and `workflow`
+    3. How to define a process with `script` and `output` blocks
+    4. How to comment your code
 
 ## Executing `hello-world.nf`
 
