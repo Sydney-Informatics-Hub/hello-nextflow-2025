@@ -433,11 +433,12 @@ ls -A work/ec/9ed7c7d13ca353bbd8e99835de8c47  # Your work directory will have a 
 
 Of particular interest to us right now is the `.command.sh` file, which contains our process script.
 
-!!! question "Exercise"
+!!! question "Exercises"
 
-    Navigate to the `work/` directory and open the `.command.sh` file.
-    
-    Compare the `.command.sh` file with our `INDEX` process. How do they differ? How are they similar?
+    <ol>
+        <li>Navigate to the <code>work/</code> directory and open the <code>.command.sh</code> file.</li>
+        <li>Compare the <code>.command.sh</code> file with our <code>INDEX</code> process. How do they differ? How are they similar?</li>
+    </ol>
 
     ??? Solution
 
@@ -445,8 +446,15 @@ Of particular interest to us right now is the `.command.sh` file, which contains
         except now the Nextflow variable `$transcriptome` has been replaced by a relative path to the
         `transcriptome.fa` file present in the working directory:
         
-        ```bash title="INDEX process"
-        salmon index -t $transcriptome -i salmon_index
+        ```groovy title="main.nf"
+        process INDEX {
+            ...
+
+            script:
+            """
+            salmon index -t $transcriptome -i salmon_index
+            """
+        }
         ```
 
         ```bash title=".command.sh"
@@ -454,7 +462,9 @@ Of particular interest to us right now is the `.command.sh` file, which contains
         salmon index -t transcriptome.fa -i salmon_index
         ```
 
-    How does `.command.sh` compare to the original `00_index.sh` script?
+    <ol start="3">
+        <li>How does <code>.command.sh</code> compare to the original <code>00_index.sh</code> script?</li>
+    </ol>
 
     ??? Solution
         
