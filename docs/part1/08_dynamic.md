@@ -106,7 +106,7 @@ nextflow run hello-world.nf --greeting 'Hello'
 While the output will look the same:
 
 ```console
-N E X T F L O W  ~  version 23.10.1
+N E X T F L O W  ~  version 24.10.2
 Launching `hello-world.nf` [mighty_murdock] DSL2 - revision: 80e92a677c
 executor >  local (2)
 [ef/b99a2f] SAYHELLO (1)       [100%] 1 of 1 ✔
