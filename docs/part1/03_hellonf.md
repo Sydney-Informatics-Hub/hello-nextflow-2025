@@ -263,7 +263,8 @@ is analagous to a function that we need to instruct to run in `workflow`.
 
     ??? "Solution"
 
-        ```groovy title="hello-world.nf" hl_lines="13"
+        ```groovy title="hello-world.nf" hl_lines="14-15"
+        // Use echo to print 'Hello World!' and redirect to output.txt
         process SAYHELLO {
 
             output:
@@ -276,6 +277,7 @@ is analagous to a function that we need to instruct to run in `workflow`.
         }
 
         workflow {
+            // Emit a greeting
             SAYHELLO()
         }
         ```

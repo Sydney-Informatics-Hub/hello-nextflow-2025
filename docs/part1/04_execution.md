@@ -1,16 +1,19 @@
 # Running your first pipeline
 
 !!! info "Learning objectives"
-    TODO: complete objectives
-    2. Publish results from your pipeline with directives
+    1. Running a Nextflow pipeline
+    2. Explore the outputs of a pipeline run
+    2. Publish results files using with directives
 
-TODO: Intro
 In this step, we will run our `hello-world.nf` Nextflow pipeline and explore
-the outputs of the run.
+the outputs of the run. We will look at how pipeline execution looks like,
+how to interpret it, as well as the common log and output files of a run.
+You will be introduced to your first process directive and best practices on
+managing output files.
 
 ## Executing `hello-world.nf`
 
-When we run Nextflow, we need to specify a command to use. The **`nextflow run`** command is used to execute Nextflow pipelines:
+When we run Nextflow, we need to specify a command to use. The **`nextflow run`** command is used to execute Nextflow pipelines:    
 
 ```bash
 nextflow run <pipeline.nf>
@@ -132,6 +135,6 @@ By adding the above to a process, all output files would be saved in a new folde
 
     In this step you have learned:
 
-    1. How to `run` a Nextflow pipeline
-    2. How to view log files create by Nextflow
+    1. How to use `nextflow run` to execute your first Nextflow pipeline
+    2. How to view log files created by Nextflow
     3. How to publish results
