@@ -40,7 +40,6 @@ N E X T F L O W  ~  version 24.10.2
 Launching `hello-world.nf` [mighty_murdock] DSL2 - revision: 80e92a677c
 executor >  local (1)
 [4e/6ba912] process > SAYHELLO [100%] 1 of 1 ✔
-Hello World!
 ```
 
 **What does each line mean?**
@@ -49,11 +48,10 @@ Hello World!
 2. The script and version names
 3. The executor used (in the above case: local)
 4. The first process is executed once, which means there is one task. The line starts with a unique hexadecimal value, and ends with the task completion information
-5. The result string from stdout is printed
+
+Currently it is not obvious where our `output.txt` file has been written to.
 
 ## Understanding the task directories
-
-When a Nextflow pipeline is executed, a `work` directory is created. Processes are executed in isolated **task** directories. Each task uses a unique directory based on its [hash](https://www.nextflow.io/docs/latest/cache-and-resume.html#task-hash) (e.g., `4e/6ba912`) within the work directory.
 
 When a task is created, Nextflow stages the task input files, script, and other helper files into the task directory. The task writes any output files to this directory during its execution, and Nextflow uses these output files for downstream tasks and/or publishing.
 

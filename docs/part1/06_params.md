@@ -29,6 +29,9 @@ Instead of hard coding 'Hello World!' as an input, a parameter, with a default v
 params.greeting = 'Hello World!'
 ```
 
+Parameters must begin with `params.`, and the name the follows directly can be of your choosing.
+In this case, the name is `greeting`.
+
 The parameter can then be used in a channel factory (just like the hard coded string):
 
 ```groovy
@@ -106,9 +109,9 @@ params.outdir = 'results'
 
 However, you may consider having no default value here and letting the pipeline fail to prevent the accidental overwriting of results.
 
-!!!question "Exercise"
+!!!question "Exercises"
 
-    Update the `hello-world.nf` script to use an `outdir` parameter as the publishing directory. Define the default for the `outdir` parameter at the top of the script and give it the default value `'results'`.
+    1. Update the `hello-world.nf` script to use an `outdir` parameter as the publishing directory. Define the default for the `outdir` parameter at the top of the script and give it the default value `'results'`.
 
     ???Solution
 
@@ -146,9 +149,27 @@ However, you may consider having no default value here and letting the pipeline 
         }
         ```
 
+    <ol start="2">
+        <li>Re-run the pipeline with `nextflow run hello-world.nf`. Include different values to your new `--greeting` and `--outdir` parameters and inspect the outputs. What happens if you do not include any flags? i.e. `nextflow run hello-world.nf`</li>
+    </ol>
+
+    ???Solution
+
+        Running without any flags will use the default parameters specified in `hello-world.nf`:
+        ```bash
+        nextflow run hello-world.nf
+        ```
+
+        You can pass any string into either parameter. In this case, it will redirect 'Good day, Earth!' into a file `output.txt`, and publish that file into a folder called `outputs`:
+        ```bash
+        nextflow run hello-world.nf --greeting 'Good day, Earth!' --outdir 'outputs'
+        ```
+
+        Don't forget to wrap strings with spaces or special characters within single or double quotes!
+
 !!! abstract "Summary"
 
     In this step you have learned:
 
-    1. How to how to add a parameter to a pipeline
-    2. How to modify a parameter using the command line
+    1. How to how to add parameters to a pipeline
+    2. How to modify parameters using the command line

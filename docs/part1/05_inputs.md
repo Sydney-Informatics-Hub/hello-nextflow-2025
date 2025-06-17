@@ -208,7 +208,7 @@ The `'` quotes around `$greeting` are required by the `echo` command to treat th
 !!! note
 
     Similar to the `output` block in a process, the `input` does not
-    **determine** the `input` of process. Recall that it simply *declares* what output should be expected based on the logic in side the `script` block. 
+    **determine** the `input` of process. Recall that it simply *declares* what input should be expected based on the logic in side the `script` block. 
 
 **Yes! Your pipeline now uses an input channel!**
 
@@ -259,6 +259,12 @@ Launching `main.nf` [deadly_wilson] DSL2 - revision: 243f7816c2
 [dc/52fa3d] Submitted process > SAYHELLO (3)
 ```
 
+!!!note
+
+    There is only one `output.txt` in our `results/` folder. This is because we have hardcoded the output name.
+    Each time the process is run, it overwrites the existing `output.txt` and the one we see is from the last
+    process that was run.
+
 ## A note about multiple input channels
 
 The input block can be used to define multiple inputs to the process. Importantly, the number of inputs passed to the process call within the workflow must match the number of inputs defined in the process. For example:
@@ -283,6 +289,8 @@ workflow {
     MYFUNCTION('Hello', 'World!')
 }
 ```
+
+If we view the file:
 
 ```bash
 cat output.txt
@@ -310,5 +318,6 @@ Ultimately, all processes should be working with channels as their inputs, and `
 
     In this step you have learned:
 
-    1. How to use Channel factories
-    2. How to how to add process inputs
+    1. How channels are used in Nextflow
+    2. How to create a channel
+    3. How to pass multiple inputs in a channel

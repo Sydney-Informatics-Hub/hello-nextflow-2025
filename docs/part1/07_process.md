@@ -18,7 +18,7 @@ The `tr` command is a UNIX command-line utility for **translating** or deleting 
 tr '[a-z]' '[A-Z]'`
 ```
 
-!!! note
+??? example "Advanced content: regular expressions"
 
     For the curious, the patterns we are using here - e.g. `[a-z]` - are called *regular expressions*. They are a way of describing patterns in text and can be immensely useful in manipulating text as they provide a way to search and replace text in more complex ways than simple exact matches. Be warned, they can get very complicated and confusing very quickly!
 
@@ -73,15 +73,17 @@ Using what you have learned in the previous sections you will now write a new pr
 
     Add new process named `CONVERTTOUPPER` that will take an input text file, convert all of the lowercase letters in the text file to uppercase letters, and save a new text file that contains the translated letters.
 
-    ???Tip "Hint: `input:`"
+    ???Tip "Hint: `script:`"
 
+        The script might look something like this:
+
+        ```groovy
+        cat $input_file | tr '[a-z]' '[A-Z]' > upper.txt
         ```
-        path input_file
-        ```
 
-        _Hint 1: The input is a file and requires the `path` qualifier._
+        _Hint 1: `input_file` must be the same as what was specified as the input name in the input block._
 
-        _Hint 2: The input name is `input_file`, however, you may call it something different._
+        _Hint 2: The output text file is named `upper.txt`_
 
     ???Tip "Hint: `output:`"
 
@@ -95,17 +97,15 @@ Using what you have learned in the previous sections you will now write a new pr
 
         _Hint 2: The output name is hard coded as 'upper.txt', however, you may call it something different._
 
-    ???Tip "Hint: `script:`"
+    ???Tip "Hint: `input:`"
 
-        The script might look something like this:
-
-        ```groovy
-        cat $input_file | tr '[a-z]' '[A-Z]' > upper.txt
+        ```
+        path input_file
         ```
 
-        _Hint 1: `input_file` must be the same as what was specified as the input name in the input block._
+        _Hint 1: The input is a file and requires the `path` qualifier._
 
-        _Hint 2: The output text file is named `upper.txt`_
+        _Hint 2: The input name is `input_file`, however, you may call it something different._
 
     ???Solution
 
