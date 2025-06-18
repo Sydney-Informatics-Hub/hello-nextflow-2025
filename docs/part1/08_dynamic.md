@@ -106,7 +106,7 @@ nextflow run hello-world.nf --greeting 'Hello'
 While the output will look the same:
 
 ```console
-N E X T F L O W  ~  version 23.10.1
+N E X T F L O W  ~  version 24.10.2
 Launching `hello-world.nf` [mighty_murdock] DSL2 - revision: 80e92a677c
 executor >  local (2)
 [ef/b99a2f] SAYHELLO (1)       [100%] 1 of 1 ✔
@@ -122,6 +122,6 @@ You should now see some new files in your results folder:
 
     In this step you have learned:
 
-    1. How to utilize dynamic naming
+    1. How to utilise dynamic naming
     2. How to use curly brackets (`{}`)
     3. How to use single (`'`) and double (`"`) quotes
