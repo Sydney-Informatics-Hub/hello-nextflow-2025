@@ -1,4 +1,4 @@
-# Hello Nextflow 2025
+# Nextflow for the Life Sciences 2025
 
 This workshop will provide you with the foundational knowledge required to build Nextflow workflows. The content is broken up into 2 parts. In the first part we will cover the basic principles for developing Nextflow pipelines. In the second part we will step through building our own Nextflow workflow. See the lesson plan for details.
 
@@ -7,8 +7,17 @@ This workshop will provide you with the foundational knowledge required to build
 * Fred Jaya, Sydney Informatics Hub, University of Sydney
 * Michael Geaghan, Sydney Informatics Hub, University of Sydney
 
-## Contributors
+## Facilitators
 
+| Site                                          | Facilitator(s)                           |
+| --------------------------------------------- | ---------------------------------------- |
+| Brisbane (QCIF/QUT)                           | Magdalena Antczak, Marie-Emilie Gauthier |
+| Perth (Pawsey)                                | Sarah Beecroft, Pratihba Raghunandan     |
+| Canberra (NCI)                                | Kisaru Liyanage                          |
+| Adelaide (SAGC)                               | John Salamon                             |
+| Melbourne (Melbourne Bioinformatics)          | Emma Gail, Grace Hall                    |
+| Melbourne (Peter MacCallum Cancer Centre)     | Richard Lupat                            |
+| Sydney (Garvan Institute of Medical Research) | Thanh Nguyen, Eric Urng                  |
 
 ## Prerequisites
 
@@ -33,40 +42,42 @@ In order to foster a positive and professional learning environment we encourage
 * Show courtesy and respect towards other community members
 * Our full code of conduct, with incident reporting guidelines, is available here.
 
-## Workshop schedule
+## Workshop schedule (WIP)
 
 ### Day 1
 
 |Time (AEST)|Activity                            |Presenter(s)  |
 |-----------|------------------------------------|--------------|
-|14:00      |Welcome                             |              |
-|14:10      |Introduction to the workshop        |              |
-|14:15      |Workspace set up                    |              |
-|14:20      |Introduction to Nextflow and nf-core|              |
-|14:30      |Workshop: Part 1.0 - 1.4            |              |
-|15:30      |BREAK                               |              |
-|15:45      |Workshop: Part 1.5 - 1.8            |              |
-|16:45      |Q&A and Day 1 recap                 |              |
+|13:00      |Welcome                             | Giorgia      |
+|13:10      |Introduction to the workshop        | Giorgia, Fred|
+|13:15      |Workspace set up                    | Fred         |
+|13:20      |Introduction to Nextflow (Part 1.0) | Fred         |
+|13:30      |Workshop: Part 1.1 - 1.4            | Fred         |
+|14:30      |BREAK                               | Giorgia      |
+|14:45      |Workshop: Part 1.5 - 1.8            | Fred         |
+|15:45      |Q&A and Day 1 recap                 | Fred, Giorgia|
 
 ### Day 2
 
 |Time (AEST)|Activity                            |Presenter(s)  |
 |-----------|------------------------------------|--------------|
-|14:00      |Day 2 Welcome                       |              |
-|14:05      |Setup and Introduction to Part 2    |              |
-|14:15      |Workshop: Part 2.1 - 2.3            |              |
-|15:30      |BREAK                               |              |
-|15:45      |Workshop: Part 2.4 - 2.5            |              |
-|16:40      |Day 2 Summary                       |              |
-|16:50      |Wrap up and survey                  |              |
+|13:00      |Day 2 Welcome                       | Giorgia      |
+|13:05      |Setup and Introduction to Part 2    | Michael      |
+|13:15      |Workshop: Part 2.1 - 2.3            | Michael      |
+|14:30      |BREAK                               | Giorgia      |
+|14:45      |Workshop: Part 2.4 - 2.5            | Michael      |
+|15:40      |Day 2 Summary                       | Michael, Giorgia |
+|15:50      |Wrap up and survey                  | Giorgia      |
 
 ## Course survey
 
-Please fill out our [course survey]()
+Please fill out our [course survey](https://q.surveys.unimelb.edu.au/jfe/form/SV_b3HggdmybXBjgSq)
 at the end of the workshop. Help us help you! 😁
 
 ## Credits and acknowledgements
 
-This workshop event and accompanying materials were developed by the Sydney Informatics Hub, University of Sydney in partnership with Seqera. The workshop was enabled through the Australian BioCommons - [BioCLI Platforms Project](https://www.biocommons.org.au/biocli) (NCRIS via Bioplatforms Australia).
+This workshop event and accompanying materials were developed by the Sydney Informatics Hub, University of Sydney. The workshop was enabled through the Australian BioCommons - [BioCLI Platforms Project](https://www.biocommons.org.au/biocli) (NCRIS via Bioplatforms Australia) and compute resources provided by NCI.
+
+This workshop was first developed in 2024 with support from Seqera and the Australian BioCommons. We gratefully acknowledge the contributions of Chris Hakkaart, Ziad Al-Bkhetan, Melissa Burke, Giorgia Mori, Uwe Winter, Georgie Samaha, Cali Willet, Mitchell O'Brien, Matthew Downton, and Wenjing Xue.
 
 ![](./img/logos.png)
