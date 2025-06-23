@@ -459,7 +459,9 @@ ls -A work/ec/9ed7c7d13ca353bbd8e99835de8c47  # Your work directory will have a 
 ```
 
 ```console title="Output"
-.command.begin  .command.err  .command.log  .command.out  .command.run  .command.sh  .exitcode  salmon_index  transcriptome.fa
+.command.begin  .command.out  .exitcode
+.command.err    .command.run  salmon_index
+.command.log    .command.sh   transcriptome.fa
 ```
 
 Of particular interest to us right now is the `.command.sh` file, which contains our process script.
