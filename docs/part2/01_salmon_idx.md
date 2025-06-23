@@ -127,7 +127,34 @@ More information on using input and output blocks can be found in the Nextflow d
 ## 2.1.2 Saving our output files to an output directory with `publishDir`  
 
 Next we will implement the Nextflow equivalent of saving the output files into a
-`results/` directory.  
+`results/` directory. Recall from [Part 1](../part1/04_execution.md#publishing-outputs) 
+that we can use the `publishDir` directive to accomplish this. This will direct Nextflow
+to copy all of the process' outputs to a given directory.
+
+We can also specify *how* Nextflow will copy our results to the `publishDir` directory by
+setting the `mode`. We can tell Nextflow to make a complete copy of the outputs by setting the
+`mode` to `"copy"`, e.g.:
+
+```groovy
+publishDir "results", mode: 'copy'
+```
+
+??? example "Advanced content: `publishDir` modes"
+
+    The `publishDir` directive has several modes that change how it behaves.
+    By default, Nextflow will create a **symbolic link** in the publishing directory.
+    This is a special type of file that points to another file, similar to a shortcut.
+    The advantage of using a symbolic link is that it doesn't require
+    duplicating the output files, meaning it uses less space and is quick to make.
+    The disadvantage, however, is that the actual data is still stored in the `work/` directory.
+    If you ever clean up the `work/` directory, you will break the symbolic links and you will lose
+    your data.
+
+    We will be using the `"copy"` mode for the remainder of this workshop, which tells Nextflow
+    to make a complete copy of the data within the publishing directory, thereby ensuring that the
+    final outputs of the pipeline are always available there.
+
+    The other modes that are available are described in detail in the [Nextflow documentation](https://www.nextflow.io/docs/latest/reference/process.html#publishdir).
 
 Replace the `[ directives ]` placeholder in your `main.nf` script with the `publishDir` 
 directive, specifying the directory name as `"results"` and the mode as
@@ -207,7 +234,7 @@ Add the following container directive to the `INDEX` process, above `publishDir`
 ```groovy title="main.nf" hl_lines="2"
 process INDEX {
     container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
-    publishDir "results" mode: 'copy'
+    publishDir "results", mode: 'copy'
 
     input:
     path transcriptome
@@ -238,9 +265,10 @@ workshop beforehand.
     - **Reproducibility**: reduces the risk of issues caused by software conflicts.
 
 Before we can run the workflow, we need to tell Nextflow to run containers
-using Singularity. Nextflow requires [Singularity](https://www.nextflow.io/docs/latest/container.html#singularity)
+using Singularity. Nextflow requires Singularity
 to be installed on your system in order for this to work. Singularity has been 
-pre-installed on your Virtual Machine.  
+pre-installed on your Virtual Machine. See the [Nextflow documentation](https://www.nextflow.io/docs/latest/container.html#singularity)
+for further details on running workflows with Singularity.
 
 We can configure Nextflow to run containers with Singularity by using the 
 `nextflow.config` file.
@@ -353,7 +381,7 @@ nextflow run main.nf
 Your output should look something like:  
 
 ```console title="Output"
-N E X T F L O W   ~  version 24.04.4
+N E X T F L O W   ~  version 24.10.2
 
 Launching `main.nf` [chaotic_jones] DSL2 - revision: 6597720332
 
@@ -388,8 +416,11 @@ ls results/salmon_index
 ```
 
 ```console title="Output"
-complete_ref_lens.bin  ctg_offsets.bin        info.json              pos.bin                rank.bin               ref_indexing.log       refseq.bin             versionInfo.json
-ctable.bin             duplicate_clusters.tsv mphf.bin               pre_indexing.log       refAccumLengths.bin    reflengths.bin         seq.bin
+complete_ref_lens.bin   mphf.bin             ref_indexing.log
+ctable.bin              pos.bin              reflengths.bin
+ctg_offsets.bin         pre_indexing.log     refseq.bin
+duplicate_clusters.tsv  rank.bin             seq.bin
+info.json               refAccumLengths.bin  versionInfo.json
 ```
 
 This is the exact same directory structure that our original `00_index.sh` script was creating when running `mkdir "results"` and passing the `--index results/salmon_index` parameter to `salmon`.
@@ -403,7 +434,7 @@ You may recall from [Part 1.3](../part1/03_hellonf.md), every time a process is 
 This helps Nextflow uniquely identify each instance of every process. You will see a truncated form of this ID printed to the terminal when running Nextflow:
 
 ```console title="Nextflow output"
-    N E X T F L O W   ~  version 25.04.0
+    N E X T F L O W   ~  version 24.10.2
 
 Launching `main.nf` [sleepy_volhard] DSL2 - revision: c2ada21e4e
 
