@@ -76,8 +76,8 @@ at the end of the workshop. Help us help you! 😁
 
 ## Credits and acknowledgements
 
-This workshop event and accompanying materials were developed by the Sydney Informatics Hub, University of Sydney. The workshop was enabled through the Australian BioCommons - [BioCLI Platforms Project](https://www.biocommons.org.au/biocli) (NCRIS via Bioplatforms Australia) and compute resources provided by NCI.
+This workshop event and accompanying materials were developed by the [Sydney Informatics Hub](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html), University of Sydney. The workshop was enabled by Australian BioCommons' [BioCLI Platforms Project](https://www.biocommons.org.au/biocli) (NCRIS via Bioplatforms Australia). Compute resources were provided by the [National Computational Infrastructure (NCI)](https://nci.org.au/).
 
-This workshop was first developed in 2024 with support from Seqera and the Australian BioCommons. We gratefully acknowledge the contributions of Chris Hakkaart, Ziad Al-Bkhetan, Melissa Burke, Giorgia Mori, Uwe Winter, Georgie Samaha, Cali Willet, Mitchell O'Brien, Matthew Downton, and Wenjing Xue.
+We gratefully acknowledge the contributions of Chris Hakkaart, Ziad Al-Bkhetan, Melissa Burke, Giorgia Mori, Uwe Winter, Georgie Samaha, Cali Willet, Mitchell O'Brien, Matthew Downton, and Wenjing Xue.
 
 ![](./img/logos.png)
