@@ -1,6 +1,6 @@
 # Nextflow for the Life Sciences 2025
 
-This workshop will provide you with the foundational knowledge required to build Nextflow workflows. The content is broken up into 2 parts. In the first part we will cover the basic principles for developing Nextflow pipelines. In the second part we will step through building our own Nextflow workflow. See the [workshop schedule](#workshop-schedule) for details.
+This workshop will provide you with the foundational knowledge required to build Nextflow workflows. The content is broken up into 2 parts. In the first part we will cover the basic principles for developing Nextflow pipelines. In the second part we will step through building our own Nextflow workflow. See the [event description](https://www.biocommons.org.au/events/nextflow-life-sciences) and [workshop schedule](#workshop-schedule) for learning outcomes and lesson plan, respectively.
 
 ## Trainers
 
