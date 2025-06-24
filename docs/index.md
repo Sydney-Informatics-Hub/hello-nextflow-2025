@@ -1,6 +1,6 @@
 # Nextflow for the Life Sciences 2025
 
-This workshop will provide you with the foundational knowledge required to build Nextflow workflows. The content is broken up into 2 parts. In the first part we will cover the basic principles for developing Nextflow pipelines. In the second part we will step through building our own Nextflow workflow. See the lesson plan for details.
+This workshop will provide you with the foundational knowledge required to build Nextflow workflows. The content is broken up into 2 parts. In the first part we will cover the basic principles for developing Nextflow pipelines. In the second part we will step through building our own Nextflow workflow. See the [event description](https://www.biocommons.org.au/events/nextflow-life-sciences) and [workshop schedule](#workshop-schedule) for learning outcomes and lesson plan, respectively.
 
 ## Trainers
 
@@ -42,7 +42,7 @@ In order to foster a positive and professional learning environment we encourage
 * Show courtesy and respect towards other community members
 * Our full code of conduct, with incident reporting guidelines, is available here.
 
-## Workshop schedule (WIP)
+## Workshop schedule
 
 ### Day 1
 
@@ -76,8 +76,8 @@ at the end of the workshop. Help us help you! 😁
 
 ## Credits and acknowledgements
 
-This workshop event and accompanying materials were developed by the Sydney Informatics Hub, University of Sydney. The workshop was enabled through the Australian BioCommons - [BioCLI Platforms Project](https://www.biocommons.org.au/biocli) (NCRIS via Bioplatforms Australia) and compute resources provided by NCI.
+This workshop event and accompanying materials were developed by the [Sydney Informatics Hub](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html), University of Sydney. The workshop was enabled by Australian BioCommons' [BioCLI Platforms Project](https://www.biocommons.org.au/biocli) (NCRIS via Bioplatforms Australia). Compute resources were provided by the [National Computational Infrastructure (NCI)](https://nci.org.au/).
 
-This workshop was first developed in 2024 with support from Seqera and the Australian BioCommons. We gratefully acknowledge the contributions of Chris Hakkaart, Ziad Al-Bkhetan, Melissa Burke, Giorgia Mori, Uwe Winter, Georgie Samaha, Cali Willet, Mitchell O'Brien, Matthew Downton, and Wenjing Xue.
+We gratefully acknowledge the contributions of Chris Hakkaart, Ziad Al-Bkhetan, Melissa Burke, Giorgia Mori, Uwe Winter, Georgie Samaha, Cali Willet, Mitchell O'Brien, Matthew Downton, and Wenjing Xue.
 
 ![](./img/logos.png)
