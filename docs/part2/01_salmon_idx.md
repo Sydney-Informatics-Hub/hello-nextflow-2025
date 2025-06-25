@@ -272,7 +272,7 @@ This will tell Nextflow to run the `INDEX` process with
 
         You should have received an error message similar to the following:
 
-        ```console title="Output" hl_lines="27"
+        ```console title="Output" hl_lines="25"
          N E X T F L O W   ~  version 24.10.2
 
         Launching `main.nf` [peaceful_neumann] DSL2 - revision: caa2043bdf
