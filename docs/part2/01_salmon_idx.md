@@ -188,121 +188,7 @@ results directory with `mkdir -p "results`.
 More information and other modes can be found on
 [publishDir](https://www.nextflow.io/docs/latest/reference/process.html#publishdir).
 
-## 2.1.3 Using containers for reproducible pipelines
-
-Nextflow recommends using containers to ensure reproducibility and portability
-of your workflow. Containers package all the software and dependencies needed
-for each tool into a self-contained environment. This means you don’t have to
-manually install anything on your system, and your workflow will work
-consistently across different systems — whether you're running it on your
-local machine, a cluster, or in the cloud. Containers make it easier to share
-your workflow with others and ensure it runs the same way every time, no matter
-where it's executed.  
-
-Nextflow supports
-[multiple container runtimes](https://www.nextflow.io/docs/latest/container.html#).
-In this workshop, we'll be demonstrating the value containers can bring to your
-workflow by using Singularity.
-
-??? tip "Tip: different tools for different purposes"  
-
-    In this workshop, we're using Singularity to run containers. You may have heard of another container technology before: Docker.
-    Both Singularity and Docker work in similar ways to encapuslate tools within an environment to ensure reproducibility.
-    However, Docker has certain administrative access requirements that make it unsuitable for some
-    systems like HPCs. For this reason, we will be working with Singularity.
-    
-    You don't have to write your own containers to run in your workflow. There are
-    many container repositories out there. We highly recommend using 
-    [Biocontainers](https://biocontainers.pro/registry) wherever possible.
-    Biocontainers are pre-built and tested containers specifically for
-    bioinformatics tools. They have a huge library and great community support. 
-    
-    You can find Biocontainers at the following repositories:  
-    
-    * [Biocontiners registry](https://biocontainers.pro/registry)
-    * [Quay.io](https://quay.io/organization/biocontainers)
-    * [DockerHub](https://hub.docker.com/r/biocontainers/biocontainers)
-    * [Seqera containers](https://seqera.io/containers/)
-
-    Another helpful fact is that Docker containers are often able to be converted to Singularity's format, meaning if a tool
-    is only available as a Docker image, it is highly likely that it can still be used with Singularity.
-
-In Nextflow, we can specify that a process should be run within a specified container using the [container](https://www.nextflow.io/docs/latest/process.html#container) directive.  
-
-Add the following container directive to the `INDEX` process, above `publishDir`:  
-
-```groovy title="main.nf" hl_lines="2"
-process INDEX {
-    container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
-    publishDir "results", mode: 'copy'
-
-    input:
-    path transcriptome
-
-    output:
-    path 'salmon_index'
-
-    script:
-    """
-    salmon index --transcripts $transcriptome --index salmon_index
-    """
-}
-```
-
-You now have a complete process! 
-
-Usually, containers need to be downloaded using a command such as
-`singularity pull [image]`. All containers have been previously downloaded for the
-workshop beforehand.  
-
-??? tip "Tip: use one container per process"
-    
-    Using single containers for each process in your workflow is considered best practices for the following reasons:
-
-    - **Flexibility**: different processes require different tools (or versions). By using separate containers, you can easily tailor the container to the needs of each process without conflicts.
-    - **Build and run efficiency**: Smaller, process-specific containers are faster to load and run compared to one large container that has unnecessary tools or dependencies for every process.
-    - **Easier Maintenance**: it’s easier to update or modify one container for a specific process than to manage a large, complex container with many tools.
-    - **Reproducibility**: reduces the risk of issues caused by software conflicts.
-
-Before we can run the workflow, we need to tell Nextflow to run containers
-using Singularity. Nextflow requires Singularity
-to be installed on your system in order for this to work. Singularity has been 
-pre-installed on your Virtual Machine. See the [Nextflow documentation](https://www.nextflow.io/docs/latest/container.html#singularity)
-for further details on running workflows with Singularity.
-
-We can configure Nextflow to run containers with Singularity by using the 
-`nextflow.config` file.
-
-Create a `nextflow.config` file in the same directory as `main.nf`.  
-
-!!! note
-
-    You can create the file via the VSCode Explorer (left sidebar) or in the
-    terminal with a text editor.
-
-    If you are using the Explorer, right click on `part2` in the sidebar and
-    select **"New file"**.
-
-Add the following lines to your config file:
-
-```groovy linenums="1" title="nextflow.config"
-singularity {
-    enabled = true
-    cacheDir = "$HOME/singularity_image"
-}
-```
-
-The syntax `singularity { }` defines the configuration for using Singularity; everything between the curly braces here will tell Nextflow how to use Singularity to run your workflow.
-
-The first line, `enabled = true` simply tells Nextflow to use Singularity. The second line, `cacheDir = $HOME/singularity_image` tells Nextflow to store images in a folder within your home directory called `singularity_image`. This means that Nextflow only has to pull a given image from the internet once; every other time it requires that image, it can quickly load it from this cache directory.
-
-You have now configured Nextflow to run your process within a Singularity container! In this case, the `INDEX` process will use the `quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0` container. As we add more processes, wherever we define the `container` directive, Nextflow will use that container to run that process.
-
-!!! tip
-
-    Remember to save your files after editing them!
-
-## 2.1.4 Adding `params` and the workflow scope  
+## 2.1.3 Adding `params` and the workflow scope  
 
 Now that you have written your first Nextflow process, we need to prepare it
 for execution.  
@@ -368,7 +254,194 @@ This will tell Nextflow to run the `INDEX` process with
     Feel free to modify or add to the provided comments to record useful
     information about the code you are writing.
 
-We are now ready to run our workflow!  
+!!! question "Exercise"
+
+    Now that we have a complete process and workflow, we should be able to run it!
+
+    In your VSCode terminal, ensure you are inside the `part2/` directory, then run the following:
+
+    ```bash
+    nextflow run main.nf
+    ```
+
+    What happened? Did the pipeline run successfully? If not, why not?
+
+    ??? Solution
+
+        Something went wrong! The pipeline didn't successfully run!
+
+        You should have received an error message similar to the following:
+
+        ```console title="Output" hl_lines="27"
+         N E X T F L O W   ~  version 24.10.2
+
+        Launching `main.nf` [peaceful_neumann] DSL2 - revision: caa2043bdf
+
+        executor >  local (1)
+        executor >  local (1)
+        [eb/ec6173] process > INDEX [100%] 1 of 1, failed: 1 ✘
+        ERROR ~ Error executing process > 'INDEX'
+
+        Caused by:
+        Process `INDEX` terminated with an error exit status (127)
+
+
+        Command executed:
+
+        salmon index --transcripts transcriptome.fa --index salmon_index
+
+        Command exit status:
+        127
+
+        Command output:
+        (empty)
+
+        Command error:
+        .command.sh: line 2: salmon: command not found
+
+        Work dir:
+        /home/training/_part2/work/eb/ec617307600cd47fc5b65d1c60269e
+
+        Tip: you can try to figure out what's wrong by changing to the process work dir and showing the script file named `.command.sh`
+
+        -- Check '.nextflow.log' file for details
+        ```
+
+        Nextflow's error message tells us exactly why this failed. The highlighted line above tells us that the `salmon` command couldn't be found.
+
+        Why did this happen? Because we don't have `salmon` installed!
+
+        How do we fix this? We'll explore that in the very next section...
+
+## 2.1.4 Using containers for reproducible pipelines
+
+One of the primary goals of workflow managers like Nextflow is to improve the portability
+of a pipeline. Ideally, we could take our pipeline to any computer and it would run with
+minimal setup - in short, "write once, run anywere".
+
+However, all but the most trivial workflows will require specialised software that
+can't be assumed to be installed on any given computer. To ensure that the pipeline
+requires "minimal setup", we can't be asking the end users to install every piece of software
+the pipeline requires. So how can we ensure that the end user can run our pipeline
+without needing to install all of its dependencies?
+
+The answer is **containers**.
+
+Containers package all the software and dependencies needed
+for each tool into a self-contained environment. This means you don’t have to
+manually install anything on your system, and your workflow will work
+consistently across different systems — whether you're running it on your
+local machine, a cluster, or in the cloud. Containers make it easier to share
+your workflow with others and ensure it runs the same way every time, no matter
+where it's executed.
+
+Nextflow recommends as a **best practice** to use containers to ensure the
+reproducibility and portability of your workflows.
+
+Nextflow supports
+[multiple container runtimes](https://www.nextflow.io/docs/latest/container.html#).
+In this workshop, we'll be demonstrating the value containers can bring to your
+workflow by using Singularity.
+
+??? tip "Tip: different tools for different purposes"  
+
+    In this workshop, we're using Singularity to run containers. You may have heard of another container technology before: Docker.
+    Both Singularity and Docker work in similar ways to encapuslate tools within an environment to ensure reproducibility.
+    However, Docker has certain administrative access requirements that make it unsuitable for some
+    systems like HPCs. For this reason, we will be working with Singularity.
+    
+    You don't have to write your own containers to run in your workflow. There are
+    many container repositories out there. We highly recommend using 
+    [Biocontainers](https://biocontainers.pro/registry) wherever possible.
+    Biocontainers are pre-built and tested containers specifically for
+    bioinformatics tools. They have a huge library and great community support. 
+    
+    You can find Biocontainers at the following repositories:  
+    
+    * [Biocontiners registry](https://biocontainers.pro/registry)
+    * [Quay.io](https://quay.io/organization/biocontainers)
+    * [DockerHub](https://hub.docker.com/r/biocontainers/biocontainers)
+    * [Seqera containers](https://seqera.io/containers/)
+
+    Another helpful fact is that Docker containers are often able to be converted to Singularity's format, meaning if a tool
+    is only available as a Docker image, it is highly likely that it can still be used with Singularity.
+
+In Nextflow, we can specify that a process should be run within a specified container using the [container](https://www.nextflow.io/docs/latest/process.html#container) directive.  
+
+Add the following container directive to the `INDEX` process, above `publishDir`:  
+
+```groovy title="main.nf" hl_lines="2"
+process INDEX {
+    container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
+    publishDir "results", mode: 'copy'
+
+    input:
+    path transcriptome
+
+    output:
+    path 'salmon_index'
+
+    script:
+    """
+    salmon index --transcripts $transcriptome --index salmon_index
+    """
+}
+```
+
+!!! tip
+    Usually, containers need to be downloaded using a command such as
+    `singularity pull [image]`. All containers have been previously downloaded for the
+    workshop beforehand.
+
+??? tip "Tip: use one container per process"
+    
+    Using single containers for each process in your workflow is considered best practices for the following reasons:
+
+    - **Flexibility**: different processes require different tools (or versions). By using separate containers, you can easily tailor the container to the needs of each process without conflicts.
+    - **Build and run efficiency**: Smaller, process-specific containers are faster to load and run compared to one large container that has unnecessary tools or dependencies for every process.
+    - **Easier Maintenance**: it’s easier to update or modify one container for a specific process than to manage a large, complex container with many tools.
+    - **Reproducibility**: reduces the risk of issues caused by software conflicts.
+
+Now our process has a container associated with it, but before we can run the workflow,
+we need to tell Nextflow **how** to run the container. Specifically, we need to specify that
+we want to run containers using Singularity. Note that this also requires Singularity
+to be installed on your system in order for this to work. Singularity has been 
+pre-installed on your Virtual Machine. See the [Nextflow documentation](https://www.nextflow.io/docs/latest/container.html#singularity)
+for further details on running workflows with Singularity.
+
+We can configure Nextflow to run containers with Singularity by using the 
+`nextflow.config` file.
+
+Create a `nextflow.config` file in the same directory as `main.nf`.  
+
+!!! note
+
+    You can create the file via the VSCode Explorer (left sidebar) or in the
+    terminal with a text editor.
+
+    If you are using the Explorer, right click on `part2` in the sidebar and
+    select **"New file"**.
+
+Add the following lines to your config file:
+
+```groovy linenums="1" title="nextflow.config"
+singularity {
+    enabled = true
+    cacheDir = "$HOME/singularity_image"
+}
+```
+
+The syntax `singularity { }` defines the configuration for using Singularity; everything between the curly braces here will tell Nextflow how to use Singularity to run your workflow.
+
+The first line, `enabled = true` simply tells Nextflow to use Singularity. The second line, `cacheDir = $HOME/singularity_image` tells Nextflow to store images in a folder within your home directory called `singularity_image`. This means that Nextflow only has to pull a given image from the internet once; every other time it requires that image, it can quickly load it from this cache directory.
+
+You have now configured Nextflow to run your process within a Singularity container! In this case, the `INDEX` process will use the `quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0` container. As we add more processes, wherever we define the `container` directive, Nextflow will use that container to run that process.
+
+!!! tip
+
+    Remember to save your files after editing them!
+
+We now have a complete process and workflow, along with directives and configuration for using containers. We are ready to try running our workflow again!
 
 ## 2.1.5 Running the workflow  
 
