@@ -6,14 +6,15 @@
     2. Publish results files using with directives
 
 In this step, we will run our `hello-world.nf` Nextflow pipeline and explore
-the outputs of the run. We will look at how pipeline execution looks like,
-how to interpret it, as well as the common log and output files of a run.
+the outputs of the run. We will look at the components that get printed
+to the terminal when executing a workflow, 
+how to interpret these, as well as the common log and output files of a run.
 You will be introduced to your first process directive and best practices on
 managing output files.
 
 ## Executing `hello-world.nf`
 
-When we run Nextflow, we need to specify a command to use. The **`nextflow run`** command is used to execute Nextflow pipelines:    
+To run a Nextflow pipeline we use the **`nextflow run`** command, followed by the name of the script.
 
 ```bash
 nextflow run <pipeline.nf>

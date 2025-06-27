@@ -34,19 +34,7 @@ echo <string>
 
 ## Redirect outputs
 
-The output of the `echo` can be redirected to a file instead of displaying it on the terminal. You can achieve this by using the **`>`** operator for output redirection. For example:
-
-```bash
-echo 'Welcome!' > output.txt
-```
-
-Notice that nothing is printed in the terminal.
-
-``` title="Output"
-
-```
-
-Instead, this will write the output of the echo command to the file name `output.txt`.
+The output of the `echo` can be redirected to a file instead of displaying it on the terminal. You can achieve this by using the **`>`** operator for output redirection.
 
 !!!question "Exercise"
 
@@ -61,6 +49,8 @@ Instead, this will write the output of the echo command to the file name `output
         ``` title="Output"
 
         ```
+
+        Instead of printing the output to the terminal, this will write the output of the echo command to the file name `output.txt`.
 
 ## List files
 
