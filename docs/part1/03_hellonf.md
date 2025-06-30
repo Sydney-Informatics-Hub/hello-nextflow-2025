@@ -14,6 +14,14 @@ Here, you're going learn more about the Nextflow language and take your first st
 
 Nextflow pipelines are written inside `.nf` files. They consist of a combination of two main components: **processes** and the **workflow** itself. Each process describes a single step of the pipeline, including its inputs and expected outputs, as well as the code to run it. The workflow then defines the logic that puts all of the processes together.
 
+![](img/process_workflow.png)
+
+### `process`
+
+A process definition starts with the keyword `process`, followed by a process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
+
+A process may contain any of the following definition blocks. The ones we will be focusing on this workshop are presented in bold: **`directives`**, **`input`**, **`output`**, `stub`, `when` clauses, and of course, **`script`**.
+
 ```groovy
 process < name > {
   [ directives ]
@@ -29,19 +37,19 @@ process < name > {
   <script to be executed>
   """
 }
-
-workflow {
-    < processes to be executed >
-}
 ```
 
-A process definition starts with the keyword `process`, followed by a process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
-
-A process may contain any of the following definition blocks. The ones we will be focusing on this workshop are presented in bold: **`directives`**, **`input`**, **`output`**, `stub`, `when` clauses, and of course, **`script`**.
+### `workflow`
 
 A workflow is a composition of processes and dataflow logic.
 
 The workflow definition starts with the keyword `workflow`, followed by an optional name, and finally the workflow body delimited by curly braces.
+
+```groovy
+workflow {
+    < processes to be executed >
+}
+```
 
 !!! info "Tip"
 

@@ -18,6 +18,19 @@ Channels allow us to handle inputs efficiently by defining which data should
 be taken from one step to another. Channels are one of Nextflows key features
 that allow us to run jobs in parallel amongst many additional benefits.
 
+![](img/channel_examples.png)
+
+This image illustrates a few use cases of channels that we will implement:
+
+- **1** shows our current `hello-world.nf` pipeline where the `SAYHELLO` process always
+prints a file called `output.txt` that contains `Hello World!`
+- **2** shows how you can provide a text input to a process, via a channel,
+to change what is redirected into `output.txt`. In this example, `'Hello World!'`
+is replaced with `'Bonjour'`.
+- **3** shows how to use the output of a process (`SAYHELLO`) as the input of
+another process. The `CONVERTUPPER` process replaces all lower case characters
+in `output.txt` to uppercase, and saves it to a different file called `upper.txt`.
+
 There are two kinds of channels: **queue channels** and **value channels**.
 
 ### Queue channels
