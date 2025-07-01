@@ -4,9 +4,11 @@
 
     1. Dynamically name variables in Nextflow
 
-Currently, the outputs of the `SAYHELLO` and `CONVERTTOUPPER` processes are being saved as `output.txt` and `upper.txt`, respectively.
+When we run bioinformatics pipelines, it is common to process
+and identify results by the sample name or by other metadata.
 
-In some situations this would be fine. However, to help identify the outputs you want your output file names to be dynamic.
+Currently, the outputs of the `SAYHELLO` and `CONVERTTOUPPER` processes are being saved as `output.txt` and `upper.txt`, respectively. In some situations this would be fine. However,
+it would help to identify the outputs by naming these dynamically.
 
 Let's get tricky and name your output files dynamically.
 

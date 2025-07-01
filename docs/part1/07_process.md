@@ -15,7 +15,7 @@ Here you're going to step things up again and add another process to the pipelin
 The `tr` command is a UNIX command-line utility for **translating** or deleting characters. It supports a range of transformations including uppercase to lowercase, squeezing repeating characters, deleting specific characters, and basic find and replace. It can be used with UNIX pipes to support more complex translation. `tr` stands for translate. The following example will translate all lower case letters (represented by the pattern `[a-z]`) to upper case (represented by `[A-Z]`):
 
 ```bash
-tr '[a-z]' '[A-Z]'`
+tr '[a-z]' '[A-Z]'
 ```
 
 ??? example "Advanced content: regular expressions"
@@ -73,6 +73,13 @@ Using what you have learned in the previous sections you will now write a new pr
 
     Add new process named `CONVERTTOUPPER` that will take an input text file, convert all of the lowercase letters in the text file to uppercase letters, and save a new text file that contains the translated letters.
 
+    The `CONVERTOTUPPER` process should be defined inbetween your `SAYHELLO` process
+    and `workflow` scope.
+    
+    Hints have been provided to aid you in writing the process. We recommend following
+    the order of the hints, first defining the `script` block, followed by the `output`
+    and `input`.
+
     ???Tip "Hint: `script:`"
 
         The script might look something like this:
@@ -81,8 +88,7 @@ Using what you have learned in the previous sections you will now write a new pr
         cat $input_file | tr '[a-z]' '[A-Z]' > upper.txt
         ```
 
-        _Hint 1: `input_file` must be the same as what was specified as the input name in the input block._
-
+        _Hint 1: The input name is `input_file`, however, you may call it something different._
         _Hint 2: The output text file is named `upper.txt`_
 
     ???Tip "Hint: `output:`"
@@ -90,7 +96,7 @@ Using what you have learned in the previous sections you will now write a new pr
         The output
 
         ```
-        path 'upper_output.txt'
+        path 'upper.txt'
         ```
 
         _Hint 1: The output is a file and requires the `path` qualifier._
@@ -105,7 +111,7 @@ Using what you have learned in the previous sections you will now write a new pr
 
         _Hint 1: The input is a file and requires the `path` qualifier._
 
-        _Hint 2: The input name is `input_file`, however, you may call it something different._
+        _Hint 2: `input_file` must be the same as what was specified as the input name in the `script` block._
 
     ???Solution
 
@@ -136,10 +142,10 @@ Using what you have learned in the previous sections you will now write a new pr
             publishDir params.outdir
 
             input:
-                path input_file
+            path input_file
 
             output:
-                path 'upper.txt'
+            path 'upper.txt'
 
             script:
             """
