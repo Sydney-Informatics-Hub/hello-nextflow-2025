@@ -40,7 +40,7 @@ Your console should look something like this:
 N E X T F L O W  ~  version 24.10.2
 Launching `hello-world.nf` [mighty_murdock] DSL2 - revision: 80e92a677c
 executor >  local (1)
-[4e/6ba912] process > SAYHELLO [100%] 1 of 1 ✔
+[4e/6ba912] SAYHELLO [100%] 1 of 1 ✔
 ```
 
 **What does each line mean?**
@@ -116,6 +116,8 @@ A series of files **log** files and any outputs are created by each task in the 
 
 These files are created by Nextflow to manage the execution of your pipeline. While these file are not required now, you may need to interrogate them to troubleshoot issues later.
 
+Note that our `output.txt` file created by the `SAYHELLO` process is also in the same task directory.
+
 !!!question "Exercise"
 
     View the `.command.sh` file
@@ -138,7 +140,7 @@ These files are created by Nextflow to manage the execution of your pipeline. Wh
         introduce parameters and dynamic naming, when it is not as clear how the `script` block will
         look like.
 
-## Caching to minimise re-running completed tasks
+## Caching tasks and resuming workflows
 
 One of the core features of Nextflow is the ability to store task executions
 (caching). These cached tasks and files can be reused by Nextflow to minimise
@@ -159,9 +161,37 @@ iteratively developing a pipeline.
     information can be found in the Nextflow docs on
     [task hash](https://www.nextflow.io/docs/latest/cache-and-resume.html#task-hash).
 
+In the next exercise, we will run our `hello-world.nf` with the `-resume` flag
+and review how caching allows resumability.
+
+!!!question Exercise 
+
+    Run the command `nextflow run hello-world.nf -resume`.
+
+    ??? Solution
+
+        ```console
+        N E X T F L O W  ~  version 24.10.2
+        Launching `hello-world.nf` [mighty_murdock] DSL2 - revision: 80e92a677c
+        executor >  local (1)
+        [4e/6ba912] SAYHELLO [100%] 1 of 1, cached: 1 ✔
+        ```
+
+The output you receive is the same as the first time the pipeline was ran, with the addition
+of `cached: 1`. The workflow was execuuted from the beginning, however, before running the
+task, Nextflow used the unique task ID to check if the task directory already exists and
+was completed succesfully or not.
+
+Since we already ran the `SAYHELLO` task, it completed without error, and the task directory
+with the matching unique ID exists, these previous results are used as the process results.
+
 ## Publishing outputs
 
-By default, all files created by processes exist only inside the `work` directory. To make our outputs more accessible and neatly organised, we define a **publishing strategy**, which determines which outputs should be copied to a final **publishing directory**.
+By default, all files created by processes exist only inside the `work` directory. When we have
+pipelines with multiple processes that generate many output files, it is not feasible to
+view each task directory for each of our output files.
+
+To make our outputs more accessible and neatly organised, we define a **publishing strategy**, which determines which outputs should be copied to a final **publishing directory**.
 
 The [`publishDir` directive](https://www.nextflow.io/docs/latest/process.html#publishdir) can be used to specify where and how output files should be saved. For example:
 
