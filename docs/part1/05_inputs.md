@@ -194,9 +194,9 @@ echo '$greeting' > output.txt
 
 The `'` quotes around `$greeting` are required by the `echo` command to treat the greeting as a single string.
 
-!!!question "Exercise"
+!!!question "Exercises"
 
-    Update `hello-world.nf` to use the greeting input.
+    1. Update `hello-world.nf` to use the greeting input.
 
     ???Solution
 
@@ -227,6 +227,20 @@ The `'` quotes around `$greeting` are required by the `echo` command to treat th
         }
         ```
 
+    2. Save, and run the pipeline (`nextflow run hello-world.nf`). Inspect `results/output.txt`.
+
+    ???Solution
+
+    ```bash
+    cat results/output.txt
+    ```
+    ```console title="Output.txt"
+    Hello World! 
+    ```
+
+    The process will still function the same and produce the same output, but instead
+    takes the values in `greeting_ch` (`'Hello World!'`) as input.
+    
 !!! note
 
     Similar to the `output` block in a process, the `input` does not
@@ -281,11 +295,18 @@ Launching `main.nf` [deadly_wilson] DSL2 - revision: 243f7816c2
 [dc/52fa3d] Submitted process > SAYHELLO (3)
 ```
 
+There is only one `output.txt` in our `results/` folder. This is because we have hardcoded the output name.
+Each time the process is run, it overwrites the existing `output.txt` and the one we see is from the last
+process that was run.
+
 !!!note
 
-    There is only one `output.txt` in our `results/` folder. This is because we have hardcoded the output name.
-    Each time the process is run, it overwrites the existing `output.txt` and the one we see is from the last
-    process that was run.
+    If you inspect your `output.txt`, it can contain any one of the greetings specified.
+    This is because **the order that tasks are run are non-deterministic**. Nextflow
+    tasks run on a FIFO (first-in, first-out) basis, meaning that a task will begin running
+    once it is ready. Different factors can impact this, but a common scenario is when 
+    the output of a process is ready, the downstream process that uses it as input will
+    be exectuted.
 
 ## A note about multiple input channels
 
@@ -293,13 +314,14 @@ The input block can be used to define multiple inputs to the process. Importantl
 
 ```groovy title="example.nf"
 process MYFUNCTION {
+    publishDir 'results'
 
     input:
     val input_1
     val input_2
 
     output:
-    stdout
+    path 'output.txt'
 
     script:
     """
@@ -317,8 +339,7 @@ If we view the file:
 ```bash
 cat output.txt
 ```
-
-```console
+```console title="Output"
 Hello World!
 ```
 
