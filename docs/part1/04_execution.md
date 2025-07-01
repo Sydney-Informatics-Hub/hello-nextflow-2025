@@ -48,23 +48,62 @@ executor >  local (1)
 1. The version of Nextflow that was executed
 2. The script and version names
 3. The executor used (in the above case: local)
-4. The first process is executed once, which means there is one task. The line starts with a unique hexadecimal value, and ends with the task completion information
+4. **The process is executed once, which means there is one task**. The line starts with a unique hexadecimal value, and ends with the task completion information
 
-Currently it is not obvious where our `output.txt` file has been written to.
+**Currently it is not obvious where our `output.txt` file has been written to.**
 
-## Understanding the task directories
+## Understanding the work and task directories
 
 When a task is created, Nextflow stages the task input files, script, and other helper files into the task directory. The task writes any output files to this directory during its execution, and Nextflow uses these output files for downstream tasks and/or publishing.
 
 These directories do not share a writable state, and any required files or information must be passed through channels (this will be important later).
 
-!!!note
-
-    You can execute `tree work` to view the work directory structure.
-
 !!! warning
 
     The work directory might not have the same hash as the one shown above.
+
+Let's inspect the work directory.
+
+!!!question "Exercises"
+
+    1. In the terminal, run `ls` to view the files in the directory.
+
+        ??? Solution
+
+            ```bash title="Terminal"
+            ls
+            ```
+            ```console title="Output"
+            hello-world.nf  output.txt  work 
+            ```
+
+            Running our `hello-world.nf` pipeline created a new directory called `work`.
+            Note that `output.txt` was not from the pipeline we just ran, but
+            from the exercises from lesson 1.2.
+
+    2. Inspect the `work` directory by running `tree -a work` in the terminal.
+
+        ??? Solution
+
+            `tree` shows you the file and directory structure of `work`. The `-a` flag includes
+            hidden files (files that start with a `.`).
+
+            ```bash title="Terminal"
+            tree -a work
+            ```
+            ```console title="Output"
+            work/
+            └── 4e
+                └── 6ba9138vhsbcbsc83bcka
+                    ├── .command.begin
+                    ├── .command.err
+                    ├── .command.log
+                    ├── .command.out
+                    ├── .command.run
+                    ├── .command.sh
+                    ├── .exitcode
+                    └── output.txt
+            ```
 
 A series of files **log** files and any outputs are created by each task in the work directory:
 
@@ -79,7 +118,7 @@ These files are created by Nextflow to manage the execution of your pipeline. Wh
 
 !!!question "Exercise"
 
-    Browse the `work` directory and view the `.command.sh` file
+    View the `.command.sh` file
 
     ??? "Solution"
 
@@ -88,6 +127,37 @@ These files are created by Nextflow to manage the execution of your pipeline. Wh
         ```bash
         cat work/4e/6ba9138vhsbcbsc83bcka/.command.sh
         ```
+        ```console title="Output"
+        #!/bin/bash -ue
+        echo 'Hello World!' > output.txt
+        ```
+
+        The `.command.sh` is the bash script that Nextflow creates and runs for the `SAYHELLO` process
+        defined in `hello-world.nf`. In this example it shows the same `script` block as the process.
+        Inspecting `.command.sh` is very useful for troubleshooting once you
+        introduce parameters and dynamic naming, when it is not as clear how the `script` block will
+        look like.
+
+## Caching to minimise re-running completed tasks
+
+One of the core features of Nextflow is the ability to store task executions
+(caching). These cached tasks and files can be reused by Nextflow to minimise
+duplicating work, and let's you resume pipelines. 
+
+Instead of having to run the entire pipeline from the beginning, you can tell
+Nextflow to run only the processes that errored. This is extremely useful for
+iteratively developing a pipeline.
+
+!!! Note
+
+    Each time a task runs, Nextflow creates a unique task directory inside the `work/`
+    directory. 
+    The generated hash ensures that each task can be uniquely identified. This is
+    important for checkpointing, especially when you can be running thousands of
+    tasks in a single pipeline. The hash is computed from different metadata
+    such as your compute environment and some details of the process. More
+    information can be found in the Nextflow docs on
+    [task hash](https://www.nextflow.io/docs/latest/cache-and-resume.html#task-hash).
 
 ## Publishing outputs
 

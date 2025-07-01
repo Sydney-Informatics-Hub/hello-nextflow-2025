@@ -59,13 +59,21 @@ When a value channel is passed as an input to a process, its value will be used 
 
 Channels are created in one of two ways. The first is as outputs of processes. Each entry in the `output` block of a process creates a separate channel that can be accessed with `<process_name>.out` - or, in the case of named outputs, with `<process_name>.out.output_name`.
 
-The other way to create channels is with special functions called **channel factories**. There are numerous types of channel factories which can be utilised for creating different channel types and data types. The most common channel factories you will use are `Channel.of()`, `Channel.fromPath()`, and `Channel.fromFilePairs()`. The latter two are faily self explanatory, creating channels of file paths and pairs of file paths, respectively. The `Channel.of()` factory is a much more generic method used to create a channel of whatever values are passed to it. For example, the following creates a channel called `ch_greeting` that contains two values - "Hello World!", and "Goodbye!":
+The other way to create channels is with special functions called **channel factories**. There are numerous types of channel factories which can be utilised for creating different channel types and data types. The most common channel factories you will use are:
+
+- `Channel.of()`
+- `Channel.fromPath()`
+- `Channel.fromFilePairs()`.
+
+The latter two are fairly self explanatory, creating channels of file paths and pairs of file paths, respectively. The `Channel.of()` factory is a much more generic method used to create a channel of whatever values are passed to it.
+
+For example, an exercise we will be working through is to create a channel called `greeting_ch` that contains three values - 'Hello World!', 'Bonjour le monde!', 'Holà mundo':
 
 ```groovy
-ch_greeting = channel.of('Hello World!', 'Goodbye!')
+greeting_ch = Channel.of('Hello world!', 'Bonjour le monde!', 'Holà mundo')
 ```
 
-A process consuming this channel would run twice - once for each value.
+A process consuming this channel would run three times - once for each value.
 
 ## Adding channels to our pipeline
 
@@ -79,7 +87,8 @@ Channels need to be created within the `workflow` definition.
 
 !!!question "Exercise"
 
-    Create a channel named `greeting_ch` with the 'Hello World!' greeting.
+    Create a channel named `greeting_ch` with the 'Hello World!' greeting. Create `greeting_ch`
+    before the process that runs it.
 
     ???Solution
 
