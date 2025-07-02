@@ -5,7 +5,7 @@
     1. Implement a Nextflow process that takes a single file as input.  
     2. Understand the importance of containers in ensuring consistent and
     reproducible execution across processes.
-    3. Store output files with the `publishDir` directive.  
+    3. Apply the `publishDir` directive to store process outputs in a specified directory. 
 
 In this lesson we will be implement `00_index.sh` as our first Nextflow process, `INDEX`. Here, we are working with the first step of the RNA-seq data processing workflow: indexing the transcriptome for downstream processes. To do this, we will need to run [Salmon](https://salmon.readthedocs.io/en/latest/salmon.html#salmon)'s indexing mode. 
 <br>
