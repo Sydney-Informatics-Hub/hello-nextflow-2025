@@ -2,8 +2,8 @@
 
 !!! note "Learning objectives"  
 
-    1. Implement a channel that combines the contents of two channels.  
-    2. Implement a process with multiple output files.  
+    1. Construct a channel that merges the contents of two existing channels.  
+    2. Implement a Nextflow process that produces multiple output files and defines them approporiately. 
 
 In this step we will transform the `03_multiqc.sh` into a process called `MULTIQC`. 
 This step focuses on the final step of our RNAseq data processing workflow: generating
