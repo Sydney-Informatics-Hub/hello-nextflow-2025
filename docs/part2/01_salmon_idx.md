@@ -186,7 +186,7 @@ should be created. In the `00_index.sh` script you had to manually make a
 results directory with `mkdir -p "results`.
 
 More information and other modes can be found on
-[publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir).
+[publishDir](https://www.nextflow.io/docs/latest/reference/process.html#publishdir).
 
 ## 2.1.3 Using containers for reproducible pipelines
 
