@@ -4,8 +4,8 @@
 
     1. Configure Nextflow workflows to run on multiple samples
     2. Enable and interpret Nextflow's inbuilt reports 
-    3. Implement the `tag` directive to label tasks for better tracking and profiling
-    4. Configure a Nextflow workflow to use multiple CPUs for a process 
+    3. Use the `tag` directive to label tasks for better tracking and profiling
+    4. Configure a Nextflow process to request and use multiple CPUs for a process 
 
 Now that we have a working pipeline on a single-sample, we will update it 
 to take multiple samples and introduce Nextflow concepts that not only help with understanding and profiling the pipeline but also set the stage for productionising it. 
@@ -21,7 +21,7 @@ These steps ensure that the pipeline can be reliably used in more complex scenar
 
 ## 2.5.1 Labeling tasks with the `tag` directive
 
-The [tag](https://www.nextflow.io/docs/latest/process.html#tag) process
+The [tag](https://www.nextflow.io/docs/latest/reference/process.html#tag) process
 directive allows you to add a custom label, or tag, to each task that gets
 executed. It is useful for identifying what is being run when the workflow
 is being executed in a bit more detail. It is especially helpful showing you 
