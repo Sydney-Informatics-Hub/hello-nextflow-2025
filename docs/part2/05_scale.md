@@ -234,7 +234,7 @@ analyses. From the `fastqc --help` command, you'll notice the following option:
 This means we can configure the number of threads (or CPUs) that FastQC uses
 to process multiple files in parallel to speed up the analysis. In Nextflow,
 we control this through the 
-[`cpus`](https://www.nextflow.io/docs/latest/process.html#cpus) directive.
+[`cpus`](https://www.nextflow.io/docs/latest/reference/process.html#cpus) directive.
 
 Recall that our `FASTQC` takes as input the `reads_in` channel which emits two
 `.fastq` files. We will configure the process to use 2 CPUs so each file gets
