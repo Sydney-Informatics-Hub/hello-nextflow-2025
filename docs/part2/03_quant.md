@@ -2,9 +2,9 @@
 
 !!! note "Learning objectives"
 
-    1. Implement a process with multiple input channels. 
-    2. Understand the importance of creating channels from process outputs.
-    3. Implement chained Nextflow processes with channels.  
+    1. Configure a Nexrtflow process to accept input from multiple channels.  
+    2. Understand the importance of creating channels from process outputs to enable modular, reusable workflows.
+    3. Link multiple Nextflow processes using channels to form a chained workflow. 
 
 In this lesson we will transform the bash script `02_quant.sh` into a process called `QUANTIFICATION`. This step focuses on the next phase of RNAseq data processing: quantifying the expression of transcripts relative to the reference transcriptome. 
 
