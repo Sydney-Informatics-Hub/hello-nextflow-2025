@@ -2,7 +2,7 @@
 
 !!! note "Learning objectives"
 
-    1. Configure a Nexrtflow process to accept input from multiple channels.  
+    1. Configure a Nextflow process to accept input from multiple channels.  
     2. Understand the importance of creating channels from process outputs to enable modular, reusable workflows.
     3. Link multiple Nextflow processes using channels to form a chained workflow. 
 
