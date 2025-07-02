@@ -15,8 +15,7 @@ for summarising the outputs of many different bioinformatics tools. It aggregate
 !!! info "From the MultiQC [docs](https://multiqc.info/docs/)"
     
     MultiQC doesn’t do any analysis for you - it just finds results from
-    other tools that you have already run and generates nice reports. See [here](https://multiqc.info/modules/) for a list of supported tools. You 
-    can also see an example report [here](https://multiqc.info/examples/rna-seq/multiqc_report).
+    other tools that you have already run and generates nice reports. See [here](https://multiqc.info/modules/) for a list of supported tools.
 <br>
 <br>
 ![](img/2.4_workflow.png)
