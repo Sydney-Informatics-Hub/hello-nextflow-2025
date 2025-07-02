@@ -32,7 +32,7 @@ file is `data/ggal/transcriptome.fa`.
 
     The paths to the transcriptome file (`data/ggal/transcriptome.fa`) and the output directory (`results/salmon_index`) are hardcoded in this bash script. If you wanted to change the input transcriptome file or the output location, you must manually edit the script. This makes our scripts less flexible and easy to use. 
 
-    As we will see, Nextflow addresses the issue of hardcoded paths by allowing values to be passed dynamically at runtime as [parameters](https://www.nextflow.io/docs/latest/config.html#scope-params) (`params`). 
+    As we will see, Nextflow addresses the issue of hardcoded paths by allowing values to be passed dynamically at runtime as [parameters](https://www.nextflow.io/docs/latest/config.html#parameters) (`params`). 
 
 ## 2.1.1 Building the `INDEX` process
 
