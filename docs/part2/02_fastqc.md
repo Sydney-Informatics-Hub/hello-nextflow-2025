@@ -2,9 +2,9 @@
 
 !!! note "Learning objectives"
 
-    1. Implement a process with a tuple input.
-    2. Understand why samplesheets should be used to read in data.
-    3. Build an input channel using operators and Groovy.
+    1. Construct a Nextflow process that accepts a tuple input from a channel.
+    2. Describe the benefits of using a samplesheet to manage and read in workflow inputs.
+    3. Build a custom input channel using Groovy expressions and Nextflow operators. 
 
 In this lesson we will transform the next bash script, `01_fastqc.sh` into a process called `FASTQC`. This step focuses on the next phase of RNAseq data processing: assessing the quality of some our raw sequencing reads. 
 

@@ -329,7 +329,7 @@ params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
 !!! info "Implicit variables in Nextflow"
     Nextflow provides a set of implicit variables that can be used in your workflows. These variables are predefined and can be used to access information about the workflow environment, configuration, and tasks. 
 
-    We will use [`$projectDir`](https://www.nextflow.io/docs/latest/script.html#configuration-implicit-variables) to indicate the directory of the `main.nf` script. This is defined by Nextflow as the directory where the `main.nf` script is located.
+    We will use [`$projectDir`](https://www.nextflow.io/docs/latest/config.html#constants) to indicate the directory of the `main.nf` script. This is defined by Nextflow as the directory where the `main.nf` script is located.
 
 !!! info "The `params` and `process` names do not need to match!"  
 
