@@ -211,6 +211,7 @@ process FASTQC {
 
   script:
   """
+  mkdir -p "fastqc_${sample_id}_logs"
   fastqc --outdir "fastqc_${sample_id}_logs" --format fastq $reads_1 $reads_2
   """
 }
