@@ -216,6 +216,8 @@ Removed /home/user/hello-nextflow/work/c3/feb819a918abd91819c8143053f091
 
     See the [Nextflow docs](https://www.nextflow.io/docs/latest/reference/cli.html#clean) for more information.
 
+    The [Nextflow CLI reference page](https://www.nextflow.io/docs/latest/reference/cli.html) also has useful information on all the other Nextflow subcommands, such as [`nextflow log`](https://www.nextflow.io/docs/latest/reference/cli.html#log) for accessing run metadata.
+
 ## 2.5.4 An introduction to configuration  
 
 In this section, we will explore how Nextflow workflows can be configured
