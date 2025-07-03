@@ -5,7 +5,7 @@
     1. Implement a Nextflow process that takes a single file as input.  
     2. Understand the importance of containers in ensuring consistent and
     reproducible execution across processes.
-    3. Store output files with the `publishDir` directive.  
+    3. Apply the `publishDir` directive to store process outputs in a specified directory. 
 
 In this lesson we will be implement `00_index.sh` as our first Nextflow process, `INDEX`. Here, we are working with the first step of the RNA-seq data processing workflow: indexing the transcriptome for downstream processes. To do this, we will need to run [Salmon](https://salmon.readthedocs.io/en/latest/salmon.html#salmon)'s indexing mode. 
 <br>
@@ -32,7 +32,7 @@ file is `data/ggal/transcriptome.fa`.
 
     The paths to the transcriptome file (`data/ggal/transcriptome.fa`) and the output directory (`results/salmon_index`) are hardcoded in this bash script. If you wanted to change the input transcriptome file or the output location, you must manually edit the script. This makes our scripts less flexible and easy to use. 
 
-    As we will see, Nextflow addresses the issue of hardcoded paths by allowing values to be passed dynamically at runtime as [parameters](https://www.nextflow.io/docs/latest/config.html#scope-params) (`params`). 
+    As we will see, Nextflow addresses the issue of hardcoded paths by allowing values to be passed dynamically at runtime as [parameters](https://www.nextflow.io/docs/latest/config.html#parameters) (`params`). 
 
 ## 2.1.1 Building the `INDEX` process
 
@@ -127,7 +127,34 @@ More information on using input and output blocks can be found in the Nextflow d
 ## 2.1.2 Saving our output files to an output directory with `publishDir`  
 
 Next we will implement the Nextflow equivalent of saving the output files into a
-`results/` directory.  
+`results/` directory. Recall from [Part 1](../part1/04_execution.md#publishing-outputs) 
+that we can use the `publishDir` directive to accomplish this. This will direct Nextflow
+to copy all of the process' outputs to a given directory.
+
+We can also specify *how* Nextflow will copy our results to the `publishDir` directory by
+setting the `mode`. We can tell Nextflow to make a complete copy of the outputs by setting the
+`mode` to `"copy"`, e.g.:
+
+```groovy
+publishDir "results", mode: 'copy'
+```
+
+??? example "Advanced content: `publishDir` modes"
+
+    The `publishDir` directive has several modes that change how it behaves.
+    By default, Nextflow will create a **symbolic link** in the publishing directory.
+    This is a special type of file that points to another file, similar to a shortcut.
+    The advantage of using a symbolic link is that it doesn't require
+    duplicating the output files, meaning it uses less space and is quick to make.
+    The disadvantage, however, is that the actual data is still stored in the `work/` directory.
+    If you ever clean up the `work/` directory, you will break the symbolic links and you will lose
+    your data.
+
+    We will be using the `"copy"` mode for the remainder of this workshop, which tells Nextflow
+    to make a complete copy of the data within the publishing directory, thereby ensuring that the
+    final outputs of the pipeline are always available there.
+
+    The other modes that are available are described in detail in the [Nextflow documentation](https://www.nextflow.io/docs/latest/reference/process.html#publishdir).
 
 Replace the `[ directives ]` placeholder in your `main.nf` script with the `publishDir` 
 directive, specifying the directory name as `"results"` and the mode as
@@ -159,7 +186,7 @@ should be created. In the `00_index.sh` script you had to manually make a
 results directory with `mkdir -p "results`.
 
 More information and other modes can be found on
-[publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir).
+[publishDir](https://www.nextflow.io/docs/latest/reference/process.html#publishdir).
 
 ## 2.1.3 Using containers for reproducible pipelines
 
@@ -207,7 +234,7 @@ Add the following container directive to the `INDEX` process, above `publishDir`
 ```groovy title="main.nf" hl_lines="2"
 process INDEX {
     container "quay.io/biocontainers/salmon:1.10.1--h7e5ed60_0"
-    publishDir "results" mode: 'copy'
+    publishDir "results", mode: 'copy'
 
     input:
     path transcriptome
@@ -238,9 +265,10 @@ workshop beforehand.
     - **Reproducibility**: reduces the risk of issues caused by software conflicts.
 
 Before we can run the workflow, we need to tell Nextflow to run containers
-using Singularity. Nextflow requires [Singularity](https://www.nextflow.io/docs/latest/container.html#singularity)
+using Singularity. Nextflow requires Singularity
 to be installed on your system in order for this to work. Singularity has been 
-pre-installed on your Virtual Machine.  
+pre-installed on your Virtual Machine. See the [Nextflow documentation](https://www.nextflow.io/docs/latest/container.html#singularity)
+for further details on running workflows with Singularity.
 
 We can configure Nextflow to run containers with Singularity by using the 
 `nextflow.config` file.
@@ -301,7 +329,7 @@ params.transcriptome_file = "$projectDir/data/ggal/transcriptome.fa"
 !!! info "Implicit variables in Nextflow"
     Nextflow provides a set of implicit variables that can be used in your workflows. These variables are predefined and can be used to access information about the workflow environment, configuration, and tasks. 
 
-    We will use [`$projectDir`](https://www.nextflow.io/docs/latest/script.html#configuration-implicit-variables) to indicate the directory of the `main.nf` script. This is defined by Nextflow as the directory where the `main.nf` script is located.
+    We will use [`$projectDir`](https://www.nextflow.io/docs/latest/config.html#constants) to indicate the directory of the `main.nf` script. This is defined by Nextflow as the directory where the `main.nf` script is located.
 
 !!! info "The `params` and `process` names do not need to match!"  
 
@@ -353,7 +381,7 @@ nextflow run main.nf
 Your output should look something like:  
 
 ```console title="Output"
-N E X T F L O W   ~  version 24.04.4
+N E X T F L O W   ~  version 24.10.2
 
 Launching `main.nf` [chaotic_jones] DSL2 - revision: 6597720332
 
@@ -388,8 +416,11 @@ ls results/salmon_index
 ```
 
 ```console title="Output"
-complete_ref_lens.bin  ctg_offsets.bin        info.json              pos.bin                rank.bin               ref_indexing.log       refseq.bin             versionInfo.json
-ctable.bin             duplicate_clusters.tsv mphf.bin               pre_indexing.log       refAccumLengths.bin    reflengths.bin         seq.bin
+complete_ref_lens.bin   mphf.bin             ref_indexing.log
+ctable.bin              pos.bin              reflengths.bin
+ctg_offsets.bin         pre_indexing.log     refseq.bin
+duplicate_clusters.tsv  rank.bin             seq.bin
+info.json               refAccumLengths.bin  versionInfo.json
 ```
 
 This is the exact same directory structure that our original `00_index.sh` script was creating when running `mkdir "results"` and passing the `--index results/salmon_index` parameter to `salmon`.
@@ -403,7 +434,7 @@ You may recall from [Part 1.3](../part1/03_hellonf.md), every time a process is 
 This helps Nextflow uniquely identify each instance of every process. You will see a truncated form of this ID printed to the terminal when running Nextflow:
 
 ```console title="Nextflow output"
-    N E X T F L O W   ~  version 25.04.0
+    N E X T F L O W   ~  version 24.10.2
 
 Launching `main.nf` [sleepy_volhard] DSL2 - revision: c2ada21e4e
 
@@ -428,7 +459,9 @@ ls -A work/ec/9ed7c7d13ca353bbd8e99835de8c47  # Your work directory will have a 
 ```
 
 ```console title="Output"
-.command.begin  .command.err  .command.log  .command.out  .command.run  .command.sh  .exitcode  salmon_index  transcriptome.fa
+.command.begin  .command.out  .exitcode
+.command.err    .command.run  salmon_index
+.command.log    .command.sh   transcriptome.fa
 ```
 
 Of particular interest to us right now is the `.command.sh` file, which contains our process script.
