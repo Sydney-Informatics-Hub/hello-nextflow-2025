@@ -1,4 +1,4 @@
-# Why Nextflow?
+# 1.0 Why Nextflow?
 
 !!! info "Learning objectives"
 
@@ -12,7 +12,7 @@ It is designed around the idea that the Linux platform is the lingua franca of d
 
 Nextflow extends this approach, adding the ability to define complex program interactions and a high-level parallel computational environment based on the dataflow programming model.
 
-## Core features
+## 1.0.1 Core features
 
 Nextflow’s **core features** are:
 
@@ -20,7 +20,7 @@ Nextflow’s **core features** are:
 - Scalability of parallelization and deployment
 - Integration of existing tools, systems, and industry standards
 
-## Processes, tasks, and channels
+## 1.0.2 Processes, tasks, and channels
 
 A Nextflow workflow is made by joining together **processes**. Each process can be written in any scripting language that can be executed from the command line, such as Bash, Python, or R.
 
@@ -30,7 +30,7 @@ The only way they can communicate is via asynchronous first-in, first-out (FIFO)
 
 ![An example Nextflow schematic](img/myworkflow.excalidraw.png)
 
-## Execution abstraction
+## 1.0.3 Execution abstraction
 
 While a process defines what command or script is executed, the **executor** determines how and where the script is executed.
 
@@ -38,7 +38,7 @@ Nextflow provides an **abstraction** between the workflow’s functional logic a
 
 ![Execution abstraction of a Nextflow workflow](img/abstraction.excalidraw.png)
 
-## More information
+## 1.0.4 More information
 
 This workshop focuses on basic skills for developers.
 

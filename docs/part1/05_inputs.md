@@ -1,4 +1,4 @@
-# Inputs and Channels
+# 1.5 Inputs and Channels
 
 !!! info "Learning objectives"
 
@@ -6,17 +6,30 @@
     2. Utilise Nextflow process input blocks
     3. Use channels to run multiple inputs through a process
 
-So far, you've been emitting a greeting ('Hello World!') that has been hardcoded into the script block. In a more realistic situation, you might want to pass a variable input to your script, much like you pass files to command line tools for analysis.
+So far, you've been emitting a text string ('Hello World!') that has been hardcoded into the script block. In a more realistic situation, you might want to pass a variable input to your script, much like you pass files to command line tools for analysis.
 
 Here you're going to to add some flexibility by introducing **channels** to your workflow and an **input definition** to your `SAYHELLO` process.
 
-## Channels
+## 1.5.1 Passing information through channels
 
 In Nextflow, processes primarily communicate through **channels**. Channels are essentially the 'pipes' of our pipeline, providing a way for data to flow between our processes and defining the overall structure of the workflow.
 
 Channels allow us to handle inputs efficiently by defining which data should
 be taken from one step to another. Channels are one of Nextflows key features
 that allow us to run jobs in parallel amongst many additional benefits.
+
+![](img/channel_examples.png)
+
+This image illustrates a few use cases of channels that we will implement:
+
+- **1** shows our current `hello-world.nf` pipeline where the `SAYHELLO` process always
+prints a file called `output.txt` that contains `Hello World!`
+- **2** shows how you can provide a text input to a process, via a channel,
+to change what is redirected into `output.txt`. In this example, `'Hello World!'`
+is replaced with `'Bonjour'`.
+- **3** shows how to use the output of a process (`SAYHELLO`) as the input of
+another process. The `CONVERTUPPER` process replaces all lower case characters
+in `output.txt` to uppercase, and saves it to a different file called `upper.txt`.
 
 There are two kinds of channels: **queue channels** and **value channels**.
 
@@ -42,19 +55,27 @@ Value channels, as their name suggests, simply store a value. Importantly:
 
 When a value channel is passed as an input to a process, its value will be used for every run of that process.
 
-## Creating channels
+## 1.5.2 Creating channels
 
 Channels are created in one of two ways. The first is as outputs of processes. Each entry in the `output` block of a process creates a separate channel that can be accessed with `<process_name>.out` - or, in the case of named outputs, with `<process_name>.out.output_name`.
 
-The other way to create channels is with special functions called **channel factories**. There are numerous types of channel factories which can be utilised for creating different channel types and data types. The most common channel factories you will use are `Channel.of()`, `Channel.fromPath()`, and `Channel.fromFilePairs()`. The latter two are faily self explanatory, creating channels of file paths and pairs of file paths, respectively. The `Channel.of()` factory is a much more generic method used to create a channel of whatever values are passed to it. For example, the following creates a channel called `ch_greeting` that contains two values - "Hello World!", and "Goodbye!":
+The other way to create channels is with special functions called **channel factories**. There are numerous types of channel factories which can be utilised for creating different channel types and data types. The most common channel factories you will use are:
+
+- `Channel.of()`
+- `Channel.fromPath()`
+- `Channel.fromFilePairs()`.
+
+The latter two are fairly self explanatory, creating channels of file paths and pairs of file paths, respectively. The `Channel.of()` factory is a much more generic method used to create a channel of whatever values are passed to it.
+
+For example, an exercise we will be working through is to create a channel called `greeting_ch` that contains three values - 'Hello World!', 'Bonjour le monde!', 'Holà mundo':
 
 ```groovy
-ch_greeting = channel.of('Hello World!', 'Goodbye!')
+greeting_ch = Channel.of('Hello world!', 'Bonjour le monde!', 'Holà mundo')
 ```
 
-A process consuming this channel would run twice - once for each value.
+A process consuming this channel would run three times - once for each value.
 
-## Adding channels to our pipeline
+## 1.5.3 Adding channels to our pipeline
 
 You're going to start by creating a channel with the `Channel.of()` channel factory that will contain your greeting.
 
@@ -66,7 +87,8 @@ Channels need to be created within the `workflow` definition.
 
 !!!question "Exercise"
 
-    Create a channel named `greeting_ch` with the 'Hello World!' greeting.
+    Create a channel named `greeting_ch` with the 'Hello World!' greeting. Create `greeting_ch`
+    before the process that runs it.
 
     ???Solution
 
@@ -81,7 +103,7 @@ Channels need to be created within the `workflow` definition.
         }
         ```
 
-## Adding channels as process inputs
+## 1.5.4 Adding channels as process inputs
 
 Before `greeting_ch` can be passed to the `SAYHELLO` process as an input, you must first add an **input block** in the process definition.
 
@@ -157,7 +179,7 @@ Without this, Nextflow will throw an error.
         }
         ```
 
-### Using Nextflow variables within scripts
+## 1.5.5 Using Nextflow variables within scripts
 
 The final piece is to update the `script` block to use the `input` value.
 
@@ -172,9 +194,9 @@ echo '$greeting' > output.txt
 
 The `'` quotes around `$greeting` are required by the `echo` command to treat the greeting as a single string.
 
-!!!question "Exercise"
+!!!question "Exercises"
 
-    Update `hello-world.nf` to use the greeting input.
+    1. Update `hello-world.nf` to use the greeting input.
 
     ???Solution
 
@@ -205,6 +227,20 @@ The `'` quotes around `$greeting` are required by the `echo` command to treat th
         }
         ```
 
+    2. Save, and run the pipeline (`nextflow run hello-world.nf`). Inspect `results/output.txt`.
+
+    ???Solution
+
+    ```bash
+    cat results/output.txt
+    ```
+    ```console title="Output.txt"
+    Hello World! 
+    ```
+
+    The process will still function the same and produce the same output, but instead
+    takes the values in `greeting_ch` (`'Hello World!'`) as input.
+    
 !!! note
 
     Similar to the `output` block in a process, the `input` does not
@@ -212,7 +248,7 @@ The `'` quotes around `$greeting` are required by the `echo` command to treat th
 
 **Yes! Your pipeline now uses an input channel!**
 
-## Running processes on multiple inputs
+## 1.5.6 Running processes on multiple inputs
 
 Now that we have a channel set up and our process has been reworked to use it, we can very easily start feeding more inputs into the channel and watch `SAYHELLO` run on each one.
 
@@ -259,25 +295,33 @@ Launching `main.nf` [deadly_wilson] DSL2 - revision: 243f7816c2
 [dc/52fa3d] Submitted process > SAYHELLO (3)
 ```
 
+There is only one `output.txt` in our `results/` folder. This is because we have hardcoded the output name.
+Each time the process is run, it overwrites the existing `output.txt` and the one we see is from the last
+process that was run.
+
 !!!note
 
-    There is only one `output.txt` in our `results/` folder. This is because we have hardcoded the output name.
-    Each time the process is run, it overwrites the existing `output.txt` and the one we see is from the last
-    process that was run.
+    If you inspect your `output.txt`, it can contain any one of the greetings specified.
+    This is because **the order that tasks are run are non-deterministic**. Nextflow
+    tasks run on a FIFO (first-in, first-out) basis, meaning that a task will begin running
+    once it is ready. Different factors can impact this, but a common scenario is when 
+    the output of a process is ready, the downstream process that uses it as input will
+    be exectuted.
 
-## A note about multiple input channels
+## 1.5.7 A note about multiple input channels
 
 The input block can be used to define multiple inputs to the process. Importantly, the number of inputs passed to the process call within the workflow must match the number of inputs defined in the process. For example:
 
 ```groovy title="example.nf"
 process MYFUNCTION {
+    publishDir 'results'
 
     input:
     val input_1
     val input_2
 
     output:
-    stdout
+    path 'output.txt'
 
     script:
     """
@@ -295,8 +339,7 @@ If we view the file:
 ```bash
 cat output.txt
 ```
-
-```console
+```console title="Output"
 Hello World!
 ```
 
@@ -304,7 +347,7 @@ The main caveat when using multiple input channels is that the order of values a
 of [operators](https://www.nextflow.io/docs/latest/reference/operator.html#operators) to combine the multiple channels.
 Nextflow's [processes documentation](https://www.nextflow.io/docs/latest/process.html#multiple-input-channels) has an overview of how it works, and recommendations when it should be used in your own pipelines.
 
-## FAQ: Can I use the `publishDir` as an input to a process?
+## 1.5.8 FAQ: Can I use the `publishDir` as an input to a process?
 
 A common question about Nextflow is whether the `publishDir` can be used as an input to processes. This can sometimes seem like an attractive and useful pattern. For example, you may have several processes generating outputs that need to get collated or summarised in some way at the end of your workflow. If each process puts its final output in the `publishDir` directory, then the final summary process can simply look there for all its inputs.
 
