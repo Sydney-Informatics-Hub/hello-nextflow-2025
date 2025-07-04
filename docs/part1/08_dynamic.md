@@ -1,4 +1,4 @@
-# Dynamic naming
+# 1.8 Dynamic naming
 
 !!! info "Learning objectives"
 
@@ -12,7 +12,7 @@ it would help to identify the outputs by naming these dynamically.
 
 Let's get tricky and name your output files dynamically.
 
-### Dynamic outputs
+## 1.8.1 Expressing process outputs dynamically
 
 When an output file name needs to be expressed dynamically, it is possible to define it using a dynamic string that references values defined in the input declaration block or in the script global context.
 

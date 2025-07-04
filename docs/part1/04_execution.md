@@ -1,4 +1,4 @@
-# Running your first pipeline
+# 1.4 Running your first pipeline
 
 !!! info "Learning objectives"
     1. Running a Nextflow pipeline
@@ -12,7 +12,7 @@ how to interpret these, as well as the common log and output files of a run.
 You will be introduced to your first process directive and best practices on
 managing output files.
 
-## Executing `hello-world.nf`
+## 1.4.1 Executing `hello-world.nf`
 
 To run a Nextflow pipeline we use the **`nextflow run`** command, followed by the name of the script.
 
@@ -52,7 +52,7 @@ executor >  local (1)
 
 **Currently it is not obvious where our `output.txt` file has been written to.**
 
-## Understanding the work and task directories
+## 1.4.2 Understanding the work and task directories
 
 When a task is created, Nextflow stages the task input files, script, and other helper files into the task directory. The task writes any output files to this directory during its execution, and Nextflow uses these output files for downstream tasks and/or publishing.
 
@@ -140,7 +140,7 @@ Note that our `output.txt` file created by the `SAYHELLO` process is also in the
         introduce parameters and dynamic naming, when it is not as clear how the `script` block will
         look like.
 
-## Caching tasks and resuming workflows
+## 1.4.3 Caching tasks and resuming workflows
 
 One of the core features of Nextflow is the ability to store task executions
 (caching). These cached tasks and files can be reused by Nextflow to minimise
@@ -185,7 +185,7 @@ was completed succesfully or not.
 Since we already ran the `SAYHELLO` task, it completed without error, and the task directory
 with the matching unique ID exists, these previous results are used as the process results.
 
-## Publishing outputs
+## 1.4.4 Publishing outputs
 
 By default, all files created by processes exist only inside the `work` directory. When we have
 pipelines with multiple processes that generate many output files, it is not feasible to

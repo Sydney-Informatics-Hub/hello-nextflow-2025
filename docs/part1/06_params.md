@@ -1,4 +1,4 @@
-# Parameters
+# 1.6 Parameters
 
 !!! info "Learning objectives"
 
@@ -9,7 +9,7 @@ Parameters are special values that can be set from command line arguments and th
 
 Here you're going to update the script with parameters to make it more flexible.
 
-## Why are parameters useful?
+## 1.6.1 Why are parameters useful?
 
 Parameters are useful because they can be set with a convenient default value in a script but can then be overwritten at runtime using a flag. Simply, parameters allow us to configure some aspect of a pipeline without editing the script itself.
 
@@ -21,7 +21,7 @@ Parameters can be created within the top level of your Nextflow script (i.e. out
 nextflow run hello-world.nf --greeting 'Hello World!'
 ```
 
-## Updating your workflow with the `--greeting` parameter
+## 1.6.2 Updating your workflow with the `--greeting` parameter
 
 Instead of hard coding 'Hello World!' as an input, a parameter, with a default value, can be created:
 
@@ -91,7 +91,7 @@ The `hello-world.nf` pipeline can now be executed with the `--greeting` flag and
 nextflow run hello-world.nf --greeting 'Bonjour le monde!'
 ```
 
-## Setting a dynamic publishing directory with `--outdir`
+## 1.6.3 Setting a dynamic publishing directory with `--outdir`
 
 Hardcoding a single output directory in your pipeline is often inconvenient -
 each new run can overwrite the previous results. By using a parameter for the `publishDir`

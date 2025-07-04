@@ -1,4 +1,4 @@
-# Adding new processes
+# 1.7 Adding new processes
 
 !!! info "Learning objectives"
 
@@ -10,7 +10,7 @@ Up until now you've been modifying a single step. However, pipelines generally c
 
 Here you're going to step things up again and add another process to the pipeline.
 
-## Translating text
+## 1.7.1 Translating text
 
 The `tr` command is a UNIX command-line utility for **translating** or deleting characters. It supports a range of transformations including uppercase to lowercase, squeezing repeating characters, deleting specific characters, and basic find and replace. It can be used with UNIX pipes to support more complex translation. `tr` stands for translate. The following example will translate all lower case letters (represented by the pattern `[a-z]`) to upper case (represented by `[A-Z]`):
 
@@ -22,7 +22,7 @@ tr '[a-z]' '[A-Z]'
 
     For the curious, the patterns we are using here - e.g. `[a-z]` - are called *regular expressions*. They are a way of describing patterns in text and can be immensely useful in manipulating text as they provide a way to search and replace text in more complex ways than simple exact matches. Be warned, they can get very complicated and confusing very quickly!
 
-## Piping commands
+## 1.7.2 Piping commands
 
 The pipe command in Linux, represented by the vertical bar symbol `|`, is an essential tool for command-line enthusiasts and professionals alike. The primary purpose of the pipe command is to connect the output of one command directly into the input of another:
 
@@ -42,7 +42,7 @@ Like before, the output can be redirected to an output file:
 cat output.txt | tr '[a-z]' '[A-Z]' > upper.txt
 ```
 
-## Adding the `CONVERTTOUPPER` process
+## 1.7.3 Adding the `CONVERTTOUPPER` process
 
 The output of the `SAYHELLO` process is a text file called `output.txt`.
 
@@ -164,7 +164,7 @@ Using what you have learned in the previous sections you will now write a new pr
         }
         ```
 
-## Connecting the processes
+## 1.7.4 Connecting the processes
 
 As we learned in the [inputs module](05_inputs.md), Nextflow uses channels to connect processes. Each output defined in a process' `output` block defines a new channel that can be used as inputs for another process.
 

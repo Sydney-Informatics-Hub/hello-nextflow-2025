@@ -1,4 +1,4 @@
-# Hello World!
+# 1.2 Hello World!
 
 !!! info "Learning objectives"
 
@@ -8,7 +8,7 @@ A **Hello, World!** is a minimalist example that is meant to demonstrate the bas
 
 Let's demonstrate this with simple commands that you can run directly in the terminal.
 
-## Print a string
+## 1.2.1 Printing a string
 
 The **`echo`** command in Linux is a built-in command that allows users to display lines of text or strings that are passed as arguments. It is commonly used in shell scripts and batch files to output status text to the screen or a file.
 
@@ -32,7 +32,7 @@ echo <string>
         Hello World!
         ```
 
-## Redirect outputs
+## 1.2.2 Redirecting outputs
 
 The output of the `echo` can be redirected to a file instead of displaying it on the terminal. You can achieve this by using the **`>`** operator for output redirection.
 
@@ -52,7 +52,7 @@ The output of the `echo` can be redirected to a file instead of displaying it on
 
         Instead of printing the output to the terminal, this will write the output of the echo command to the file name `output.txt`.
 
-## List files
+## 1.2.3 Listing files
 
 The Linux shell command **`ls`** lists directory contents of files and directories. It provides valuable information about files, directories, and their attributes.
 
@@ -78,7 +78,7 @@ ls
         output.txt
         ```
 
-## View file contents
+## 1.2.4 Viewing file contents
 
 The **`cat`** command in Linux is a versatile companion for various file-related operations, allowing users to view, concatenate, create, copy, merge, and manipulate file contents.
 

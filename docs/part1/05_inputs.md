@@ -1,4 +1,4 @@
-# Inputs and Channels
+# 1.5 Inputs and Channels
 
 !!! info "Learning objectives"
 
@@ -10,7 +10,7 @@ So far, you've been emitting a text string ('Hello World!') that has been hardco
 
 Here you're going to to add some flexibility by introducing **channels** to your workflow and an **input definition** to your `SAYHELLO` process.
 
-## Channels
+## 1.5.1 Passing information through channels
 
 In Nextflow, processes primarily communicate through **channels**. Channels are essentially the 'pipes' of our pipeline, providing a way for data to flow between our processes and defining the overall structure of the workflow.
 
@@ -55,7 +55,7 @@ Value channels, as their name suggests, simply store a value. Importantly:
 
 When a value channel is passed as an input to a process, its value will be used for every run of that process.
 
-## Creating channels
+## 1.5.2 Creating channels
 
 Channels are created in one of two ways. The first is as outputs of processes. Each entry in the `output` block of a process creates a separate channel that can be accessed with `<process_name>.out` - or, in the case of named outputs, with `<process_name>.out.output_name`.
 
@@ -75,7 +75,7 @@ greeting_ch = Channel.of('Hello world!', 'Bonjour le monde!', 'Holà mundo')
 
 A process consuming this channel would run three times - once for each value.
 
-## Adding channels to our pipeline
+## 1.5.3 Adding channels to our pipeline
 
 You're going to start by creating a channel with the `Channel.of()` channel factory that will contain your greeting.
 
@@ -103,7 +103,7 @@ Channels need to be created within the `workflow` definition.
         }
         ```
 
-## Adding channels as process inputs
+## 1.5.4 Adding channels as process inputs
 
 Before `greeting_ch` can be passed to the `SAYHELLO` process as an input, you must first add an **input block** in the process definition.
 
@@ -179,7 +179,7 @@ Without this, Nextflow will throw an error.
         }
         ```
 
-### Using Nextflow variables within scripts
+## 1.5.5 Using Nextflow variables within scripts
 
 The final piece is to update the `script` block to use the `input` value.
 
@@ -248,7 +248,7 @@ The `'` quotes around `$greeting` are required by the `echo` command to treat th
 
 **Yes! Your pipeline now uses an input channel!**
 
-## Running processes on multiple inputs
+## 1.5.6 Running processes on multiple inputs
 
 Now that we have a channel set up and our process has been reworked to use it, we can very easily start feeding more inputs into the channel and watch `SAYHELLO` run on each one.
 
@@ -308,7 +308,7 @@ process that was run.
     the output of a process is ready, the downstream process that uses it as input will
     be exectuted.
 
-## A note about multiple input channels
+## 1.5.7 A note about multiple input channels
 
 The input block can be used to define multiple inputs to the process. Importantly, the number of inputs passed to the process call within the workflow must match the number of inputs defined in the process. For example:
 
@@ -347,7 +347,7 @@ The main caveat when using multiple input channels is that the order of values a
 of [operators](https://www.nextflow.io/docs/latest/reference/operator.html#operators) to combine the multiple channels.
 Nextflow's [processes documentation](https://www.nextflow.io/docs/latest/process.html#multiple-input-channels) has an overview of how it works, and recommendations when it should be used in your own pipelines.
 
-## FAQ: Can I use the `publishDir` as an input to a process?
+## 1.5.8 FAQ: Can I use the `publishDir` as an input to a process?
 
 A common question about Nextflow is whether the `publishDir` can be used as an input to processes. This can sometimes seem like an attractive and useful pattern. For example, you may have several processes generating outputs that need to get collated or summarised in some way at the end of your workflow. If each process puts its final output in the `publishDir` directory, then the final summary process can simply look there for all its inputs.
 

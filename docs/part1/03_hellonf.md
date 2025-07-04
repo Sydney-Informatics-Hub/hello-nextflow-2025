@@ -1,4 +1,4 @@
-# Writing your first pipeline
+# 1.3 Writing your first pipeline
 
 !!! info "Learning objectives"
 
@@ -10,7 +10,7 @@ Workflow languages, such as Nextflow, provide a structured way of managing multi
 
 Here, you're going learn more about the Nextflow language and take your first steps making **your first pipeline** with Nextflow.
 
-## Understanding the `process` and `workflow` scopes
+## 1.3.1 Understanding the `process` and `workflow` scopes
 
 Nextflow pipelines are written inside `.nf` files. They consist of a combination of two main components: **processes** and the **workflow** itself. Each process describes a single step of the pipeline, including its inputs and expected outputs, as well as the code to run it. The workflow then defines the logic that puts all of the processes together.
 
@@ -130,7 +130,7 @@ logical way. This approach will be continued in Part 2, when you build an RNA-se
         }
         ```
 
-## Commenting your code
+## 1.3.2 Commenting your code
 
 Before we complete our process, we will **comment** our code. Commenting your code is worthwhile so we, and others, can easily understand what the code is doing (you will thank yourself later).
 
@@ -188,7 +188,7 @@ As a developer you can to choose how and where to comment your code.
 
         As a developer, you get to choose!
 
-## Capturing process outputs 
+## 1.3.3 Capturing process outputs 
 
 In the previous section, you have defined the `script` - what the `SAYHELLO` process should do.
 We also need to tell Nextflow to expect this output file - otherwise, it will ignore it!
@@ -256,7 +256,7 @@ This example is brittle because the output filename is hardcoded in two separate
 
 **You have now defined your first process!**
 
-## Calling the process in the `workflow` scope
+## 1.3.4 Calling the process in the `workflow` scope
 
 We have now defined a functional process for `SAYHELLO`. To ensure that it runs,
 you need to call the process in the `workflow` scope. Recall that the process
