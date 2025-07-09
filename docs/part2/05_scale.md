@@ -4,8 +4,8 @@
 
     1. Configure Nextflow workflows to run on multiple samples
     2. Enable and interpret Nextflow's inbuilt reports 
-    3. Implement the `tag` directive to label tasks for better tracking and profiling
-    4. Configure a Nextflow workflow to use multiple CPUs for a process 
+    3. Use the `tag` directive to label tasks for better tracking and profiling
+    4. Configure a Nextflow process to request and use multiple CPUs for a process 
 
 Now that we have a working pipeline on a single-sample, we will update it 
 to take multiple samples and introduce Nextflow concepts that not only help with understanding and profiling the pipeline but also set the stage for productionising it. 
@@ -21,7 +21,7 @@ These steps ensure that the pipeline can be reliably used in more complex scenar
 
 ## 2.5.1 Labeling tasks with the `tag` directive
 
-The [tag](https://www.nextflow.io/docs/latest/process.html#tag) process
+The [tag](https://www.nextflow.io/docs/latest/reference/process.html#tag) process
 directive allows you to add a custom label, or tag, to each task that gets
 executed. It is useful for identifying what is being run when the workflow
 is being executed in a bit more detail. It is especially helpful showing you 
@@ -216,6 +216,8 @@ Removed /home/user/hello-nextflow/work/c3/feb819a918abd91819c8143053f091
 
     See the [Nextflow docs](https://www.nextflow.io/docs/latest/reference/cli.html#clean) for more information.
 
+    The [Nextflow CLI reference page](https://www.nextflow.io/docs/latest/reference/cli.html) also has useful information on all the other Nextflow subcommands, such as [`nextflow log`](https://www.nextflow.io/docs/latest/reference/cli.html#log) for accessing run metadata.
+
 ## 2.5.4 An introduction to configuration  
 
 In this section, we will explore how Nextflow workflows can be configured
@@ -234,7 +236,7 @@ analyses. From the `fastqc --help` command, you'll notice the following option:
 This means we can configure the number of threads (or CPUs) that FastQC uses
 to process multiple files in parallel to speed up the analysis. In Nextflow,
 we control this through the 
-[`cpus`](https://www.nextflow.io/docs/latest/process.html#cpus) directive.
+[`cpus`](https://www.nextflow.io/docs/latest/reference/process.html#cpus) directive.
 
 Recall that our `FASTQC` takes as input the `reads_in` channel which emits two
 `.fastq` files. We will configure the process to use 2 CPUs so each file gets

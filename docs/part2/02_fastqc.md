@@ -2,9 +2,9 @@
 
 !!! note "Learning objectives"
 
-    1. Implement a process with a tuple input.
-    2. Understand why samplesheets should be used to read in data.
-    3. Build an input channel using operators and Groovy.
+    1. Construct a Nextflow process that accepts a tuple input from a channel.
+    2. Describe the benefits of using a samplesheet to manage and read in workflow inputs.
+    3. Build a custom input channel using Groovy expressions and Nextflow operators. 
 
 In this lesson we will transform the next bash script, `01_fastqc.sh` into a process called `FASTQC`. This step focuses on the next phase of RNAseq data processing: assessing the quality of some our raw sequencing reads. 
 
@@ -163,7 +163,7 @@ just added:
 2. `$reads_1`
 3. `$reads_2`
 
-In order to ensure we process the sample ID along with its two related FASTQ files together, we will introduce a new input qualifier: the [`tuple`](https://www.nextflow.io/docs/latest/process.html#input-type-tuple).
+In order to ensure we process the sample ID along with its two related FASTQ files together, we will introduce a new input qualifier: the [`tuple`](https://www.nextflow.io/docs/latest/process.html#input-tuples-tuple).
 
 A tuple is simply an ordered collection of objects. When you use a tuple as input to a Nextflow process, it ensures that the objects inside are grouped and processed together as a single unit. This is a requirement when working with multiple pieces of data that are specific to a given sample.
 
@@ -211,6 +211,7 @@ process FASTQC {
 
   script:
   """
+  mkdir -p "fastqc_${sample_id}_logs"
   fastqc --outdir "fastqc_${sample_id}_logs" --format fastq $reads_1 $reads_2
   """
 }
