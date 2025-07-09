@@ -105,7 +105,7 @@ Let's inspect the work directory.
                     └── output.txt
             ```
 
-A series of files **log** files and any outputs are created by each task in the work directory:
+A series of **log** files and any outputs are created by each task in the work directory:
 
 - **`.command.begin`**: Metadata related to the beginning of the execution of the process task
 - **`.command.err`**: Error messages (stderr) emitted by the process task
@@ -178,7 +178,7 @@ and review how caching allows resumability.
         ```
 
 The output you receive is the same as the first time the pipeline was ran, with the addition
-of `cached: 1`. The workflow was execuuted from the beginning, however, before running the
+of `cached: 1`. The workflow was executed from the beginning, however, before running the
 task, Nextflow used the unique task ID to check if the task directory already exists and
 was completed succesfully or not.
 
