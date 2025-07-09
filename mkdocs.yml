@@ -1,4 +1,4 @@
-site_name: Hello Nextflow 2025
+site_name: Nextflow for the Life Sciences
 repo_url: https://github.com/Sydney-Informatics-Hub/hello-nextflow-2025
 repo_name: Sydney-Informatics-Hub/hello-nextflow-2025
 
@@ -15,6 +15,7 @@ nav:
     - 1.6 Parameters: part1/06_params.md
     - 1.7 Adding processes: part1/07_process.md
     - 1.8 Dynamic naming: part1/08_dynamic.md
+    - 1.9 Wrapping up: part1/09_outro.md
   - Part 2:
     - 2.0 Introduction: part2/00_intro.md
     - 2.1 Our first process and container: part2/01_salmon_idx.md
