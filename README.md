@@ -1,4 +1,4 @@
-# hello-nextflow-2025
+# Nextflow for the Life Sciences 2025
 
 Training materials for SIH's implementation of Seqera's Hello Nextflow workshop 2025.
 
