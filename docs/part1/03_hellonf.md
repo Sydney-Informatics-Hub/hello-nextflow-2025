@@ -268,7 +268,7 @@ is analagous to a function that we need to instruct to run in `workflow`.
     define an empty `workflow` scope:
 
     ??? "Solution"
-        ```groovy title="hello-world.nf" hl_lines="11-14"
+        ```groovy title="hello-world.nf" hl_lines="12-15"
         // Use echo to print 'Hello World!' and redirect to output.txt
         process SAYHELLO {
 

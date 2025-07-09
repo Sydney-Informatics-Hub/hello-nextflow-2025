@@ -188,6 +188,11 @@ was completed succesfully or not.
 Since we already ran the `SAYHELLO` task, it completed without error, and the task directory
 with the matching unique ID exists, these previous results are used as the process results.
 
+!!! note
+
+    The `-resume` flag was used in the step to demonstrate Nextflow's caching feature. 
+    This will be used extensively later in Part 2.
+
 ## 1.4.4 Publishing outputs
 
 By default, all files created by processes exist only inside the `work` directory. When we have
