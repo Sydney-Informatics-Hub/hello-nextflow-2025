@@ -14,10 +14,10 @@ This workshop will provide you with the foundational knowledge required to build
 | Brisbane (QCIF/QUT)                           | Magdalena Antczak, Marie-Emilie Gauthier |
 | Perth (Pawsey)                                | Sarah Beecroft, Pratihba Raghunandan     |
 | Canberra (NCI)                                | Kisaru Liyanage                          |
-| Adelaide (SAGC)                               | John Salamon                             |
+| Adelaide (SAGC)                               | John Salamon, Michael Roach              |
 | Melbourne (Melbourne Bioinformatics)          | Emma Gail, Grace Hall                    |
 | Melbourne (Peter MacCallum Cancer Centre)     | Richard Lupat                            |
-| Sydney (Garvan Institute of Medical Research) | Thanh Nguyen, Eric Urng                  |
+| Sydney (Garvan Institute of Medical Research) | Thanh Nguyen, Eric Urng, Matthew Hobbs   |
 
 ## Prerequisites
 
@@ -48,14 +48,15 @@ In order to foster a positive and professional learning environment we encourage
 
 |Time (AEST)|Activity                            |Presenter(s)  |
 |-----------|------------------------------------|--------------|
-|13:00      |Welcome                             | Giorgia      |
-|13:10      |Introduction to the workshop        | Giorgia, Fred|
-|13:15      |Workspace set up                    | Fred         |
-|13:20      |Introduction to Nextflow (Part 1.0) | Fred         |
-|13:30      |Workshop: Part 1.1 - 1.4            | Fred         |
-|14:30      |BREAK                               | Giorgia      |
-|14:45      |Workshop: Part 1.5 - 1.8            | Fred         |
-|15:45      |Q&A and Day 1 recap                 | Fred, Giorgia|
+|13:00      |Arrival                             | Giorgia      |
+|13:15      |Welcome and housekeeping            | Giorgia      |
+|13:35      |Introductions and icebreakers       | Giorgia      |
+|TBA        |Workspace set up                    | Fred         |
+|13:50      |Introduction to Nextflow (Part 1.0) | Fred         |
+|14:00      |Workshop: Part 1.1 - 1.4            | Fred         |
+|15:00      |BREAK                               | Giorgia      |
+|15:15      |Workshop: Part 1.5 - 1.8            | Fred         |
+|16:15      |Q&A and Day 1 recap                 | Fred, Giorgia|
 
 ### Day 2
 
