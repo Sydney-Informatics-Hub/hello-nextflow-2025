@@ -127,6 +127,6 @@ You should now see some new files in your results folder:
     In this lesson, we made our pipeline outputs more informative by:
 
     1. Using dynamic names to name outputs such as `Hello.txt`
-    2. Updated both the `SAYHELLO` and `CONVERTTOUUPPER` processes to use interpolated file names
+    2. Updated both the `SAYHELLO` and `CONVERTTOUPPER` processes to use interpolated file names
     3. Applied double-quoted strings and curly braces `{}` for variable expansion in both script and output blocks
     4. Noted the limitation of using file names with spaces, reinforcing the importance of simple input values for filenames

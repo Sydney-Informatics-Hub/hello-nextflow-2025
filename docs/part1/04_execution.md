@@ -235,7 +235,7 @@ By adding the above to a process, all output files would be saved in a new folde
 
 !!! abstract "Summary"
 
-    This lesson focused on executin gand understanding the runtime behaviour of a basic Nextflow pipeline, including:
+    This lesson focused on executing and understanding the runtime behaviour of a basic Nextflow pipeline, including:
 
     1. Running the pipeline and interpretting the terminal output
     2. Inspecting the work directory and task logs (e.g. `.command.sh`)

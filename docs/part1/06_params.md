@@ -188,7 +188,7 @@ This can be especially useful when you want to:
 
     1. Declared global parameter values for the greeing message and output directory
     2. Used parameterised inputs with `Channel.of(params.greeting)`
-    3. Applied the `--greeting` and `--outdir` flags to overrise defaults at runtime
+    3. Applied the `--greeting` and `--outdir` flags to override defaults at runtime
     4. Replaced hardcoded values with configurable options
     5. Recognised the benefits of configuring output names for reproducibility
 

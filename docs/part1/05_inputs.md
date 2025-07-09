@@ -361,7 +361,7 @@ Ultimately, all processes should be working with channels as their inputs, and `
 
 !!! abstract "Summary"
 
-    Channels is one of Nextflow's most powerful features by allowing data to flow into, and between processes. In this lesson, we:
+    Channels are one of Nextflow's most powerful features by allowing data to flow into, and between processes. In this lesson, we:
 
     1. Created a queue channel
     2. Used the `val` input qualifer to provide a string input
