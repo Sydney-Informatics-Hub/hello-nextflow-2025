@@ -2,7 +2,8 @@
 
 !!! info "Learning objectives"
 
-    1. Utilise simple bash commands to manipulate strings
+    1. Recall bash commands to manipulate strings (`echo`, `ls`, `cat`)
+    2. Understand how output redirection works (`>`)
 
 A **Hello, World!** is a minimalist example that is meant to demonstrate the basic syntax and structure of a programming language or software framework. The example typically consists of printing the phrase 'Hello World!' to the output, such as the console or terminal, or writing it to a file.
 
@@ -106,9 +107,8 @@ cat <file name>
 
 !!! abstract "Summary"
 
-    In this step you have learned:
+    This lesson recalls basic bash commands using a classic "Hello World!" example, including:
 
-    1. How to use the `echo` command to print a string to the terminal
-    2. How to use the `>` operator to redirect the output of `echo`
-    3. How to use the `ls` command to list the files in your working directory
-    4. How to use the `cat` command to print the contents of files
+    1. Printing to the terminal with `echo`
+    2. Redirecting output to a file with `>`
+    3. Viewing files and file contents with `ls` and `cat`

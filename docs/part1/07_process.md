@@ -2,9 +2,10 @@
 
 !!! info "Learning objectives"
 
-    1. Transform text strings 
-    2. Chain Nextflow processes together
-    3. Utilise process outputs as inputs
+    1. Revise the use of piping and text transformation in bash (`tr`, `cat`, `|`)
+    2. Implement a new `process` block to perform transformations on text files
+    3. Implement connecting the output of a process as an input of another process via channels
+    4. Evaluate process outputs and how they interact in a multi-step pipeline
 
 Up until now you've been modifying a single step. However, pipelines generally consist of multiple steps where outputs from one step are used as inputs for the next.
 
@@ -264,8 +265,9 @@ executor >  local (2)
 
 !!! abstract "Summary"
 
-    In this step you have learned:
+    In this section we extended our pipeline by introducing a second process, and connecting to the first. We:
 
-    1. How to translate strings
-    2. How add more processes to a script
-    3. How to use outputs and inputs
+    1. Explore the `tr` command for translating text to uppercase
+    2. Defined a new process `CONVERTTOUPPER` to take a file and generate a modified output
+    3. Connected the output of the `SAYHELLO` process to `CONVERTTOUPPER` using `.out`
+    4. Updated our workflow scope to call both processes sequentially

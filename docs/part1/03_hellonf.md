@@ -2,9 +2,10 @@
 
 !!! info "Learning objectives"
 
-    1. Write your first Nextflow pipeline
-    2. Understand the main components of a Nextflow script
-    3. Understand the components of a Nextflow process
+    1. Understand the structure and purpose of `process` and `workflow` blocks in Nextflow scripts
+    2. Understand how to define a simple `process` using `script` and `output` blocks
+    3. Create a complete, single-step Nextflow pipeline
+    4. Evaluate script readability using comments
 
 Workflow languages, such as Nextflow, provide a structured way of managing multi-step analyses. Workflow languages can help you coordinate individual tasks, handle dependencies, enable parallel execution, and improve reproducibility. They also make your code easier to maintain and share with others.
 
@@ -327,10 +328,10 @@ our workflow.
 
 !!! abstract "Summary"
 
-    In this step you have learned:
+    This lesson introduced the Nextflow scripting language and walked you through:
 
-    1. How to create a simple Nextflow pipeline
-    2. The key components of a Nextflow script (`process` and `workflow`)
-    3. How to define a process with `script` and `output` blocks
-    4. How to comment your code
-    5. How to call processes in the workflow scope
+    1. Defining a simple `process` using `script` and `output` blocks
+    2. Understanding how the `workflow` scope will trigger execution
+    3. Adding single or multi-line comments
+    4. Using output qualifiers like `path` vs. `val`
+    5. Highlighting the importance of consistency between output declaration and actual files produced

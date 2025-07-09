@@ -2,8 +2,10 @@
 
 !!! info "Learning objectives"
 
-    1. Implement pipeline parameters
-    2. Understand the importance of parameters for flexible pipelines
+    1. Understand how parameters enable flexible and configurable pipelines
+    2. Apply command-line flags to define parameters during execution
+    3. Modify pipeline behaviour dynamically using `params` within process and workflow scopes
+    4. Evaluate when to use parameters for outputs to support reproducibility and avoid overwrites
 
 Parameters are special values that can be set from command line arguments and therefore allow you to write flexible and dynamic pipelines. Parameters in Nextflow are comparable to "variables" in other programming languages (e.g. R, Python).
 
@@ -182,7 +184,11 @@ This can be especially useful when you want to:
 
 !!! abstract "Summary"
 
-    In this step you have learned:
+    In this lesson, we updated our pipelines to support flexible execution using parameters:
 
-    1. How to how to add parameters to a pipeline
-    2. How to modify parameters using the command line
+    1. Declared global parameter values for the greeing message and output directory
+    2. Used parameterised inputs with `Channel.of(params.greeting)`
+    3. Applied the `--greeting` and `--outdir` flags to overrise defaults at runtime
+    4. Replaced hardcoded values with configurable options
+    5. Recognised the benefits of configuring output names for reproducibility
+
