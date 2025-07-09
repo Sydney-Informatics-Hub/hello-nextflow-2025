@@ -50,10 +50,10 @@ In order to foster a positive and professional learning environment we encourage
 |-----------|------------------------------------|--------------|
 |13:00      |Arrival                             | Giorgia      |
 |13:15      |Welcome and housekeeping            | Giorgia      |
-|13:35      |Introductions and icebreakers       | Giorgia      |
-|TBA        |Workspace set up                    | Fred         |
-|13:50      |Introduction to Nextflow (Part 1.0) | Fred         |
-|14:00      |Workshop: Part 1.1 - 1.4            | Fred         |
+|13:25      |Introductions and icebreakers       | Giorgia      |
+|13:40      |Workshop overview and setup         | Fred         |
+|13:55      |Introduction to Nextflow (Part 1.0) | Fred         |
+|14:05      |Workshop: Part 1.1 - 1.4            | Fred         |
 |15:00      |BREAK                               | Giorgia      |
 |15:15      |Workshop: Part 1.5 - 1.8            | Fred         |
 |16:15      |Q&A and Day 1 recap                 | Fred, Giorgia|
