@@ -62,13 +62,15 @@ In order to foster a positive and professional learning environment we encourage
 
 |Time (AEST)|Activity                            |Presenter(s)  |
 |-----------|------------------------------------|--------------|
-|13:00      |Day 2 Welcome                       | Giorgia      |
-|13:05      |Setup and Introduction to Part 2    | Michael      |
-|13:15      |Workshop: Part 2.1 - 2.3            | Michael      |
-|14:30      |BREAK                               | Giorgia      |
-|14:45      |Workshop: Part 2.4 - 2.5            | Michael      |
-|15:40      |Day 2 Summary                       | Michael, Giorgia |
-|15:50      |Wrap up and survey                  | Giorgia      |
+|13:00      |Arrival                             | Giorgia      |
+|13:10      |Welcome and housekeeping            | Giorgia      |
+|13:15      |Setup and introduction to Part 2    | Michael      |
+|13:25      |Workshop: Part 2.1 - 2.2            | Michael      |
+|14:15      |BREAK                               | Giorgia      |
+|14:30      |Workshop: Part 2.3 - 2.5            | Michael      |
+|15:50      |Day 2 summary                       | Michael, Giorgia, Fred |
+|16:00      |Discussion and Q&A                  | Giorgia      |
+|16:15      |Wrap up and feedback survey         | Giorgia      |
 
 ## Course survey
 
