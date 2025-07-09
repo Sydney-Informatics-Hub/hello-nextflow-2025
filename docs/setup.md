@@ -1,14 +1,14 @@
 # Setting up your computer
 
-In this workshop, we will be using Virtual Machines (VM) on the
-[ARDC Nectar Research Cloud](https://ardc.edu.au/services/ardc-nectar-research-cloud/).
+In this workshop, we will be using Virtual Machines (VM) on
+[NCI's Nirin Cloud](https://nci.org.au/our-systems/cloud-systems).
 
 The requirements for this workshop are a personal computer with:
 
 - Visual Studio Code (VSCode)
 - A web browser
 
-Below, you will find instructions on how to set up VSCode and connect toyour VM.
+Below, you will find instructions on how to set up VSCode and connect to your VM.
 Each participant will be provided with their instances IP address prior to the workshop.
 Before the workshop, you must have the following:
 
@@ -47,20 +47,6 @@ Specific VSCode extensions are required to connect to the VM and make working wi
 ![](img/vscode_3.png)
 5. Close the Extensions tab and sidebar
 
-## Setting up the `code` command
-
-VSCode comes with a handy way of opening up folders and files from the command line - the `code` command. If you are working on a Mac, you may need to enable it first by:
-
-1. Opening the command palette (`Cmd + Shift + P`)
-
-2. Typing `shell command`
-
-3. Select the option `Shell Command: Install 'code' command in PATH`
-
-4. Restart your terminal application for the updated `$PATH` variable to take effect.
-
-Now you should be able to open any file in VSCode by typing `code <filename>` in your terminal. Additionally, you can open an entire folder as a workspace in a new VSCode window by typing `code <directory path>`
-
 ## Setting up your remote SSH config
 
 1. In VSCode, press `Ctrl+Shift+P` (`Command+Shift+P` on mac) to open the Command Palette.
@@ -69,7 +55,13 @@ Now you should be able to open any file in VSCode by typing `code <filename>` in
 2. Type `remote ssh` and select **`Remote-SSH: Add New SSH Host...`**. This may appear in a different position in the list.
 
 ![](img/ssh_1.png)
-3. Enter the SSH connection string with the IP address that was provided to you. The connection string should look like **`ssh user1@XXX.XXX.XX.XX`**. Ensure that you replace the "XXX..." with your allocated IP address. Press `Enter`.
+3. Enter the SSH connection string with the IP address that was provided to you. The connection string should look like: 
+
+```console
+ssh training@XXX.XXX.XX.XX
+```
+
+Ensure that you replace the **`training@XXX.XXX.XX.XX`** with your allocated IP address. Press `Enter`.
 
 ![](img/ssh_2.png)
 4. You will be prompted to `Select SSH configuration file to update`. Select your `.ssh/config` file.
@@ -86,12 +78,25 @@ Ensure you have configured your SSH details.
 2. Type `remote ssh` and select **`Remote-SSH: Connect to Host...`**. This may appear in a different position in the list.
 
 ![](img/vm_0.png)
-3. Select the IP address that you have configured. If you are prompted for a platform, select "Linux".
-4. A new VSCode window will open and prompt you for your password. Input your allocated password and hit 'Enter'.
+3. Select the IP address that you have configured. A new VSCode window will open.
+
+
+!!! note "Connecting for the first time"
+
+    When you connect to your VM for the first time, you may need to configure a few settings:
+
+    * If you are prompted with `<ip address> has fingerprint ...`, **Select `Continue`**
+    * If you are prompted for a platform, **select `"Linux"`**
+
+<ol start="4">
+    <li>Input your allocated password and hit 'Enter'.</li>
+</ol>
 
 ![](img/vm_1.png)
-5. In the pop-up, Select **"Yes, I trust the authors"**
-6. Once the blue square in the bottom-left of the VSCode window shows `SSH: XXX.XXX.XX.XX` - you have successfully connected to your instance!
+
+<ol start="5">
+    <li>Once the blue square in the bottom-left of the VSCode window shows <strong><code>SSH: XXX.XXX.XX.XX</strong></code> - you have successfully connected to your instance!</li>
+</ol>
 
 ![](img/vm_2.png)
 
@@ -104,11 +109,15 @@ Ensure you have configured your SSH details.
 2. Select **`Open Folder`**
 
 ![](img/vm_4.png)
-3. The correct file path should be input by default (`/home/userX/`). Press 'OK'.
-4. The home directory will appear in the left side bar.
+3. The correct file path should be input by default (`/home/training/`). **Select `OK`**.  
+<br>
+4. If prompted, select **"Yes, I trust the authors"**.   
+<br>
+5. The home directory will appear in the left side bar.
 
 ![](img/vm_5.png)
-6. In the Explorer sidebar, select `.main.nf`. This file will open in a tab. You may need to re-enter you password again.
+6. In the Explorer sidebar, select the `part2` dropdown, then select `.main.nf`. This file will open in a tab. You may need to re-enter you password again.  
+<br>
 7. Check that syntax highlighting (different parts of the Nextflow code are coloured) is enabled as shown. This is to confirm the VSCode Nextflow extension is working correctly.
 
 ![](img/vm_6.png)
@@ -117,7 +126,9 @@ Ensure you have configured your SSH details.
     The `.main.nf` file is for testing purposes only. We will not touch this
     file in the workshop.
 
-<p>8. Toggle the terminal in VSCode by pressing `Ctrl+j` (`Cmd+j` on mac).</p>
+<ol start="8">
+    <li>Toggle the terminal in VSCode by pressing <code>Ctrl+j</code> (<code>Cmd+j</code> on mac).</li>
+</ol>
 
 
 ![](img/vm_7.png)
