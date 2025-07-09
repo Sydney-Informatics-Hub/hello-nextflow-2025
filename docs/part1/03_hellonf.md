@@ -1,4 +1,4 @@
-# Writing your first pipeline
+# 1.3 Writing your first pipeline
 
 !!! info "Learning objectives"
 
@@ -6,13 +6,21 @@
     2. Understand the main components of a Nextflow script
     3. Understand the components of a Nextflow process
 
-Workflow languages are better than Bash scripts because they handle errors and run tasks in parallel more easily, which is important for complex jobs. They also have clearer structure, making it easier to maintain and work on with others.
+Workflow languages, such as Nextflow, provide a structured way of managing multi-step analyses. Workflow languages can help you coordinate individual tasks, handle dependencies, enable parallel execution, and improve reproducibility. They also make your code easier to maintain and share with others.
 
 Here, you're going learn more about the Nextflow language and take your first steps making **your first pipeline** with Nextflow.
 
-## Understanding the `process` and `workflow` scopes
+## 1.3.1 Understanding the `process` and `workflow` scopes
 
 Nextflow pipelines are written inside `.nf` files. They consist of a combination of two main components: **processes** and the **workflow** itself. Each process describes a single step of the pipeline, including its inputs and expected outputs, as well as the code to run it. The workflow then defines the logic that puts all of the processes together.
+
+![](img/process_workflow.png)
+
+### `process`
+
+A process definition starts with the keyword `process`, followed by a process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
+
+A process may contain any of the following definition blocks. The ones we will be focusing on this workshop are presented in bold: **`directives`**, **`input`**, **`output`**, `stub`, `when` clauses, and of course, **`script`**.
 
 ```groovy
 process < name > {
@@ -29,19 +37,19 @@ process < name > {
   <script to be executed>
   """
 }
-
-workflow {
-    < processes to be executed >
-}
 ```
 
-A process definition starts with the keyword `process`, followed by a process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
-
-A process may contain any of the following definition blocks. The ones we will be focusing on this workshop are presented in bold: **`directives`**, **`input`**, **`output`**, `stub`, `when` clauses, and of course, **`script`**.
+### `workflow`
 
 A workflow is a composition of processes and dataflow logic.
 
 The workflow definition starts with the keyword `workflow`, followed by an optional name, and finally the workflow body delimited by curly braces.
+
+```groovy
+workflow {
+    < processes to be executed >
+}
+```
 
 !!! info "Tip"
 
@@ -79,6 +87,13 @@ The second block of code (12-14) lines describes the **workflow** itself, which 
 We will start building the `hello-world.nf` script, piece-by-piece, so you can get a feel
 for the requirements for a writing a Nextflow workflow.
 
+The order of steps taken to build the process in the following exercises are intentional. We will
+be building processes by defining each process block starting with the `script` then the `output`.
+In later sections, we will add `input` and process `directives` to this order.
+
+This order **is not prescriptive**, however, the `script` logic often determines how the other process
+blocks should look like and this order can be helpful for breaking down building processes in a
+logical way. This approach will be continued in Part 2, when you build an RNA-seq workflow!
 
 !!! question "Exercises"
 
@@ -115,9 +130,65 @@ for the requirements for a writing a Nextflow workflow.
         }
         ```
 
-To complete this process, we need to add an `output` definition.
+## 1.3.2 Commenting your code
 
-## Capturing process outputs 
+Before we complete our process, we will **comment** our code. Commenting your code is worthwhile so we, and others, can easily understand what the code is doing (you will thank yourself later).
+
+In Nextflow, a single line comment can be added by prepending it with two forward slash (`//`):
+
+```groovy
+// This is my comment
+```
+
+Similarly, multi-line comments can be added using the following format:
+
+```groovy
+/*
+ *  This is my multi-line comment
+ */
+```
+
+As a developer you can to choose how and where to comment your code.
+
+!!!question "Exercise"
+
+    Add a comment to the pipeline to describe what the **process** block is doing.
+    You can use the comments provided in the solutions, however we highly recommend 
+    writing your own comment that is useful for your understanding.
+
+    ??? "Solution"
+
+        The solution may look something like this:
+
+        ```groovy title="hello-world.nf" hl_lines="1-3"
+        /*
+         * Use echo to print 'Hello World!' to a text file
+         */
+        process SAYHELLO {
+        
+            script:
+            """
+            echo 'Hello World!' > output.txt
+            """
+        }
+        ```
+
+        Or this:
+
+        ```groovy title="hello-world.nf" hl_lines="1-3"
+        // Use echo to print 'Hello World!' to a text file
+        process SAYHELLO {
+        
+            script:
+            """
+            echo 'Hello World!' > output.txt
+            """
+        }
+        ```
+
+        As a developer, you get to choose!
+
+## 1.3.3 Capturing process outputs 
 
 In the previous section, you have defined the `script` - what the `SAYHELLO` process should do.
 We also need to tell Nextflow to expect this output file - otherwise, it will ignore it!
@@ -130,32 +201,41 @@ output:
 <output qualifier> <output name>
 ```
 
-Common output qualifiers include `val` and `path`:
+Output _qualifiers_ are keywords used inside processes to tell Nextflow what type of output to expect
+(e.g. a folder, file, or value).
 
-- `val`: Emit the variable with the specified name
-    - For example, `val 'Hello World!'`
+Common output qualifiers include `path` and `val`:
+
 - `path`: Emit a file produced by the process with the specified name
-    - For example, `path 'output.txt'`
+- `val`: Emit the variable with the specified name
+
+### `path`
+
+For example, the output `path "output.txt"` tells Nextflow that the process outputs a file called `output.txt`. Nextflow can then track that file and pass it correctly to any downstream processes that need it.
+
+### `val`
+
+If you attempt to use the output `val "output.txt"`, it will outputs the literal string `"output.txt"`. Any downstream process that expects a file won't be able to do anything with this and will fail. The `val` output is useful for keeping track of metadata across steps. We will explore this more in Part 2.
 
 See the [Nextflow documentation](https://www.nextflow.io/docs/latest/process.html#outputs)
 for a full list of output qualifiers.
 
 !!! warning
 
-    If you set the wrong qualifier, the pipeline will likely throw errors.
+    Qualifiers don't only indicate the type of file, but it's an important part of telling Nextflow processes how this information should be handled. If you set the wrong qualifier, the pipeline will likely throw errors.
 
-The **output name** is a name given to the output variable. The output name and the file generated by the script must exactly match (or be
-picked up by a glob pattern), or else Nextflow won't find it and will throw an error.
+The **output name** is a name given to the output variable. This can be whatever you want it to be, however, the output name and the file generated by the script must match, or else Nextflow won't find it and will throw an error.
 
 !!! note
 
-    It is important to understand that the `output` block does not *determine* the output of the process. Instead, it simply *declares* what output should be expected. It is up to the logic inside the `script` block to ensure that the file is actually being created.
+    It's important to remember that the output block doesn't create the output, it just tells Nextflow what to expect after the process runs.
+    Whether or not that output actually exists depends on what your script does inside the `script` block.
+    If your script doesn't create the file, Nextflow won't find it and will assume the process has failed.
+    This is helpful because:
 
-    This is particularly useful for a number of reasons:
+    - Nextflow checks that the declared output is actually there. If it's missing it knows something went wrong;
+    - Nextflow uses outputs to connect processes together, it waits for the output before moving to the next step.
     
-    - It allows Nextflow to determine whether our process ran successfully or not. If an output is declared but missing at the end of a process, Nextflow will assume it failed.
-    - It uses the outputs we declare to figure out how and when to run the next process.
-
 !!!question "Exercise"
 
     In your `SAYHELLO` process, add an `output` block that captures `'output.txt'`.
@@ -163,7 +243,8 @@ picked up by a glob pattern), or else Nextflow won't find it and will throw an e
     used.
 
     ??? "Solution"
-        ```groovy title="hello-world.nf" hl_lines="3-5"
+        ```groovy title="hello-world.nf" hl_lines="4-6"
+        // Use echo to print 'Hello World!' to a text file
         process SAYHELLO {
 
             output:
@@ -177,57 +258,11 @@ picked up by a glob pattern), or else Nextflow won't find it and will throw an e
         ```
 
 This example is brittle because the output filename is hardcoded in two separate places
-(the `script` and the `output` definition blocks). If you change one but not the other, the script will break.
+(the `script` and the `output` definition blocks). If you change one but not the other, the script will break because they need to match. We will review how to solve this in the Dynamic Naming lesson.
 
 **You have now defined your first process!**
 
-## Commenting your code
-
-It is worthwhile to **comment** your code so we, and others, can easily understand what the code is doing (you will thank yourself later).
-
-In Nextflow, a single line comment can be added by prepending it with two forward slash (`//`):
-
-```groovy
-// This is my comment
-```
-
-Similarly, multi-line comments can be added using the following format:
-
-```groovy
-/*
- * Use echo to print 'Hello World!' to standard out
- */
-```
-
-As a developer you can to choose how and where to comment your code.
-
-!!!question "Exercise"
-
-    Add a comment to the pipeline to describe what the **process** block is doing
-
-    ??? "Solution"
-
-        The solution may look something like this:
-
-        ```groovy title="hello-world.nf" hl_lines="1-3"
-        /*
-         * Use echo to print 'Hello World!' to a text file
-         */
-        process SAYHELLO {
-        <truncated>
-        ```
-
-        Or this:
-
-        ```groovy title="hello-world.nf" hl_lines="1"
-        // Use echo to print 'Hello World!' to a text file
-        process SAYHELLO {
-        <truncated>
-        ```
-
-        As a developer, you get to choose!
-
-## Calling the process in the `workflow` scope
+## 1.3.4 Calling the process in the `workflow` scope
 
 We have now defined a functional process for `SAYHELLO`. To ensure that it runs,
 you need to call the process in the `workflow` scope. Recall that the process

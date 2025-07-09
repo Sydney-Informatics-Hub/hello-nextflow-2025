@@ -1,4 +1,4 @@
-# Welcome
+# 1.1 Welcome
 
 In **Part 1** of this workshop, you will create a toy multi-step Nextflow workflow.
 
@@ -6,7 +6,7 @@ We will start Part 1 by familiarising ourselves with some common bash commands. 
 
 During **Part 2**, the skills and concepts you have learned in Part 1 will be applied in a more realistic scenario.
 
-## Moving into your work directory  
+## 1.1.1 Moving into your work directory  
 
 It is good practice to organise projects into their own folders to make it easier to track and replicate experiments over time.
 We have created separate directories for each part (`~/part1/` and `~/part2/`).

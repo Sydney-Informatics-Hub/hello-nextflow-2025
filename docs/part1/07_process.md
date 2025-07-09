@@ -1,4 +1,4 @@
-# Adding new processes
+# 1.7 Adding new processes
 
 !!! info "Learning objectives"
 
@@ -10,19 +10,19 @@ Up until now you've been modifying a single step. However, pipelines generally c
 
 Here you're going to step things up again and add another process to the pipeline.
 
-## Translating text
+## 1.7.1 Translating text
 
 The `tr` command is a UNIX command-line utility for **translating** or deleting characters. It supports a range of transformations including uppercase to lowercase, squeezing repeating characters, deleting specific characters, and basic find and replace. It can be used with UNIX pipes to support more complex translation. `tr` stands for translate. The following example will translate all lower case letters (represented by the pattern `[a-z]`) to upper case (represented by `[A-Z]`):
 
 ```bash
-tr '[a-z]' '[A-Z]'`
+tr '[a-z]' '[A-Z]'
 ```
 
 ??? example "Advanced content: regular expressions"
 
     For the curious, the patterns we are using here - e.g. `[a-z]` - are called *regular expressions*. They are a way of describing patterns in text and can be immensely useful in manipulating text as they provide a way to search and replace text in more complex ways than simple exact matches. Be warned, they can get very complicated and confusing very quickly!
 
-## Piping commands
+## 1.7.2 Piping commands
 
 The pipe command in Linux, represented by the vertical bar symbol `|`, is an essential tool for command-line enthusiasts and professionals alike. The primary purpose of the pipe command is to connect the output of one command directly into the input of another:
 
@@ -42,7 +42,7 @@ Like before, the output can be redirected to an output file:
 cat output.txt | tr '[a-z]' '[A-Z]' > upper.txt
 ```
 
-## Adding the `CONVERTTOUPPER` process
+## 1.7.3 Adding the `CONVERTTOUPPER` process
 
 The output of the `SAYHELLO` process is a text file called `output.txt`.
 
@@ -73,6 +73,13 @@ Using what you have learned in the previous sections you will now write a new pr
 
     Add new process named `CONVERTTOUPPER` that will take an input text file, convert all of the lowercase letters in the text file to uppercase letters, and save a new text file that contains the translated letters.
 
+    The `CONVERTOTUPPER` process should be defined inbetween your `SAYHELLO` process
+    and `workflow` scope.
+    
+    Hints have been provided to aid you in writing the process. We recommend following
+    the order of the hints, first defining the `script` block, followed by the `output`
+    and `input`.
+
     ???Tip "Hint: `script:`"
 
         The script might look something like this:
@@ -81,8 +88,7 @@ Using what you have learned in the previous sections you will now write a new pr
         cat $input_file | tr '[a-z]' '[A-Z]' > upper.txt
         ```
 
-        _Hint 1: `input_file` must be the same as what was specified as the input name in the input block._
-
+        _Hint 1: The input name is `input_file`, however, you may call it something different._
         _Hint 2: The output text file is named `upper.txt`_
 
     ???Tip "Hint: `output:`"
@@ -90,7 +96,7 @@ Using what you have learned in the previous sections you will now write a new pr
         The output
 
         ```
-        path 'upper_output.txt'
+        path 'upper.txt'
         ```
 
         _Hint 1: The output is a file and requires the `path` qualifier._
@@ -105,7 +111,7 @@ Using what you have learned in the previous sections you will now write a new pr
 
         _Hint 1: The input is a file and requires the `path` qualifier._
 
-        _Hint 2: The input name is `input_file`, however, you may call it something different._
+        _Hint 2: `input_file` must be the same as what was specified as the input name in the `script` block._
 
     ???Solution
 
@@ -136,10 +142,10 @@ Using what you have learned in the previous sections you will now write a new pr
             publishDir params.outdir
 
             input:
-                path input_file
+            path input_file
 
             output:
-                path 'upper.txt'
+            path 'upper.txt'
 
             script:
             """
@@ -158,7 +164,7 @@ Using what you have learned in the previous sections you will now write a new pr
         }
         ```
 
-## Connecting the processes
+## 1.7.4 Connecting the processes
 
 As we learned in the [inputs module](05_inputs.md), Nextflow uses channels to connect processes. Each output defined in a process' `output` block defines a new channel that can be used as inputs for another process.
 
