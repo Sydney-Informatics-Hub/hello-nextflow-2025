@@ -2,7 +2,9 @@
 
 !!! info "Learning objectives"
 
-    1. Dynamically name variables in Nextflow
+    1. Understand the purpose of dynamic output naming
+    2. Apply input variables to dynamically generate output file names
+    3. Distinguish between single and double quotes when working with variables in Groovy syntax
 
 When we run bioinformatics pipelines, it is common to process
 and identify results by the sample name or by other metadata.
@@ -122,8 +124,9 @@ You should now see some new files in your results folder:
 
 !!! abstract "Summary"
 
-    In this step you have learned:
+    In this lesson, we made our pipeline outputs more informative by:
 
-    1. How to utilise dynamic naming
-    2. How to use curly brackets (`{}`)
-    3. How to use single (`'`) and double (`"`) quotes
+    1. Using dynamic names to name outputs such as `Hello.txt`
+    2. Updated both the `SAYHELLO` and `CONVERTTOUPPER` processes to use interpolated file names
+    3. Applied double-quoted strings and curly braces `{}` for variable expansion in both script and output blocks
+    4. Noted the limitation of using file names with spaces, reinforcing the importance of simple input values for filenames

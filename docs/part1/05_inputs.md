@@ -2,9 +2,11 @@
 
 !!! info "Learning objectives"
 
-    1. Describe Nextflow channel types
-    2. Utilise Nextflow process input blocks
-    3. Use channels to run multiple inputs through a process
+    1. Describe the differences between Nextflow channel types
+    2. Apply input blocks in process definitions
+    3. Create channels using channel factories such as `Channel.of()`
+    4. Implement process calls that take single and multiple inputs via channels
+    5. Evaluate correct vs incorrect input strategies (e.g. _why not to use_ `publishDir` as an input)
 
 So far, you've been emitting a text string ('Hello World!') that has been hardcoded into the script block. In a more realistic situation, you might want to pass a variable input to your script, much like you pass files to command line tools for analysis.
 
@@ -359,8 +361,10 @@ Ultimately, all processes should be working with channels as their inputs, and `
 
 !!! abstract "Summary"
 
-    In this step you have learned:
+    Channels are one of Nextflow's most powerful features by allowing data to flow into, and between processes. In this lesson, we:
 
-    1. How channels are used in Nextflow
-    2. How to create a channel
-    3. How to pass multiple inputs in a channel
+    1. Created a queue channel
+    2. Used the `val` input qualifer to provide a string input
+    3. Modified the `SAYHELLO()` process to use a channel instead of hardcoded strings
+    4. Ran a process with multiple values
+    5. Learnt the risks of using `publishDir` as a source of input (not recommended)
