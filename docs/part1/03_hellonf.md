@@ -100,13 +100,6 @@ logical way. This approach will be continued in Part 2, when you build an RNA-se
 
     1. Create a new file `hello-world.nf`.
 
-    !!! info "Tip"
-        
-        We can use the `code` command in the terminal to view files in a VSCode tab. If it doesn't exist, it will create that file. The following command will create a new file called `hello-world.nf`:
-        ```bash
-        code hello-world.nf
-        ```
-
     2. In the new file, define an empty `process` and call it `SAYHELLO`.
     
     ??? "Solution"
