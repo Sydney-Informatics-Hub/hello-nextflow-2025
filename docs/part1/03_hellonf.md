@@ -100,13 +100,6 @@ logical way. This approach will be continued in Part 2, when you build an RNA-se
 
     1. Create a new file `hello-world.nf`.
 
-    !!! info "Tip"
-        
-        We can use the `code` command in the terminal to view files in a VSCode tab. If it doesn't exist, it will create that file. The following command will create a new file called `hello-world.nf`:
-        ```bash
-        code hello-world.nf
-        ```
-
     2. In the new file, define an empty `process` and call it `SAYHELLO`.
     
     ??? "Solution"
@@ -176,7 +169,7 @@ As a developer you can to choose how and where to comment your code.
 
         Or this:
 
-        ```groovy title="hello-world.nf" hl_lines="1-3"
+        ```groovy title="hello-world.nf" hl_lines="1"
         // Use echo to print 'Hello World!' to a text file
         process SAYHELLO {
         
@@ -275,7 +268,7 @@ is analagous to a function that we need to instruct to run in `workflow`.
     define an empty `workflow` scope:
 
     ??? "Solution"
-        ```groovy title="hello-world.nf" hl_lines="11-14"
+        ```groovy title="hello-world.nf" hl_lines="12-15"
         // Use echo to print 'Hello World!' and redirect to output.txt
         process SAYHELLO {
 
