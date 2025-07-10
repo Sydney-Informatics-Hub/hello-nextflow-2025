@@ -61,7 +61,7 @@ Specific VSCode extensions are required to connect to the VM and make working wi
 ssh training@XXX.XXX.XX.XX
 ```
 
-Ensure that you replace the **`training@XXX.XXX.XX.XX`** with your allocated IP address. Press `Enter`.
+Ensure that you replace the **`XXX.XXX.XX.XX`** with your allocated IP address. Press `Enter`.
 
 ![](img/ssh_2.png)
 4. You will be prompted to `Select SSH configuration file to update`. Select your `.ssh/config` file.
@@ -73,7 +73,7 @@ Ensure that you replace the **`training@XXX.XXX.XX.XX`** with your allocated IP 
 
 Ensure you have configured your SSH details.
 
-1. In VSCode, press `Ctrl+Shift+P` (`Command+Shift+P` on mac) to open the Command Palette.
+1. In VSCode, press `Ctrl+Shift+P` (`Command+Shift+P` on mac) to open the Command Palette. Alternatively, you may use the search bar at the top of the VSCode window.
 
 2. Type `remote ssh` and select **`Remote-SSH: Connect to Host...`**. This may appear in a different position in the list.
 
