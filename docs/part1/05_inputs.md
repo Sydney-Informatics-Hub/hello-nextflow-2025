@@ -229,19 +229,22 @@ The `'` quotes around `$greeting` are required by the `echo` command to treat th
         }
         ```
 
-    2. Save, and run the pipeline (`nextflow run hello-world.nf`). Inspect `results/output.txt`.
+    <ol start="2">
+        <li> Save, and run the pipeline (<code>nextflow run hello-world.nf</code>). Inspect <code>results/output.txt</code>.</li>
+    </ol>
+
 
     ???Solution
 
-    ```bash
-    cat results/output.txt
-    ```
-    ```console title="Output.txt"
-    Hello World! 
-    ```
+        ```bash
+        cat results/output.txt
+        ```
+        ```console title="Output.txt"
+        Hello World! 
+        ```
 
-    The process will still function the same and produce the same output, but instead
-    takes the values in `greeting_ch` (`'Hello World!'`) as input.
+        The process will still function the same and produce the same output, but instead
+        takes the values in `greeting_ch` (`'Hello World!'`) as input.
     
 !!! note
 
