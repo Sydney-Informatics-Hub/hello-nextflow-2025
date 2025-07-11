@@ -30,6 +30,7 @@ theme:
   logo: assets/usyd-logo.png
   features:
     - navigation.footer
+    - content.code.copy
   palette:
     - scheme: default
       primary: custom
