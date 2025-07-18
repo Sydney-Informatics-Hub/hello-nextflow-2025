@@ -7,7 +7,7 @@
     reproducible execution across processes.
     3. Apply the `publishDir` directive to store process outputs in a specified directory. 
 
-In this lesson we will be implement `00_index.sh` as our first Nextflow process, `INDEX`. Here, we are working with the first step of the RNA-seq data processing workflow: indexing the transcriptome for downstream processes. To do this, we will need to run [Salmon](https://salmon.readthedocs.io/en/latest/salmon.html#salmon)'s indexing mode. 
+In this lesson we will be implement `00_index.sh` as our first Nextflow process, `INDEX`. Here, we are working with the first step of the RNAseq data processing workflow: indexing the transcriptome for downstream processes. To do this, we will need to run [Salmon](https://salmon.readthedocs.io/en/latest/salmon.html#salmon)'s indexing mode. 
 <br>
 <br>
 <br>
@@ -358,7 +358,7 @@ workflow by using Singularity.
     
     You can find Biocontainers at the following repositories:  
     
-    * [Biocontiners registry](https://biocontainers.pro/registry)
+    * [Biocontainers registry](https://biocontainers.pro/registry)
     * [Quay.io](https://quay.io/organization/biocontainers)
     * [DockerHub](https://hub.docker.com/r/biocontainers/biocontainers)
     * [Seqera containers](https://seqera.io/containers/)

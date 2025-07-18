@@ -19,7 +19,7 @@ Along the way, you will encounter Nextflow concepts (both from Part 1 and some
 new ones) and our best practice recommendations for developing your own pipelines.  
 
 Part 2 of this workshop is based off the 
-[Simple RNA-Seq workflow](https://training.nextflow.io/basic_training/rnaseq_pipeline/)
+[Simple RNAseq workflow](https://training.nextflow.io/basic_training/rnaseq_pipeline/)
 training material developed by Seqera.  
 
 ## 2.0.1 Log back into your instance 
@@ -94,7 +94,7 @@ The data we will use includes:
 
 We will be implementing and integrating three commonly used bioinformatics tools:  
 
-1. [Salmon](https://combine-lab.github.io/salmon/) is a tool for quantifying molecules known as transcripts through RNA-seq data.  
+1. [Salmon](https://combine-lab.github.io/salmon/) is a tool for quantifying molecules known as transcripts through RNAseq data.  
 2. [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a tool for quality analysis of high throughput sequence data. You can think of it as a way to assess the quality of your data.  
 3. [MultiQC](https://multiqc.info/) searches a given directory for analysis logs and compiles an HTML report for easy viewing. It's a general use tool, perfect for summarising the output from numerous bioinformatics tools.  
 

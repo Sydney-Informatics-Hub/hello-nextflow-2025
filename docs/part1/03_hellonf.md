@@ -94,7 +94,7 @@ In later sections, we will add `input` and process `directives` to this order.
 
 This order **is not prescriptive**, however, the `script` logic often determines how the other process
 blocks should look like and this order can be helpful for breaking down building processes in a
-logical way. This approach will be continued in Part 2, when you build an RNA-seq workflow!
+logical way. This approach will be continued in Part 2, when you build an RNAseq workflow!
 
 !!! question "Exercises"
 
