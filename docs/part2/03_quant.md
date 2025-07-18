@@ -31,7 +31,7 @@ salmon quant \
     -o results/${SAMPLE_ID}
 ```
 
-Same as the previous lesson, this script contains the `${SAMPLE_ID}` variable defintions which is used to connect sample names to fastq file paths. Within the `salmon quant` execution command: 
+Same as the previous lesson, this script contains the `${SAMPLE_ID}` variable definitions which is used to connect sample names to FASTQ file paths. Within the `salmon quant` execution command: 
  
 - `--libType=U` is a required argument for Salmon. 
 - `-i results/salmon_index` is the directory output by the `INDEX` process. 

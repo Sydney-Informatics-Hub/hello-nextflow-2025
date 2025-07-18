@@ -357,7 +357,7 @@ to your local machine and open it in a web browser.
 
     !!! abstract "Poll"  
 
-        Under the **"General Statistics"** section, how many samples (i.e. rows) have been
+        Under the **"General Statistics"** section, how many rows have been
         included in the table?
 
 !!! tip

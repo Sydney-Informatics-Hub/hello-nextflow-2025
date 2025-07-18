@@ -192,7 +192,7 @@ Our tuple contains three elements:
 
 * `val(sample_id)` represents the **value** that refers to the sample name.
 * `path(reads_1)` represents the **path** to the first read file of paired-end sequencing data.
-* `path(reads_2)` represent the **path** to the second read file of paired-end sequencing data.
+* `path(reads_2)` represents the **path** to the second read file of paired-end sequencing data.
 
 Note how each item within the tuple has its own qualifier. Also note how we must now wrap each item's name within parentheses, and separte them by commas.
 
@@ -303,7 +303,7 @@ This looks a bit complicated, but the essential idea is that we read in our samp
     * [`.fromPath`](https://www.nextflow.io/docs/latest/reference/channel.html#frompath) is a channel factory that creates a channel from one or more files matching a given path or pattern. In this case, this is our samplesheet `.csv` file contained in the `params.reads` parameter, provided with the `--reads` command line flag.
     * [`.splitCsv`](https://www.nextflow.io/docs/latest/reference/operator.html#splitcsv) splits the input file into rows, treating it as a CSV (Comma-Separated Values) file. The `header: true` option means that the first row of the CSV contains column headers, which will be used to access the values by name.
     * `.map { row -> [row.sample, file(row.fastq_1), file(row.fastq_2)] }` uses the [`.map`](https://www.nextflow.io/docs/latest/reference/operator.html#map) operator and some Groovy syntax to transform each row of the CSV file into a tuple, extracting the `sample` value, as well as the `fastq_1` and `fastq_2` file paths from the row.
-    * [`.view()`](https://www.nextflow.io/docs/latest/operator.html#view) is a debugging step that outputs the transformed data to the console so we can see how the channel is structured. Its a great tool to use when building your channels.
+    * [`.view()`](https://www.nextflow.io/docs/latest/operator.html#view) is a debugging step that outputs the transformed data to the console so we can see how the channel is structured. It's a great tool to use when building your channels.
 
 ??? Tip "Tip: using the `view()` operator for testing"
       
