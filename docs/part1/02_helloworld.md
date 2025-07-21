@@ -105,6 +105,12 @@ cat <file name>
         Hello World!
         ```
 
+In preparation for the following lessons, delete `output.txt`.
+
+```bash
+rm output.txt
+```
+
 !!! abstract "Summary"
 
     This lesson recalls basic bash commands using a classic "Hello World!" example, including:

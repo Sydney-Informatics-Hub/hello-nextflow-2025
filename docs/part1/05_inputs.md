@@ -18,7 +18,7 @@ In Nextflow, processes primarily communicate through **channels**. Channels are 
 
 Channels allow us to handle inputs efficiently by defining which data should
 be taken from one step to another. Channels are one of Nextflows key features
-that allow us to run jobs in parallel amongst many additional benefits.
+that allow us to run jobs in parallel, as well as many other benefits.
 
 ![](img/channel_examples.png)
 
@@ -44,7 +44,8 @@ a queue channel contains values of the same type.
 
 One important behaviour of queue channels is that the order of the values is
 **non-deterministic**. You will not know ahead of time the order of values
-within the queue due to it's 'first-in, first-out' (FIFO) nature.
+within the queue due to it's 'first-in, first-out' (FIFO) nature. More
+on this in the following sections.
 
 A value in a queue channel can only be used (run) once in a process.
 
