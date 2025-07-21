@@ -9,7 +9,7 @@
 
 Workflow languages, such as Nextflow, provide a structured way of managing multi-step analyses. Workflow languages can help you coordinate individual tasks, handle dependencies, enable parallel execution, and improve reproducibility. They also make your code easier to maintain and share with others.
 
-Here, you're going learn more about the Nextflow language and take your first steps making **your first pipeline** with Nextflow.
+Here, you're going to learn more about the Nextflow language and take your first steps making **your first pipeline** with Nextflow.
 
 ## 1.3.1 Understanding the `process` and `workflow` scopes
 
@@ -19,7 +19,7 @@ Nextflow pipelines are written inside `.nf` files. They consist of a combination
 
 ### `process`
 
-A process definition starts with the keyword `process`, followed by a process name, and finally the process body delimited by curly braces. The process body must contain a `script` block which represents the command or, more generally, a script that is executed by it.
+A process definition starts with the keyword `process`, followed by a process name, and finally the process body delimited by curly braces. The process body must contain a `script` block. The `script` block contains the command and logic that will be executed.
 
 A process may contain any of the following definition blocks. The ones we will be focusing on this workshop are presented in bold: **`directives`**, **`input`**, **`output`**, `stub`, `when` clauses, and of course, **`script`**.
 
@@ -126,7 +126,7 @@ logical way. This approach will be continued in Part 2, when you build an RNAseq
 
 ## 1.3.2 Commenting your code
 
-Before we complete our process, we will **comment** our code. Commenting your code is worthwhile so we, and others, can easily understand what the code is doing (you will thank yourself later).
+Before we complete our process, we will **comment** our code. Commenting your code is important so we, and others, can easily understand what the code is doing (you will thank yourself later).
 
 In Nextflow, a single line comment can be added by prepending it with two forward slash (`//`):
 
@@ -138,7 +138,9 @@ Similarly, multi-line comments can be added using the following format:
 
 ```groovy
 /*
- *  This is my multi-line comment
+ *  This is my
+ *  multi-line
+ *  comment
  */
 ```
 
@@ -156,7 +158,8 @@ As a developer you can to choose how and where to comment your code.
 
         ```groovy title="hello-world.nf" hl_lines="1-3"
         /*
-         * Use echo to print 'Hello World!' to a text file
+         * Use echo to print 'Hello World!'
+         * to a text file
          */
         process SAYHELLO {
         
@@ -205,7 +208,7 @@ Common output qualifiers include `path` and `val`:
 
 ### `path`
 
-For example, the output `path "output.txt"` tells Nextflow that the process outputs a file called `output.txt`. Nextflow can then track that file and pass it correctly to any downstream processes that need it.
+For example, the syntax `path "output.txt"` tells Nextflow that the process outputs a file called `output.txt`. Nextflow can then track that file and pass it correctly to any downstream processes that need it.
 
 ### `val`
 
@@ -253,6 +256,9 @@ The **output name** is a name given to the output variable. This can be whatever
 
 This example is brittle because the output filename is hardcoded in two separate places
 (the `script` and the `output` definition blocks). If you change one but not the other, the script will break because they need to match. We will review how to solve this in the Dynamic Naming lesson.
+
+In addition, this process does not require an input block as the contents are predefined
+in the script block logic. We will explore input blocks in the following lessons.
 
 **You have now defined your first process!**
 
@@ -327,4 +333,4 @@ our workflow.
     2. Understanding how the `workflow` scope will trigger execution
     3. Adding single or multi-line comments
     4. Using output qualifiers like `path` vs. `val`
-    5. Highlighting the importance of consistency between output declaration and actual files produced
+    5. Understanding the consistency between the output declaration and the actual files produced

@@ -30,7 +30,7 @@ In addition, experience with other reproducible workflow tools (e.g. CWL, WDL, o
 
 ## Set up requirements
 
-Please complete the [Setup](setup.md) instruction before the workshop. If you have any trouble, please get in contact with us ASAP via Slack.
+Please complete the [Setup](setup.md) instruction before the workshop. If you have any trouble, please write in the discussion board on the Google document.
 
 ## Code of Conduct
 In order to foster a positive and professional learning environment we encourage the following kinds of behaviours at all our events and on our platforms:

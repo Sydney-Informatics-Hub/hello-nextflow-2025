@@ -207,7 +207,7 @@ The [`publishDir` directive](https://www.nextflow.io/docs/latest/process.html#pu
 publishDir 'results'
 ```
 
-By adding the above to a process, all output files would be saved in a new folder called `results` in the current working directory. The `publishDir` directive is process specific.
+By adding the above to a process, all output files would be saved in a new folder called `results` in the current directory, in addition to the work directory. The `publishDir` directive is process specific.
 
 !!!question "Exercise"
 
@@ -244,5 +244,5 @@ By adding the above to a process, all output files would be saved in a new folde
 
     1. Running the pipeline and interpretting the terminal output
     2. Inspecting the work directory and task logs (e.g. `.command.sh`)
-    3. Understanding task hashing and caching for resumability
+    3. Awareness of task hashing and caching for resumability
     4. Using `publishDir` to organise pipeline outputs
