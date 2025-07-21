@@ -18,7 +18,7 @@ Before the workshop, you must have the following:
 
 !!! info
 
-    If you require assistance with the setup, please message the Slack channel!
+    If you require assistance with the setup, please write in the discussion board on the Google document.
 
 ## Installing Visual Studio Code
 
