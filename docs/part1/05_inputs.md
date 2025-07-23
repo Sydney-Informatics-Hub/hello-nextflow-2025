@@ -122,7 +122,7 @@ Input names can be treated like a variable, and while the name is arbitrary, it 
 No quote marks are needed for **variable inputs**. For example:
 
 ```
-input
+input:
 val greeting
 ```
 
