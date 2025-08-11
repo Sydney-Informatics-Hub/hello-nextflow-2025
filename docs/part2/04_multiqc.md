@@ -107,7 +107,7 @@ Add the following `output` definition to the `MULTIQC` process:
 process MULTIQC {
 
   container "quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0"
-  publishDir params.outdir, mode: 'copy'
+  publishDir "results", mode: 'copy'
 
   input:
   path "*"  
